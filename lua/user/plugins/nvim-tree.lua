@@ -12,40 +12,53 @@ if not nvimtree then return end
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- see :h nvim-tree-setup
 nvimtree.setup({
-    -- settings to work with nvim-rooter
     update_cwd = true,
     filters = {
         custom = { '^.git$' }
     },
-
-    -- see: https://github.com/alex-courtis/arch/blob/b5f24e0e7b6554b338e40b3d60f1be437f273023/config/nvim/lua/amc/nvim-tree.lua
     hijack_cursor = true,
     open_on_setup = true,
     open_on_setup_file = true,
     view = {
-        signcolumn = "yes",
+        signcolumn = 'yes',
         adaptive_size = false,
     },
     git = {
         enable = true,
+        ignore = false,
+        show_on_dirs = false,
+        timeout = 400,
     },
     renderer = {
         special_files = {},
         symlink_destination = false,
+        highlight_git = true,
         indent_markers = {
             enable = true,
             inline_arrows = true,
             icons = {
-                corner = "└",
-                edge = "│",
-                item = "│",
-                bottom = "─",
-                none = " ",
+                corner = '└',
+                edge = '│',
+                item = '│',
+                bottom = '─',
+                none = ' ',
             },
         },
         icons = {
-            git_placement = "signcolumn",
+            git_placement = 'signcolumn',
+            glyphs = {
+                git = {
+                    unstaged = '*',
+                    staged = '+',
+                    unmerged = '',
+                    renamed = '➜',
+                    untracked = '!',
+                    deleted = '✗',
+                    ignored = '◌',
+                },
+            },
             show = {
                 file = true,
                 folder = true,
@@ -58,10 +71,10 @@ nvimtree.setup({
         enable = true,
         update_root = true,
         update_cwd = true,
-        ignore_list = { "help" },
+        ignore_list = { 'help' },
     },
     diagnostics = {
         enable = true,
-        show_on_dirs = true,
+        show_on_dirs = false,
     },
 })
