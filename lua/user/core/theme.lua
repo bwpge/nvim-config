@@ -13,6 +13,14 @@ if theme_name == 'onedark' then
     theme.setup({
         -- choose from: 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
         style = 'dark',
+        colors = {
+            red = '#e06c75'
+        },
+        highlights = {
+            ['GitSignsChange'] = { fg = '$yellow' },
+            ['GitSignsChangeLn'] = { fg = '$yellow' },
+            ['GitSignsChangeNr'] = { fg = '$yellow' },
+        },
         diagnostics = {
             darker = true, -- darker colors for diagnostic
             undercurl = true, -- use undercurl instead of underline for diagnostics
