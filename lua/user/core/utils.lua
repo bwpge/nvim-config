@@ -47,17 +47,14 @@ function M.require_plugin(name, opts)
     local ok, plugin = pcall(require, name)
     if ok then return plugin end
 
-    local __opts = {
+    opts = opts or {}
+    local defaults = {
         level = 'error',
         notify = true,
         fmt = "Failed to load plugin '%s'",
         title = 'Plugin not found',
     }
-    if opts then
-        for k,v in pairs(opts) do
-            __opts[k] = v
-        end
-    end
+    local __opts = vim.tbl_extend('force', defaults, opts)
 
     local msg = string.format(__opts.fmt, name)
     if __opts.notify then
