@@ -80,7 +80,7 @@ km.set('n', '<leader>tq', '<cmd>tabclose<cr>', opts) -- close tab
 -- terminal mode navigation
 -- km.set('t', '<esc>', [[<C-\><C-n>]], opts)
 
--- NerdTree
+-- NvimTree
 km.set('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', opts)
 
 -- telescope
