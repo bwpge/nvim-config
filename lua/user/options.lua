@@ -1,5 +1,9 @@
 local opt = vim.opt
 
+-- use unix line endings by default
+opt.fileformat = "unix"
+opt.fileformats = "unix,dos"
+
 -- line numbers
 opt.relativenumber = true
 opt.number = true
