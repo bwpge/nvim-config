@@ -16,7 +16,23 @@ require("lazy").setup({
         "Mofiqul/dracula.nvim",
         lazy = false,
         priority = 1000,
-        config = function()
+        opts = {
+            -- make function tokens look as in vscode version
+            overrides = function(colors)
+                return {
+                    Keyword = { fg = colors.pink },
+                    Keywords = { fg = colors.pink },
+                    ["@field"] = { fg = colors.fg },
+                    ["@keyword"] = { fg = colors.pink },
+                    ["@keyword.function"] = { fg = colors.pink },
+                    ["@parameter"] = { fg = colors.orange, italic = true },
+                    -- fix lua brace color
+                    ["@constructor.lua"] = { fg = colors.fg },
+                }
+            end,
+        },
+        config = function(_, opts)
+            require("dracula").setup(opts)
             vim.cmd([[colorscheme dracula]])
         end,
     },
