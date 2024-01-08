@@ -8,10 +8,22 @@ This config is quite basic, focusing on mostly theme and quality of life plugins
 
 ## Usage
 
-Clone this repo and copy the contents to the nvim config directory (platform dependent). The nvim config path can be viewed with the following command:
+Clone this repo to the nvim config directory (see [`:h standard-path`](https://neovim.io/doc/user/starting.html#standard-path) for more information). The nvim config path can be viewed with the following command:
 
 ```sh
-nvim --clean --headless -n -c "echo stdpath('config')" +q
+nvim --clean --headless -n -c 'echo stdpath("config")' +q
 ```
 
-Be sure to remove any previous `nvim-data` directory.
+**Windows (PowerShell):**
+
+```powershell
+git clone git@github.com:bwpge/nvim-config.git $env:LOCALAPPDATA/nvim
+```
+
+**Linux/macOS:**
+
+```sh
+git clone git@github.com:bwpge/nvim-config.git ~/.config/nvim
+```
+
+Be sure to remove any previous `data` directory, e.g. `stdpath("data")`, to start with a clean install.
