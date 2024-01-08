@@ -23,6 +23,7 @@ require("lazy").setup({
                     Keyword = { fg = colors.pink },
                     Keywords = { fg = colors.pink },
                     ["@field"] = { fg = colors.fg },
+                    ["@function.macro"] = { fg = colors.green, italic = true },
                     ["@keyword"] = { fg = colors.pink },
                     ["@keyword.function"] = { fg = colors.pink },
                     ["@parameter"] = { fg = colors.orange, italic = true },
