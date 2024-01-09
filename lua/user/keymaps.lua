@@ -19,6 +19,7 @@ km.set('i', '<home>', '<esc><esc>^i', opts)
 
 -- select all
 km.set('n', '<C-a>', 'ggVG', opts)
+km.set({'i', 'v'}, '<C-a>', '<esc><esc>ggVG', opts)
 
 -- tab and shift+tab behavior
 km.set('n', '<tab>', '>>', opts)
@@ -36,6 +37,10 @@ km.set('n', '<C-up>', '<cmd>m-2<cr>', opts)
 km.set('n', '<C-down>', '<cmd>m+1<cr>', opts)
 km.set('i', '<C-up>', '<esc><esc><cmd>m-2<cr>gi', opts)
 km.set('i', '<C-down>', '<esc><esc><cmd>m+<cr>gi', opts)
+
+-- duplicate line
+km.set('n', '<C-d>', 'm`"zyy"zpqzq``j', opts)
+km.set('i', '<C-d>', '<esc><esc>"zyy"zpqzqgi<C-o>j', opts)
 
 -- buffer shortcuts
 km.set('n', '<leader>q', ':confirm q<cr>', opts) -- quit with prompt to save
@@ -72,6 +77,10 @@ km.set('n', '<leader>tq', '<cmd>tabclose<cr>', opts) -- close tab
 
 -- NvimTree
 -- km.set('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', opts)
+
+-- plugin menus
+km.set('n', "<leader>L", "<cmd>Lazy<cr>", opts)
+km.set('n', "<leader>M", "<cmd>Mason<cr>", opts)
 
 -- telescope
 km.set('n', '<leader>ff', '<cmd>Telescope find_files<cr>', opts)
