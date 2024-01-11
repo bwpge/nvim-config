@@ -60,14 +60,14 @@ km.set("n", "<leader>s=", "<C-w>=", opts) -- make equal width
 
 -- window navigation
 local win_nav = {
-	["<M-left>"] = "<cmd>wincmd h<cr>",
-	["<M-right>"] = "<cmd>wincmd l<cr>",
-	["<M-up>"] = "<cmd>wincmd k<cr>",
-	["<M-down>"] = "<cmd>wincmd j<cr>",
+    ["<M-left>"] = "<cmd>wincmd h<cr>",
+    ["<M-right>"] = "<cmd>wincmd l<cr>",
+    ["<M-up>"] = "<cmd>wincmd k<cr>",
+    ["<M-down>"] = "<cmd>wincmd j<cr>",
 }
 
 for key, cmd in pairs(win_nav) do
-	km.set("n", key, cmd, opts)
+    km.set("n", key, cmd, opts)
 end
 
 -- tab navigation

@@ -22,7 +22,7 @@ return {
             end,
         },
         config = function(_, opts)
-            if require("user.theme").name == 'dracula' then
+            if require("user.theme").name == "dracula" then
                 require("dracula").setup(opts)
                 vim.cmd([[colorscheme dracula]])
             end

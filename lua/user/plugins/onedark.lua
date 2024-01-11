@@ -8,5 +8,5 @@ return {
             onedark.setup({})
             onedark.load()
         end
-    end
+    end,
 }
