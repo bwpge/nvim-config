@@ -3,6 +3,9 @@ vim.g.mapleader = ' '
 local km = vim.keymap
 local opts = { noremap = true, silent = true }
 
+-- create a command for last buffer swapping
+vim.api.nvim_create_user_command('SwapLastBuf', require('user.utils').swap_last_buffer, {})
+
 -- disable default keymaps
 km.set('n', '<F1>', '<nop>', opts)
 km.set('i', '<F1>', '<nop>', opts)
@@ -47,7 +50,7 @@ km.set('n', '<leader>q', ':confirm q<cr>', opts) -- quit with prompt to save
 km.set('n', '<C-q>', ':confirm qall<cr>', opts) -- quit all with prompt to save
 km.set('n', '<leader>w', ':w<cr>', opts) -- write shortcut
 -- km.set('n', '<leader>bd', '<cmd>Bdelete<cr>', opts) -- delete current buffer, use vim-bbye
--- km.set('n', '<leader><leader>', '<cmd>LastBufferSwap<cr>', opts)
+km.set('n', '<leader><leader>', '<cmd>SwapLastBuf<cr>', opts)
 
 -- window splits
 km.set('n', '<leader>sv', '<cmd>vert new<cr>', opts) -- split vertical with new buffer
