@@ -42,7 +42,7 @@ return {
             -- see :help lsp-zero-guide:integrate-with-mason-nvim
             require("mason").setup({})
             require("mason-lspconfig").setup({
-                ensure_installed = { "clangd", "lua_ls", "tsserver", "rust_analyzer" },
+                ensure_installed = { "clangd", "lua_ls", "pyright", "rust_analyzer", "tsserver" },
                 handlers = {
                     lsp_zero.default_setup,
                     -- fix lua lsp unknown global

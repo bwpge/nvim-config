@@ -10,46 +10,34 @@ vim.api.nvim_create_user_command("SwapLastBuf", require("user.utils").swap_last_
 km.set("n", "<F1>", "<nop>", opts)
 km.set("i", "<F1>", "<nop>", opts)
 
--- clear search highlight with esc
-km.set("n", "<esc>", "<cmd>noh<cr><esc>", opts)
+-- use sane key behavior
+km.set("n", "<esc>", "<cmd>noh<cr><esc>", opts) -- clear search highlight
+km.set("n", "x", '"_x', opts) -- no register for single delete
+km.set("n", "<del>", '"_x', opts) -- no register for single delete
 
--- paste with ctrl+v in insert mode
-km.set("i", "<C-v>", "<C-r>+", opts)
-
--- better home key
-km.set("n", "<C-home>", "gg0", opts)
-km.set("i", "<home>", "<esc><esc>^i", opts)
-
--- select all
-km.set("n", "<C-a>", "ggVG", opts)
-km.set({ "i", "v" }, "<C-a>", "<esc><esc>ggVG", opts)
-
--- tab and shift+tab behavior
-km.set("n", "<tab>", ">>", opts)
-km.set("n", "<S-tab>", "<<", opts)
-km.set("i", "<S-tab>", "<C-d>", opts)
+-- general editor shortcuts
+km.set("i", "<C-v>", "<C-r>+", opts) -- paste with ctrl+v in insert mode
+km.set("n", "<C-a>", "ggVG", opts) -- select all
+km.set({ "i", "v" }, "<C-a>", "<esc><esc>ggVG", opts) -- select all
+km.set("n", "<tab>", ">>", opts) -- indent
+km.set("n", "<S-tab>", "<<", opts) -- dedent
+km.set("i", "<S-tab>", "<C-d>", opts) -- dedent in insert mode
 km.set("v", "<tab>", ">gv", opts) -- indent and keep selection
-km.set("v", "<S-tab>", "<gv", opts) -- de-indent and keep selection
+km.set("v", "<S-tab>", "<gv", opts) -- dedent and keep selection
+km.set("n", "<leader>e", "<cmd>Explore<cr>", opts) -- netrw
 
--- don't put single character deletes in the register
-km.set("n", "x", '"_x', opts)
-km.set("n", "<del>", '"_x', opts)
-
--- move lines up and down
-km.set("n", "<C-up>", "<cmd>m-2<cr>", opts)
-km.set("n", "<C-down>", "<cmd>m+1<cr>", opts)
-km.set("i", "<C-up>", "<esc><esc><cmd>m-2<cr>gi", opts)
-km.set("i", "<C-down>", "<esc><esc><cmd>m+<cr>gi", opts)
-
--- duplicate line
-km.set("n", "<C-d>", 'm`"zyy"zpqzq``j', opts)
-km.set("i", "<C-d>", '<esc><esc>"zyy"zpqzqgi<C-o>j', opts)
+-- manipulate lines
+km.set("n", "<C-up>", "<cmd>m-2<cr>", opts) -- move line up
+km.set("n", "<C-down>", "<cmd>m+1<cr>", opts) -- move line down
+km.set("i", "<C-up>", "<esc><esc><cmd>m-2<cr>gi", opts) -- move line up
+km.set("i", "<C-down>", "<esc><esc><cmd>m+<cr>gi", opts) -- move line down
+km.set("n", "<C-d>", 'm`"zyy"zpqzq``j', opts) -- duplicate line
+km.set("i", "<C-d>", '<esc><esc>"zyy"zpqzqgi<C-o>j', opts) -- duplicate line
 
 -- buffer shortcuts
 km.set("n", "<leader>q", ":confirm q<cr>", opts) -- quit with prompt to save
 km.set("n", "<C-q>", ":confirm qall<cr>", opts) -- quit all with prompt to save
 km.set("n", "<leader>w", ":w<cr>", opts) -- write shortcut
--- km.set('n', '<leader>bd', '<cmd>Bdelete<cr>', opts) -- delete current buffer, use vim-bbye
 km.set("n", "<leader><leader>", "<cmd>SwapLastBuf<cr>", opts)
 
 -- window splits
@@ -65,23 +53,11 @@ local win_nav = {
     ["<M-up>"] = "<cmd>wincmd k<cr>",
     ["<M-down>"] = "<cmd>wincmd j<cr>",
 }
-
 for key, cmd in pairs(win_nav) do
     km.set("n", key, cmd, opts)
 end
 
--- tab navigation
-km.set("n", "<C-t>", "<cmd>tabnew<cr>", opts) -- new tab
-km.set("n", "<leader>tn", "<cmd>tabnew<cr>", opts) -- new tab
-km.set("n", "<leader>tq", "<cmd>tabclose<cr>", opts) -- close tab
-
--- terminal mode navigation
--- km.set('t', '<esc>', [[<C-\><C-n>]], opts)
-
--- NvimTree
--- km.set('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', opts)
-
--- plugin menus
+-- plugin menu
 km.set("n", "<leader>L", "<cmd>Lazy<cr>", opts)
 km.set("n", "<leader>M", "<cmd>Mason<cr>", opts)
 
@@ -92,8 +68,7 @@ km.set("n", "<leader>fs", "<cmd>Telescope grep_string<cr>", opts)
 km.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
 km.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", opts)
 km.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", opts)
--- km.set('n', '<leader>fn', '<cmd>Telescope notify<cr>', opts)
 km.set("n", "<F1>", "<cmd>Telescope help_tags<cr>", opts)
 
 -- formatting
-km.set("n", "<leader>F", "<cmd>Format<cr>", opts)
+km.set("n", "<M-F>", "<cmd>Format<cr>", opts)

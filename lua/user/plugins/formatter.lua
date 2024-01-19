@@ -13,8 +13,11 @@ return {
     config = function()
         require("formatter").setup({
             filetype = {
+                json = { require("formatter.filetypes.yaml").prettier },
+                jsonc = { require("formatter.filetypes.yaml").prettier },
                 lua = { require("formatter.filetypes.lua").stylua },
-                ["*"] = function() end,
+                yaml = { require("formatter.filetypes.yaml").prettier },
+                ["*"] = { function() end },
             },
         })
 
@@ -35,9 +38,6 @@ return {
             callback = function()
                 -- strip any whitespace not caught by formatters
                 require("tidy").run()
-
-                -- update buffer in case it changed
-                vim.cmd("update")
             end,
         })
     end,

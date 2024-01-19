@@ -4,6 +4,7 @@ return {
         event = "VeryLazy",
         dependencies = {
             { "hrsh7th/cmp-nvim-lsp" },
+            { "hrsh7th/cmp-buffer" },
             { "L3MON4D3/LuaSnip" },
             { "onsails/lspkind.nvim" },
         },
@@ -11,6 +12,10 @@ return {
             local cmp = require("cmp")
             local lspkind = require("lspkind")
             cmp.setup({
+                sources = {
+                    { name = "nvim_lsp" },
+                    { name = "buffer" },
+                },
                 completion = {
                     completeopt = "menu,menuone,preview,noselect",
                 },
@@ -33,6 +38,9 @@ return {
                     ["<down>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
                     ["<C-up>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
                     ["<C-down>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
+                },
+                window = {
+                    documentation = cmp.config.window.bordered(),
                 },
             })
         end,
