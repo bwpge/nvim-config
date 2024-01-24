@@ -60,3 +60,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.highlight.on_yank({ timeout = 200 })
     end,
 })
+
+-- lsp update in insert mode
+vim.diagnostic.config({
+    update_in_insert = true,
+})
