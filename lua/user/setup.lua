@@ -16,6 +16,9 @@ require("lazy").setup("user.plugins", {
     install = {
         colorscheme = { require("user.theme").name },
     },
+    change_detection = {
+        notify = false,
+    },
 })
 
 -- warn about line endings that are different than the default fileformat
