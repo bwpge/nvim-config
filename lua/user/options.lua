@@ -20,6 +20,11 @@ opt.termguicolors = true
 opt.background = "dark"
 opt.signcolumn = "yes"
 opt.cursorline = true
+opt.list = true
+opt.listchars:append({
+    tab = "→ ",
+    trail = "•",
+})
 
 -- searching
 opt.ignorecase = true
