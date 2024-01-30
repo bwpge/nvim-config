@@ -13,6 +13,7 @@ return {
     config = function()
         require("formatter").setup({
             filetype = {
+                toml = { require("formatter.filetypes.toml").taplo },
                 json = { require("formatter.filetypes.yaml").prettier },
                 jsonc = { require("formatter.filetypes.yaml").prettier },
                 lua = { require("formatter.filetypes.lua").stylua },
