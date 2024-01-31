@@ -7,11 +7,15 @@ return {
             italic_comment = true,
             overrides = function(colors)
                 return {
+                    CursorLine = { bg = "#353747" },
                     Function = { fg = colors.green },
                     GitSignsAddPreview = { fg = colors.bright_green },
                     GitSignsChange = { fg = colors.yellow },
                     GitSignsChangeLn = { fg = colors.black, bg = colors.yellow },
                     GitSignsDeletePreview = { fg = colors.red },
+                    LspReferenceText = { bg = "#424450" },
+                    LspReferenceRead = { bg = "#424450" },
+                    LspReferenceWrite = { bg = "#424450" },
                     NeoTreeGitUnstaged = { fg = colors.yellow },
                     NeoTreeGitModified = { fg = colors.yellow },
                     Keyword = { fg = colors.pink },

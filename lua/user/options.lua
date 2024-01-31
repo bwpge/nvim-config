@@ -47,7 +47,7 @@ opt.splitbelow = true
 
 -- timings
 -- opt.timoutlen = 500 -- ms for mapped sequence to complete
-opt.updatetime = 300 -- ms before completion and diagnostics
+opt.updatetime = 400 -- time before autosave and cursorhold
 
 -- misc
 opt.iskeyword:append("-") -- consider '-' part of a word

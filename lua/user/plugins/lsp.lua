@@ -1,3 +1,28 @@
+-- highlight symbol under cursor
+-- see: https://github.com/Alexis12119/nvim-config/blob/77a9a7c2ab0c6e8e4d576d6987ee57e4c5540eee/configs/lsp/init.lua#L23-L44
+-- note: updatetime controls when cursorhold events fire
+local function lsp_highlight(client, bufnr)
+    if client.supports_method("textDocument/documentHighlight") then
+        vim.api.nvim_create_augroup("lsp_document_highlight", {
+            clear = false,
+        })
+        vim.api.nvim_clear_autocmds({
+            buffer = bufnr,
+            group = "lsp_document_highlight",
+        })
+        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+            group = "lsp_document_highlight",
+            buffer = bufnr,
+            callback = vim.lsp.buf.document_highlight,
+        })
+        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+            group = "lsp_document_highlight",
+            buffer = bufnr,
+            callback = vim.lsp.buf.clear_references,
+        })
+    end
+end
+
 return {
     {
         "VonHeikemen/lsp-zero.nvim",
@@ -17,6 +42,7 @@ return {
 
             lsp_zero.on_attach(function(client, bufnr)
                 ih.on_attach(client, bufnr)
+                lsp_highlight(client, bufnr)
 
                 -- see :help lsp-zero-keybindings
                 lsp_zero.default_keymaps({

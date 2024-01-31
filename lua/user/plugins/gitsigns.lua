@@ -30,7 +30,7 @@ return {
                 -- preview hunk
                 vim.keymap.set(
                     "n",
-                    "<leader>hp",
+                    "<leader>hh",
                     gs.preview_hunk,
                     { noremap = true, silent = true, desc = "Preview hunk git diff" }
                 )
