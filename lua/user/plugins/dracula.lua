@@ -8,6 +8,12 @@ return {
             overrides = function(colors)
                 return {
                     Function = { fg = colors.green },
+                    GitSignsAddPreview = { fg = colors.bright_green },
+                    GitSignsChange = { fg = colors.yellow },
+                    GitSignsChangeLn = { fg = colors.black, bg = colors.yellow },
+                    GitSignsDeletePreview = { fg = colors.red },
+                    NeoTreeGitUnstaged = { fg = colors.yellow },
+                    NeoTreeGitModified = { fg = colors.yellow },
                     Keyword = { fg = colors.pink },
                     Keywords = { fg = colors.pink },
                     ps1Boolean = { link = "@number" },

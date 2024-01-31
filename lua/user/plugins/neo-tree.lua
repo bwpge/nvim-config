@@ -10,13 +10,10 @@ return {
         window = { position = "left" },
         filesystem = {
             filtered_items = {
-                visible = true, -- when true, they will just be displayed differently than normal items
+                visible = true,
                 hide_dotfiles = false,
                 hide_gitignored = true,
                 hide_hidden = true, -- only works on Windows for hidden files/directories
-                -- hide_by_name = {
-                --     ".git",
-                -- },
                 never_show = {
                     ".DS_Store",
                     "thumbs.db",
