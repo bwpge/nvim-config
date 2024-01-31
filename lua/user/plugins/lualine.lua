@@ -6,6 +6,7 @@ return {
             options = {
                 theme = require("user.theme").name,
                 -- icons_enabled = false,
+                disabled_filetypes = { "packer", "NVimTree", "neo-tree" },
             },
         },
     },

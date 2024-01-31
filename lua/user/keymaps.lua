@@ -24,7 +24,7 @@ km.set("n", "<S-tab>", "<<", opts) -- dedent
 km.set("i", "<S-tab>", "<C-d>", opts) -- dedent in insert mode
 km.set("v", "<tab>", ">gv", opts) -- indent and keep selection
 km.set("v", "<S-tab>", "<gv", opts) -- dedent and keep selection
-km.set("n", "<leader>e", "<cmd>Explore<cr>", opts) -- netrw
+km.set("n", "<leader>e", "<cmd>Neotree reveal toggle<cr>", opts) -- neo-tree
 
 -- manipulate lines
 km.set("n", "<C-up>", "<cmd>m-2<cr>", opts) -- move line up
