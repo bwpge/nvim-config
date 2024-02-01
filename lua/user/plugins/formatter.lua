@@ -1,3 +1,16 @@
+-- prettier adds trailing commas by default without config
+local function prettier_no_trailing_comma()
+    return {
+        exe = "prettier",
+        args = {
+            "--stdin-filepath",
+            vim.fn.shellescape(vim.api.nvim_buf_get_name(0), true),
+        },
+        stdin = true,
+        try_node_modules = true,
+    }
+end
+
 return {
     "mhartington/formatter.nvim",
     event = "VeryLazy",
@@ -13,10 +26,11 @@ return {
     config = function()
         require("formatter").setup({
             filetype = {
-                toml = { require("formatter.filetypes.toml").taplo },
-                json = { require("formatter.filetypes.yaml").prettier },
-                jsonc = { require("formatter.filetypes.yaml").prettier },
+                python = { require("formatter.filetypes.python").black },
+                json = prettier_no_trailing_comma,
+                jsonc = prettier_no_trailing_comma,
                 lua = { require("formatter.filetypes.lua").stylua },
+                toml = { require("formatter.filetypes.toml").taplo },
                 yaml = { require("formatter.filetypes.yaml").prettier },
                 ["*"] = { function() end },
             },
