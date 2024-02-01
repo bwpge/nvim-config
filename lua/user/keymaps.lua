@@ -68,6 +68,7 @@ km.set("n", "<leader>fs", "<cmd>Telescope grep_string<cr>", opts)
 km.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
 km.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", opts)
 km.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", opts)
+km.set("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", opts)
 km.set("n", "<F1>", "<cmd>Telescope help_tags<cr>", opts)
 
 -- formatting

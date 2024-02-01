@@ -47,12 +47,13 @@ return {
                 -- see :help lsp-zero-keybindings
                 lsp_zero.default_keymaps({
                     buffer = bufnr,
-                    exclude = { "gi", "<F3>", "<F4>" },
+                    exclude = { "gi", "<F3>", "<F4>", "gr" },
                 })
 
                 local opts = { buffer = bufnr }
                 -- vim.keymap.set({ "n", "v" }, "<leader>F", "<cmd>lua vim.lsp.buf.format()<cr>", opts)
-                vim.keymap.set("n", "<leader>.", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+                vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
+                vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
                 vim.keymap.set("n", "<leader>ih", function()
                     require("lsp-inlayhints").toggle()
                 end, opts)
