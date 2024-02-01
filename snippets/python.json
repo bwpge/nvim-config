@@ -1,0 +1,7 @@
+{
+  "hello world": {
+    "prefix": ["hello", "main"],
+    "body": ["if __name__ == \"__main__\":", "\t${0:print(\"Hello, world!\")}"],
+    "description": "Basic hello world template"
+  }
+}

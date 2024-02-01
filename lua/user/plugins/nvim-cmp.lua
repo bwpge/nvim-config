@@ -3,17 +3,31 @@ return {
         "hrsh7th/nvim-cmp",
         event = "VeryLazy",
         dependencies = {
-            { "hrsh7th/cmp-nvim-lsp" },
-            { "hrsh7th/cmp-buffer" },
-            { "L3MON4D3/LuaSnip" },
-            { "onsails/lspkind.nvim" },
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-buffer",
+            "L3MON4D3/LuaSnip",
+            "onsails/lspkind.nvim",
+            "rafamadriz/friendly-snippets",
+            "saadparwaiz1/cmp_luasnip",
         },
         config = function()
             local cmp = require("cmp")
             local lspkind = require("lspkind")
+
+            require("luasnip.loaders.from_vscode").lazy_load({})
+            require("luasnip.loaders.from_vscode").lazy_load({
+                paths = vim.fn.stdpath("config") .. "/snippets/",
+            })
+
             cmp.setup({
+                snippet = {
+                    expand = function(args)
+                        require("luasnip").lsp_expand(args.body)
+                    end,
+                },
                 sources = {
                     { name = "nvim_lsp" },
+                    { name = "luasnip" },
                     { name = "buffer" },
                 },
                 completion = {

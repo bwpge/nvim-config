@@ -1,0 +1,53 @@
+{
+  "namespace with label": {
+    "prefix": ["namespace", "ns"],
+    "body": ["namespace ${1:name} {", "\t$0", "}  // namespace ${1:name}"],
+    "description": "Creates a namespace block with comment label"
+  },
+  "class": {
+    "prefix": ["class", "cls"],
+    "body": ["class ${1} {", "public:", "\t${0}", "private:", "\t", "};"]
+  },
+  "struct": {
+    "prefix": ["struct", "str"],
+    "body": ["struct ${1} {", "\t${0}", "};"]
+  },
+  "enum": {
+    "prefix": ["enum", "en"],
+    "body": ["enum class ${1} {", "\t${0}", "};"]
+  },
+  "ifdef with label": {
+    "prefix": ["#ifd", "#ifdef"],
+    "body": ["#ifdef ${1:condition}", "$0", "#endif // ${1:condition}"],
+    "description": "Creates an ifdef macro with labeled condition"
+  },
+  "#if with label": {
+    "prefix": ["#if"],
+    "body": ["#if ${1:condition}", "$0", "#endif // ${1:condition}"],
+    "description": "Creates an if macro with labeled condition"
+  },
+  "rule of five": {
+    "prefix": ["rule", "rof", "ro5"],
+    "body": [
+      "${1:class_name}() = default;",
+      "${1:class_name}(const ${1:class_name}&) = default;",
+      "${1:class_name}(${1:class_name}&&) noexcept = default;",
+      "${1:class_name}& operator=(const ${1:class_name}&) = default;",
+      "${1:class_name}& operator=(${1:class_name}&& rhs) noexcept = default;",
+      "~${1:class_name}() = default;"
+    ],
+    "description": "Adds rule of five declarations to class"
+  },
+  "hello world": {
+    "prefix": ["cpp", "hello"],
+    "body": [
+      "#include <iostream>",
+      "",
+      "int main(${1:int argc, char* argv[]}) {",
+      "\tstd::cout << \"Hello, world!\\n\";${0}",
+      "\treturn 0;",
+      "}"
+    ],
+    "description": "A basic hello world template"
+  }
+}

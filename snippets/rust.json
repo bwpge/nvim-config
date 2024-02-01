@@ -1,0 +1,27 @@
+{
+  "Unit test module": {
+    "prefix": "mtest",
+    "body": [
+      "#[cfg(test)]",
+      "mod ${1:tests} {",
+      "\t${2:use super::*;}",
+      "",
+      "\t#[test]",
+      "\tfn ${3:test_name}() {",
+      "\t\t$0",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a unit test module with a single unit test."
+  },
+  "Unit test": {
+    "prefix": "utest",
+    "body": ["#[test]", "fn ${1:test_name}() {", "\t$0", "}"],
+    "description": "Create a unit test."
+  },
+  "Derive": {
+    "prefix": "derive",
+    "body": ["#[derive(${1:Debug, Default})]$0"],
+    "description": "Create a derive macro."
+  }
+}
