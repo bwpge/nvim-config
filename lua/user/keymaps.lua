@@ -24,7 +24,6 @@ km.set("n", "<S-tab>", "<<", opts) -- dedent
 km.set("i", "<S-tab>", "<C-d>", opts) -- dedent in insert mode
 km.set("v", "<tab>", ">gv", opts) -- indent and keep selection
 km.set("v", "<S-tab>", "<gv", opts) -- dedent and keep selection
-km.set("n", "<leader>e", "<cmd>Neotree reveal toggle<cr>", opts) -- neo-tree
 
 -- manipulate lines
 km.set("n", "<C-up>", "<cmd>m-2<cr>", opts) -- move line up
@@ -60,6 +59,10 @@ end
 -- plugin menu
 km.set("n", "<leader>L", "<cmd>Lazy<cr>", opts)
 km.set("n", "<leader>M", "<cmd>Mason<cr>", opts)
+
+-- neotree
+km.set("n", "<leader>e", "<cmd>Neotree reveal toggle<cr>", opts) -- neo-tree
+km.set("n", "<leader>gs", "<cmd>Neotree float git_status toggle<cr>", opts) -- neo-tree
 
 -- telescope
 km.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
