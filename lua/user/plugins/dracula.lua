@@ -61,6 +61,8 @@ return {
                     ["@markup.raw.markdown_inline"] = { fg = colors.green },
                     ["@module"] = { fg = colors.cyan },
                     ["@parameter"] = { fg = colors.orange, italic = true },
+                    ["@variable.parameter"] = { link = "@parameter" },
+                    ["@variable.member"] = { fg = colors.fg },
                     ["@punctuation.delimiter.json"] = { fg = colors.pink },
                     ["@punctuation.delimiter.yaml"] = { fg = colors.pink },
                     ["@punctuation.special.markdown"] = { fg = colors.pink },
