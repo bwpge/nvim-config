@@ -12,6 +12,7 @@ return {
     },
     lazy = false,
     opts = {
+        close_if_last_window = true,
         window = { position = "left" },
         filesystem = {
             filtered_items = {
