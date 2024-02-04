@@ -1,3 +1,7 @@
+-- avoid flashing netrw before neotree loads
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrw = 1
+
 return {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -6,6 +10,7 @@ return {
         "nvim-tree/nvim-web-devicons",
         "MunifTanjim/nui.nvim",
     },
+    lazy = false,
     opts = {
         window = { position = "left" },
         filesystem = {

@@ -12,6 +12,7 @@ return {
         },
         config = function()
             local cmp = require("cmp")
+            local cmp_context = require("cmp.config.context")
             local lspkind = require("lspkind")
             local luasnip = require("luasnip")
 
@@ -29,7 +30,14 @@ return {
                 sources = {
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
-                    { name = "buffer" },
+                    -- avoid polluting autocomplete with buffer text unless we want it
+                    {
+                        name = "buffer",
+                        entry_filter = function(entry, _)
+                            return cmp_context.in_treesitter_capture("string")
+                                or cmp.lsp.CompletionItemKind.Text ~= entry:get_kind()
+                        end,
+                    },
                 },
                 completion = {
                     completeopt = "menu,menuone,preview,noselect",
@@ -53,6 +61,7 @@ return {
                     ["<down>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
                     ["<C-up>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
                     ["<C-down>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
+                    -- use tab for auto-complete, snippets, etc. depending what is visible
                     ["<tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.confirm({ select = true })
