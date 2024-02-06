@@ -12,5 +12,6 @@ vim.filetype.add({
         [".gitconfig..*"] = "gitconfig",
         [".*.env..*"] = "sh",
         [".*[-_]requirements.txt"] = "config",
+        ["requirements[-_].*.txt"] = "config",
     },
 })
