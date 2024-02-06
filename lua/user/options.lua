@@ -7,6 +7,7 @@ vim.o.fileformats = "unix,dos"
 -- line numbers
 opt.relativenumber = true
 opt.number = true
+opt.fillchars = { eob = " " }
 
 -- tabs/indents
 opt.tabstop = 4
