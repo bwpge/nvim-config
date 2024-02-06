@@ -13,7 +13,16 @@ return {
     lazy = false,
     opts = {
         close_if_last_window = true,
-        window = { position = "left" },
+        buffers = {
+            follow_current_file = {
+                enabled = true,
+            },
+        },
+        default_component_configs = {
+            git_status = {
+                symbols = { ignored = "" },
+            },
+        },
         filesystem = {
             filtered_items = {
                 visible = true,
@@ -34,10 +43,6 @@ return {
             hijack_netrw_behavior = "open_default",
             use_libuv_file_watcher = false,
         },
-        buffers = {
-            follow_current_file = {
-                enabled = true,
-            },
-        },
+        window = { position = "left" },
     },
 }
