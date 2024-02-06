@@ -9,7 +9,7 @@ vim.filetype.add({
     },
     pattern = {
         [".*.gitconfig"] = "gitconfig",
-        [".gitconfig..*"] = "gitconfig",
+        [".gitconfig[-_.].*"] = "gitconfig",
         [".*.env..*"] = "sh",
         [".*[-_]requirements.txt"] = "config",
         ["requirements[-_].*.txt"] = "config",
