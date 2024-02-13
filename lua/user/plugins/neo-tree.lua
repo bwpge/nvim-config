@@ -13,14 +13,21 @@ return {
     lazy = false,
     opts = {
         close_if_last_window = true,
-        buffers = {
-            follow_current_file = {
-                enabled = true,
-            },
-        },
         default_component_configs = {
             git_status = {
-                symbols = { ignored = "" },
+                symbols = {
+                    -- change type
+                    added = "",
+                    modified = "",
+                    deleted = "✗",
+                    renamed = "󰁕",
+                    -- status type
+                    untracked = "★",
+                    ignored = "",
+                    unstaged = "󰄱",
+                    staged = "󰱒",
+                    conflict = "",
+                },
             },
         },
         filesystem = {
@@ -33,6 +40,8 @@ return {
                     ".DS_Store",
                     "thumbs.db",
                     ".git",
+                    "$RECYCLE.BIN",
+                    "System Volume Information",
                 },
             },
             follow_current_file = {
@@ -43,6 +52,11 @@ return {
             hijack_netrw_behavior = "open_default",
             use_libuv_file_watcher = false,
         },
-        window = { position = "left" },
+        window = {
+            position = "left",
+            mappings = {
+                ["<F2>"] = "rename",
+            },
+        },
     },
 }
