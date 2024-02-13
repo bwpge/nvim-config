@@ -21,6 +21,12 @@ km("n", "<S-Up>", "kzz", "Move cursor up and center view")
 km("n", "<S-Down>", "jzz", "Move cursor down and center view")
 km("n", "<M-=>", "<C-a>", "Increment number under cursor")
 km("n", "<M-->", "<C-x>", "Decrement number under cursor")
+km(
+    "n",
+    "<leader>I",
+    vim.show_pos,
+    "Show all the items at a given buffer position (same as :Inspect)"
+)
 
 -- manipulate lines
 km("n", "<C-up>", "<cmd>m-2<cr>", "Move current line up")
@@ -35,6 +41,7 @@ km("v", "<C-d>", '"zy"zPqzqgv', "Duplicate selected lines")
 km("n", "<leader>q", ":confirm q<cr>", "Quit the current buffer with confirmation")
 km("n", "<C-q>", ":confirm qall<cr>", "Quit all buffers with a confirmation")
 km("n", "<leader>w", ":w<cr>", "Write the current buffer")
+km("n", "<leader>W", ":noa w<cr>", "Write the current buffer without triggering autocommands")
 km(
     "n",
     "<leader><leader>",
@@ -77,8 +84,10 @@ km("n", "<leader>fs", "<cmd>Telescope grep_string<cr>", "Find word under cursor"
 km("n", "<leader>fb", "<cmd>Telescope buffers<cr>", "Go to buffer")
 km("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", "Go to diagnostics")
 km("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", "Search keymaps")
+km("n", "<leader>fs", "<cmd>Telescope git_status<cr>", "Go to git status")
 km("n", "<leader>ft", "<cmd>TodoTelescope<cr>", "Go to todo item")
 km("n", "<F1>", "<cmd>Telescope help_tags<cr>", "Search help tags")
+km("n", "<leader>H", "<cmd>Telescope highlights<cr>", "Search highlight groups")
 
 -- formatting
 km("n", "<M-F>", "<cmd>Format<cr>", "Format the current buffer")
