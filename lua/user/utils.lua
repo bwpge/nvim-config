@@ -17,13 +17,40 @@ end
 ---@param rhs string|function
 ---@param desc string?
 ---@param opts table?
-function M.km(modes, lhs, rhs, desc, opts)
+function M.kmap(modes, lhs, rhs, desc, opts)
     opts = opts or { noremap = true, silent = true }
     if desc then
         opts.desc = desc
     end
 
     vim.keymap.set(modes, lhs, rhs, opts)
+end
+
+---Creates a normal mode keymap with sensible defaults.
+---@param lhs string
+---@param rhs string|function
+---@param desc string?
+---@param opts table?
+function M.nmap(lhs, rhs, desc, opts)
+    M.kmap("n", lhs, rhs, desc, opts)
+end
+
+---Creates an insert mode keymap with sensible defaults.
+---@param lhs string
+---@param rhs string|function
+---@param desc string?
+---@param opts table?
+function M.imap(lhs, rhs, desc, opts)
+    M.kmap("i", lhs, rhs, desc, opts)
+end
+
+---Creates a visual mode keymap with sensible defaults.
+---@param lhs string
+---@param rhs string|function
+---@param desc string?
+---@param opts table?
+function M.vmap(lhs, rhs, desc, opts)
+    M.kmap("v", lhs, rhs, desc, opts)
 end
 
 ---Swaps to the last buffer with some extra logic.

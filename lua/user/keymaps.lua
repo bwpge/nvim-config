@@ -1,62 +1,60 @@
 local utils = require("user.utils")
-local km = utils.km
+local kmap = utils.kmap
+local nmap = utils.nmap
+local imap = utils.imap
+local vmap = utils.vmap
 
 vim.g.mapleader = " "
 
 -- adjust commonly used keys
-km("n", "<esc>", "<cmd>noh<cr><esc>") -- clear search highlight
-km({ "n", "v" }, "x", '"_x') -- no register for single delete
-km({ "n", "v" }, "<del>", '"_x') -- no register for single delete
+nmap("<esc>", "<cmd>noh<cr><esc>") -- clear search highlight
+kmap({ "n", "v" }, "x", '"_x') -- no register for single delete
+kmap({ "n", "v" }, "<del>", '"_x') -- no register for single delete
 
 -- general editor shortcuts
-km("i", "<C-v>", "<C-r>+", "Paste from clipboard")
-km("n", "<C-a>", "ggVG", "Select all text")
-km({ "i", "v" }, "<C-a>", "<esc><esc>ggVG", "Select all text")
-km("n", "<tab>", ">>", "Indent the current line")
-km("n", "<S-tab>", "<<", "Dedent the current line")
-km("i", "<S-tab>", "<C-d>", "Dedent the current line")
-km("v", "<tab>", ">gv", "Indent selected lines")
-km("v", "<S-tab>", "<gv", "Indent selected lines")
-km("n", "<S-Up>", "kzz", "Move cursor up and center view")
-km("n", "<S-Down>", "jzz", "Move cursor down and center view")
-km("n", "<M-=>", "<C-a>", "Increment number under cursor")
-km("n", "<M-->", "<C-x>", "Decrement number under cursor")
-km(
-    "n",
-    "<leader>I",
-    vim.show_pos,
-    "Show all the items at a given buffer position (same as :Inspect)"
-)
+imap("<C-v>", "<C-r>+", "Paste from clipboard")
+nmap("<C-a>", "ggVG", "Select all text")
+kmap({ "i", "v" }, "<C-a>", "<esc><esc>ggVG", "Select all text")
+nmap("<tab>", ">>", "Indent the current line")
+nmap("<S-tab>", "<<", "Dedent the current line")
+imap("<S-tab>", "<C-d>", "Dedent the current line")
+vmap("<tab>", ">gv", "Indent selected lines")
+vmap("<S-tab>", "<gv", "Indent selected lines")
+imap("<M-BS>", "<C-w>", "Delete the word before the cursor")
+nmap("<S-Up>", "kzz", "Move cursor up and center view")
+nmap("<S-Down>", "jzz", "Move cursor down and center view")
+nmap("<M-=>", "<C-a>", "Increment number under cursor")
+nmap("<M-->", "<C-x>", "Decrement number under cursor")
+nmap("<leader>I", vim.show_pos, "Show all the items at a given buffer position (same as :Inspect)")
 
 -- manipulate lines
-km("n", "<C-up>", "<cmd>m-2<cr>", "Move current line up")
-km("n", "<C-down>", "<cmd>m+1<cr>", "Move current line down")
-km("i", "<C-up>", "<esc><esc><cmd>m-2<cr>gi", "Move current line up")
-km("i", "<C-down>", "<esc><esc><cmd>m+<cr>gi", "Move current line down")
-km("n", "<C-d>", 'm`"zyy"zpqzq``j', "Duplicate current line")
-km("i", "<C-d>", '<esc><esc>"zyy"zpqzqgi<C-o>j', "Duplicate current line")
-km("v", "<C-d>", '"zy"zPqzqgv', "Duplicate selected lines")
+nmap("<C-up>", "<cmd>m-2<cr>", "Move current line up")
+nmap("<C-down>", "<cmd>m+1<cr>", "Move current line down")
+imap("<C-up>", "<esc><esc><cmd>m-2<cr>gi", "Move current line up")
+imap("<C-down>", "<esc><esc><cmd>m+<cr>gi", "Move current line down")
+nmap("<C-d>", 'm`"zyy"zpqzq``j', "Duplicate current line")
+imap("<C-d>", '<esc><esc>"zyy"zpqzqgi<C-o>j', "Duplicate current line")
+vmap("<C-d>", '"zy"zPqzqgv', "Duplicate selected lines")
 
 -- buffer shortcuts
-km("n", "<leader>q", ":confirm q<cr>", "Quit the current buffer with confirmation")
-km("n", "<C-q>", ":confirm qall<cr>", "Quit all buffers with a confirmation")
-km("n", "<leader>w", ":w<cr>", "Write the current buffer")
-km("n", "<leader>W", ":noa w<cr>", "Write the current buffer without triggering autocommands")
-km(
-    "n",
+nmap("<leader>q", ":confirm q<cr>", "Quit the current buffer with confirmation")
+nmap("<C-q>", ":confirm qall<cr>", "Quit all buffers with a confirmation")
+nmap("<leader>w", ":w<cr>", "Write the current buffer")
+nmap("<leader>W", ":noa w<cr>", "Write the current buffer without triggering autocommands")
+nmap(
     "<leader><leader>",
     utils.swap_last_buffer,
     "Swap to the last buffer if it is visible and listed"
 )
 
 -- window management
-km("n", "<leader>sv", "<cmd>vert new<cr>", "Split vertically with a new buffer")
-km("n", "<leader>sh", "<cmd>new<cr>", "Split horizontally with a new buffer")
-km("n", "<leader>ss", "<cmd>split<cr>", "Split current buffer")
-km("n", "<leader>sn", "<C-w>n", "Split to new window")
-km("n", "<leader>s=", "<C-w>=", "Make splits equal width")
-km("n", "<leader><Up>", "<C-w>+", "Increase window height")
-km("n", "<leader><Down>", "<C-w>-", "Decrease window height")
+nmap("<leader>sv", "<cmd>vert new<cr>", "Split vertically with a new buffer")
+nmap("<leader>sh", "<cmd>new<cr>", "Split horizontally with a new buffer")
+nmap("<leader>ss", "<cmd>split<cr>", "Split current buffer")
+nmap("<leader>sn", "<C-w>n", "Split to new window")
+nmap("<leader>s=", "<C-w>=", "Make splits equal width")
+nmap("<leader><Up>", "<C-w>+", "Increase window height")
+nmap("<leader><Down>", "<C-w>-", "Decrease window height")
 local win_nav = {
     ["<M-left>"] = { "<cmd>wincmd h<cr>", "Move to the window left of the current one" },
     ["<M-right>"] = { "<cmd>wincmd l<cr>", "Move to the window right of the current one" },
@@ -66,33 +64,33 @@ local win_nav = {
 for lhs, item in pairs(win_nav) do
     ---@diagnostic disable-next-line: deprecated
     local rhs, desc = unpack(item)
-    km("n", lhs, rhs, desc)
+    nmap(lhs, rhs, desc)
 end
 
 -- plugin menu
-km("n", "<leader>pl", "<cmd>Lazy<cr>", "Open Lazy")
-km("n", "<leader>pm", "<cmd>Mason<cr>", "Open Mason")
+nmap("<leader>pl", "<cmd>Lazy<cr>", "Open Lazy")
+nmap("<leader>pm", "<cmd>Mason<cr>", "Open Mason")
 
 -- neotree
-km("n", "<leader>e", "<cmd>Neotree reveal toggle<cr>")
-km("n", "<leader>gs", "<cmd>Neotree float git_status toggle<cr>")
+nmap("<leader>e", "<cmd>Neotree reveal toggle<cr>", "Toggle Neotree file explorer")
+nmap("<leader>gs", "<cmd>Neotree float git_status toggle<cr>", "Toggle Neotree git status")
 
 -- telescope
-km("n", "<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file")
-km("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", "Find in files (rg regex)")
-km("n", "<leader>fs", "<cmd>Telescope grep_string<cr>", "Find word under cursor")
-km("n", "<leader>fb", "<cmd>Telescope buffers<cr>", "Go to buffer")
-km("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", "Go to diagnostics")
-km("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", "Search keymaps")
-km("n", "<leader>fs", "<cmd>Telescope git_status<cr>", "Go to git status")
-km("n", "<leader>ft", "<cmd>TodoTelescope<cr>", "Go to todo item")
-km("n", "<F1>", "<cmd>Telescope help_tags<cr>", "Search help tags")
-km("n", "<leader>H", "<cmd>Telescope highlights<cr>", "Search highlight groups")
+nmap("<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file")
+nmap("<leader>fg", "<cmd>Telescope live_grep<cr>", "Find in files (rg regex)")
+nmap("<leader>fs", "<cmd>Telescope grep_string<cr>", "Find word under cursor")
+nmap("<leader>fb", "<cmd>Telescope buffers<cr>", "Go to buffer")
+nmap("<leader>fd", "<cmd>Telescope diagnostics<cr>", "Go to diagnostics")
+nmap("<leader>fk", "<cmd>Telescope keymaps<cr>", "Search keymaps")
+nmap("<leader>fs", "<cmd>Telescope git_status<cr>", "Go to git status")
+nmap("<leader>ft", "<cmd>TodoTelescope<cr>", "Go to todo item")
+nmap("<F1>", "<cmd>Telescope help_tags<cr>", "Search help tags")
+nmap("<leader>H", "<cmd>Telescope highlights<cr>", "Search highlight groups")
 
 -- formatting
-km("n", "<M-F>", "<cmd>Format<cr>", "Format the current buffer")
+nmap("<M-F>", "<cmd>Format<cr>", "Format the current buffer")
 
 -- external processes
-km("n", "<leader>vs", function()
+nmap("<leader>vs", function()
     utils.spawn_with_buf("code")
 end, "Open current file in vscode")
