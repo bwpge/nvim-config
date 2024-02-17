@@ -1,4 +1,6 @@
 return {
     "bwpge/homekey.nvim",
-    config = true,
+    opts = {
+        exclude_filetypes = { "neo-tree" },
+    },
 }
