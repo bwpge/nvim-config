@@ -34,8 +34,8 @@ return {
                         },
                     },
                 },
-                lualine_x = { "encoding", "fileformat" },
-                lualine_y = { "filetype" },
+                lualine_x = { "filetype" },
+                lualine_y = { "encoding", "fileformat", "progress" },
                 lualine_z = { "location" },
             },
             options = {

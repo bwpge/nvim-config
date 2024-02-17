@@ -4,7 +4,8 @@ vim.g.loaded_netrw = 1
 
 return {
     "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
+    -- TODO: change to `v3.x` when 3.18 is released
+    branch = "main",
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons",
