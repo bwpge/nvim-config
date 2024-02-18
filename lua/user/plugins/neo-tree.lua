@@ -1,3 +1,4 @@
+--
 -- avoid flashing netrw before neotree loads
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_netrw = 1
@@ -29,6 +30,9 @@ return {
                     staged = "󰱒",
                     conflict = "",
                 },
+            },
+            modified = {
+                symbol = "",
             },
         },
         filesystem = {

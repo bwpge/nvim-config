@@ -47,8 +47,10 @@ opt.splitright = true
 opt.splitbelow = true
 
 -- timings
+-- note that g:cursorhold_updatetime requires FixCursorHold.nvim plugin
+-- this is used to avoid blasting the swapfile, and some plugins need it
+vim.g.cursorhold_updatetime = 400
 -- opt.timoutlen = 500 -- ms for mapped sequence to complete
-opt.updatetime = 400 -- time before autosave and cursorhold
 
 -- misc
 opt.iskeyword:append("-") -- consider '-' part of a word

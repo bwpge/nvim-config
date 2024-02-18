@@ -8,6 +8,7 @@ vim.g.mapleader = " "
 
 -- adjust commonly used keys
 nmap("<esc>", "<cmd>noh<cr><esc>") -- clear search highlight
+kmap("t", "<C-e>", [[<C-\><C-n>]]) -- exit insert in terminal mode
 kmap({ "n", "v" }, "x", '"_x') -- no register for single delete
 kmap({ "n", "v" }, "<del>", '"_x') -- no register for single delete
 
