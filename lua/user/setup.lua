@@ -19,6 +19,9 @@ require("lazy").setup("user.plugins", {
     change_detection = {
         notify = false,
     },
+    ui = {
+        border = "single",
+    },
 })
 
 -- warn about line endings that are different than the default fileformat

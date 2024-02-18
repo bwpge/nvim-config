@@ -70,6 +70,7 @@ return {
                     GitSignsDeletePreview = { fg = colors.red },
                     Keyword = { fg = colors.pink },
                     Keywords = { link = "Keyword" },
+                    LazyNormal = { link = "NeoTreeNormal" },
                     LspReferenceRead = { bg = "#506473" },
                     LspReferenceText = { bg = "#506473" },
                     LspReferenceWrite = { bg = "#506473" },
