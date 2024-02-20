@@ -24,7 +24,7 @@ return {
                     deleted = "✗",
                     renamed = "󰁕",
                     -- status type
-                    untracked = "★",
+                    untracked = "U",
                     ignored = "",
                     unstaged = "󰄱",
                     staged = "󰱒",

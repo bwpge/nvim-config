@@ -1,6 +1,11 @@
+local utils = require("user.utils")
+local kmap = utils.kmap
+local nmap = utils.nmap
+
 -- highlight symbol under cursor
 -- see: https://github.com/Alexis12119/nvim-config/blob/77a9a7c2ab0c6e8e4d576d6987ee57e4c5540eee/configs/lsp/init.lua#L23-L44
--- note: updatetime controls when cursorhold events fire
+-- NOTE: updatetime controls when cursorhold events fire, but with
+-- FixCursorHold plugin this uses vim.g.cursorhold_updatetime
 local function lsp_highlight(client, bufnr)
     if client.supports_method("textDocument/documentHighlight") then
         vim.api.nvim_create_augroup("lsp_document_highlight", {
@@ -47,23 +52,37 @@ return {
                 -- see :help lsp-zero-keybindings
                 lsp_zero.default_keymaps({
                     buffer = bufnr,
-                    exclude = { "gi", "<F3>", "<F4>", "gr" },
+                    exclude = { "<F3>", "<F4>", "gi", "gd", "gr" },
                 })
 
                 local opts = { buffer = bufnr }
-                -- vim.keymap.set({ "n", "v" }, "<leader>F", "<cmd>lua vim.lsp.buf.format()<cr>", opts)
-                vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, opts)
-                vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
-                vim.keymap.set("n", "<leader>ih", function()
-                    require("lsp-inlayhints").toggle()
-                end, opts)
+                kmap({ "n", "i" }, "<M-.>", vim.lsp.buf.code_action, "View code actions", opts)
+                nmap(
+                    "gd",
+                    require("telescope.builtin").lsp_definitions,
+                    "Go to symbol definition",
+                    opts
+                )
+                nmap(
+                    "gm",
+                    require("telescope.builtin").lsp_implementations,
+                    "Go to symbol implementations",
+                    opts
+                )
+                nmap(
+                    "gr",
+                    require("telescope.builtin").lsp_references,
+                    "Go to symbol references",
+                    opts
+                )
+                nmap("<leader>ih", ih.toggle, "Toggle LSP inlay hints", opts)
             end)
 
             lsp_zero.set_sign_icons({
                 error = "",
                 warn = "",
                 hint = "⚑",
-                info = "",
+                info = "",
             })
 
             -- see :help lsp-zero-guide:integrate-with-mason-nvim
@@ -72,7 +91,6 @@ return {
                 ensure_installed = { "clangd", "lua_ls", "pyright", "rust_analyzer", "tsserver" },
                 handlers = {
                     lsp_zero.default_setup,
-                    -- fix lua lsp unknown global
                     lua_ls = function()
                         require("lspconfig").lua_ls.setup({
                             settings = {

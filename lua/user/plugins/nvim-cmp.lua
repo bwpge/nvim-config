@@ -21,6 +21,15 @@ return {
                 paths = vim.fn.stdpath("config") .. "/snippets/",
             })
 
+            ---Toggle nvim-cmp documentation window.
+            local toggle_docs = function()
+                if cmp.visible_docs() then
+                    cmp.close_docs()
+                else
+                    cmp.open_docs()
+                end
+            end
+
             cmp.setup({
                 snippet = {
                     expand = function(args)
@@ -59,8 +68,12 @@ return {
                     ["<C-e>"] = cmp.mapping(cmp.mapping.abort(), { "c" }),
                     ["<up>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
                     ["<down>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
-                    ["<C-up>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
-                    ["<C-down>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
+                    -- documentation
+                    ["<M-k>"] = cmp.mapping.scroll_docs(-1),
+                    ["<M-j>"] = cmp.mapping.scroll_docs(1),
+                    ["<M-K>"] = cmp.mapping.scroll_docs(-5),
+                    ["<M-J>"] = cmp.mapping.scroll_docs(5),
+                    ["<M-i>"] = toggle_docs,
                     -- use tab for auto-complete, snippets, etc. depending what is visible
                     ["<tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
@@ -84,6 +97,23 @@ return {
                 window = {
                     documentation = cmp.config.window.bordered(),
                 },
+            })
+
+            -- cancel snippet when mode changes
+            -- see: https://github.com/L3MON4D3/LuaSnip/issues/258#issuecomment-1429989436
+            vim.api.nvim_create_autocmd("ModeChanged", {
+                pattern = "*",
+                callback = function()
+                    local old_mode = vim.v.event.old_mode
+                    local new_mode = vim.v.event.new_mode
+                    if
+                        ((old_mode == "s" and new_mode == "n") or old_mode == "i")
+                        and luasnip.session.current_nodes[vim.api.nvim_get_current_buf()]
+                        and not luasnip.session.jump_active
+                    then
+                        luasnip.unlink_current()
+                    end
+                end,
             })
         end,
     },
