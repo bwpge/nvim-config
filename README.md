@@ -36,8 +36,9 @@ The theme name is defined in `user.theme`, which controls the configuration logi
 
 Supported themes:
 
-- Dracula ([`Mofiqul/dracula.nvim`](https://github.com/Mofiqul/dracula.nvim))
-- OneDark ([`navarasu/onedark.nvim`](https://github.com/navarasu/onedark.nvim))
 - Catppuccin ([`catppuccin/nvim`](https://github.com/catppuccin/nvim))
+- Dracula ([`Mofiqul/dracula.nvim`](https://github.com/Mofiqul/dracula.nvim))
 - Gruvbox ([`ellisonleao/gruvbox.nvim`](https://github.com/ellisonleao/gruvbox.nvim))
+- OneDark ([`navarasu/onedark.nvim`](https://github.com/navarasu/onedark.nvim))
 - Rosé Pine ([`rose-pine/neovim`](https://github.com/rose-pine/neovim))
+- Tokyo Night ([`folke/tokyonight.nvim`](https://github.com/folke/tokyonight.nvim))

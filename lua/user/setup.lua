@@ -12,7 +12,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- load plugins from modules
-require("lazy").setup("user.plugins", {
+require("lazy").setup({
+    { import = "user.plugins" },
+    { import = "user.plugins.themes" },
+}, {
     install = {
         colorscheme = { require("user.theme").name },
     },
@@ -35,13 +38,17 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
             return
         end
 
-        -- vim.print(ev)
         local bo_ff = vim.bo[ev.buf].fileformat
         local def_ff = vim.opt.fileformats:get()[1]
         if bo_ff ~= def_ff then
             vim.notify(
                 string.format(
-                    "This buffer has `%s` fileformat, which does not match the default fileformat `%s`. Different line endings may be inserted!\n  - buf:   %d\n  - file:  %s\n  - id:    %d\n  - match: %s",
+                    "This buffer has `%s` fileformat, which does not match the default \z
+                    fileformat `%s`. Different line endings may be inserted!\n  \z
+                    - buf:   %d\n  \z
+                    - file:  %s\n  \z
+                    - id:    %d\n  \z
+                    - match: %s",
                     bo_ff,
                     def_ff,
                     ev.buf,

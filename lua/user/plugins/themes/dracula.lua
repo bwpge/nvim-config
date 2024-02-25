@@ -94,8 +94,6 @@ return {
                 }
             end,
         },
-        config = function(_, opts)
-            require("user.theme").run_setup("dracula", opts)
-        end,
+        config = require("user.theme").make_config("dracula"),
     },
 }
