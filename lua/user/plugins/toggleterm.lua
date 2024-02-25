@@ -33,5 +33,8 @@ return {
         shell = get_shell(),
         shade_terminals = false,
         direction = "float",
+        highlights = {
+            FloatBorder = { link = "TelescopePromptBorder" },
+        },
     },
 }

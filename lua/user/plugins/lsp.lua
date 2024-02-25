@@ -57,6 +57,7 @@ return {
 
                 local opts = { buffer = bufnr }
                 kmap({ "n", "i" }, "<M-.>", vim.lsp.buf.code_action, "View code actions", opts)
+                nmap("<leader>.", vim.lsp.buf.code_action, "View code actions", opts)
                 nmap(
                     "gd",
                     require("telescope.builtin").lsp_definitions,
@@ -88,7 +89,16 @@ return {
             -- see :help lsp-zero-guide:integrate-with-mason-nvim
             require("mason").setup({})
             require("mason-lspconfig").setup({
-                ensure_installed = { "clangd", "lua_ls", "pyright", "rust_analyzer", "tsserver" },
+                ensure_installed = {
+                    "clangd",
+                    "jsonls",
+                    "lua_ls",
+                    "pyright",
+                    "rust_analyzer",
+                    "taplo",
+                    "tsserver",
+                    "yamlls",
+                },
                 handlers = {
                     lsp_zero.default_setup,
                     lua_ls = function()

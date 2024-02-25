@@ -1,8 +1,3 @@
---
--- avoid flashing netrw before neotree loads
-vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_netrw = 1
-
 return {
     "nvim-neo-tree/neo-tree.nvim",
     -- TODO: change to `v3.x` when 3.18 is released
@@ -12,6 +7,10 @@ return {
         "nvim-tree/nvim-web-devicons",
         "MunifTanjim/nui.nvim",
     },
+    init = function()
+        vim.g.loaded_netrwPlugin = 1
+        vim.g.loaded_netrw = 1
+    end,
     lazy = false,
     opts = {
         close_if_last_window = true,
@@ -51,7 +50,7 @@ return {
             },
             follow_current_file = {
                 enabled = true,
-                leave_dirs_open = false,
+                leave_dirs_open = true,
             },
             group_empty_dirs = true,
             hijack_netrw_behavior = "open_default",

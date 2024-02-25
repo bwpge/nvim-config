@@ -26,7 +26,10 @@ return {
     config = function()
         require("formatter").setup({
             filetype = {
-                python = { require("formatter.filetypes.python").black },
+                python = {
+                    require("formatter.filetypes.python").black,
+                    require("formatter.filetypes.python").isort,
+                },
                 json = prettier_no_trailing_comma,
                 jsonc = prettier_no_trailing_comma,
                 lua = { require("formatter.filetypes.lua").stylua },

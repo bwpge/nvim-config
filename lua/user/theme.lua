@@ -18,6 +18,12 @@ function M.run_setup(name, opts)
         mod.setup(opts or {})
         vim.cmd("colorscheme " .. name)
     end
+
+    -- misc fixes for themes
+    if name == "dracula" then
+        vim.g.terminal_color_0 = "#6272A4"
+        vim.g.terminal_color_8 = "#6272A4"
+    end
 end
 
 return M

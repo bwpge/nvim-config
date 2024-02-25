@@ -4,6 +4,7 @@ local nmap = utils.nmap
 return {
     {
         "lewis6991/gitsigns.nvim",
+        event = "VeryLazy",
         opts = {
             on_attach = function()
                 local gs = package.loaded.gitsigns
