@@ -39,7 +39,6 @@ return {
                 lualine_z = { "location" },
             },
             options = {
-                theme = require("user.theme").name,
                 component_separators = { left = "", right = "" },
                 section_separators = { left = "", right = "" },
                 disabled_filetypes = { "packer", "NVimTree", "neo-tree" },
