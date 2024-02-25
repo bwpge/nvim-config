@@ -1,5 +1,7 @@
 local M = {}
 
+M.is_windows = vim.loop.os_uname().version:match("Windows") or vim.fn.has("win32")
+
 ---Returns the module if it could be loaded, otherwise nil.
 ---@param mod string
 ---@return table?
@@ -51,6 +53,42 @@ end
 ---@param opts table?
 function M.vmap(lhs, rhs, desc, opts)
     M.kmap("v", lhs, rhs, desc, opts)
+end
+
+---Creates a lazy.nvim keymap with sensible defaults.
+---@param modes string|table
+---@param lhs string
+---@param rhs string|function
+---@param desc string?
+---@param opts table?
+---@return table
+function M.lazy_kmap(modes, lhs, rhs, desc, opts)
+    opts = opts or {}
+    if desc then
+        opts.desc = desc
+    end
+    local result = {
+        lhs,
+        rhs,
+        mode = modes,
+        noremap = true,
+        silent = true,
+    }
+
+    for k, v in pairs(opts) do
+        result[k] = v
+    end
+    return result
+end
+
+---Creates a normal mode lazy.nvim keymap with sensible defaults.
+---@param lhs string
+---@param rhs string|function
+---@param desc string?
+---@param opts table?
+---@return table
+function M.lazy_nmap(lhs, rhs, desc, opts)
+    return M.lazy_kmap("n", lhs, rhs, desc, opts)
 end
 
 ---Swaps to the last buffer with some extra logic.
