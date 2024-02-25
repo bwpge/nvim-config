@@ -80,10 +80,10 @@ return {
             end)
 
             lsp_zero.set_sign_icons({
-                error = "",
-                warn = "",
-                hint = "⚑",
-                info = "",
+                error = "",
+                warn = "",
+                info = "",
+                hint = "󰌶",
             })
 
             -- see :help lsp-zero-guide:integrate-with-mason-nvim

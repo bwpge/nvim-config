@@ -88,6 +88,9 @@ nmap("<leader>ft", "<cmd>TodoTelescope<cr>", "Go to todo item")
 nmap("<F1>", "<cmd>Telescope help_tags<cr>", "Search help tags")
 nmap("<leader>H", "<cmd>Telescope highlights<cr>", "Search highlight groups")
 
+-- trouble
+nmap("<leader>x", "<cmd>TroubleToggle<cr>", "Toggle problems view (trouble)")
+
 -- formatting
 nmap("<M-F>", "<cmd>Format<cr>", "Format the current buffer")
 
