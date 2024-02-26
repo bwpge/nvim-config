@@ -1,4 +1,5 @@
 local utils = require("user.utils")
+local kmap = utils.kmap
 local lazy_nmap = utils.lazy_nmap
 
 ---Gets the shell string for the integrated terminal depending on platform.
@@ -37,4 +38,27 @@ return {
             FloatBorder = { link = "TelescopePromptBorder" },
         },
     },
+    config = function(_, opts)
+        require("toggleterm").setup(opts)
+
+        vim.api.nvim_create_autocmd({ "TermOpen" }, {
+            pattern = { "term://*toggleterm*" },
+            callback = function()
+                kmap(
+                    "t",
+                    "<M-[>",
+                    [[<C-\><C-n>]],
+                    "Return to normal mode from terminal mode",
+                    { buffer = 0, silent = true, noremap = true }
+                )
+                kmap(
+                    "t",
+                    "<Esc>",
+                    "<cmd>q<cr>",
+                    "Close integrated terminal",
+                    { buffer = 0, silent = true, noremap = true }
+                )
+            end,
+        })
+    end,
 }
