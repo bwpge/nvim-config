@@ -20,10 +20,10 @@ return {
                     end, desc)
                 end
 
-                gs_map("[h", gs.prev_hunk, "Move to previous git hunk")
-                gs_map("]h", gs.next_hunk, "Move to next git hunk")
-                nmap("<leader>hr", gs.reset_hunk, "Reset git hunk (discard changes)")
-                nmap("<leader>hh", gs.preview_hunk, "Preview git diff hunk")
+                gs_map("[g", gs.prev_hunk, "Move to previous git hunk")
+                gs_map("]g", gs.next_hunk, "Move to next git hunk")
+                nmap("<leader>gr", gs.reset_hunk, "Reset git hunk (discard changes)")
+                nmap("<leader>gh", gs.preview_hunk, "Preview git diff hunk")
             end,
         },
     },
