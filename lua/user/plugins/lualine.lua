@@ -3,10 +3,6 @@ return {
         "nvim-lualine/lualine.nvim",
         dependencies = {
             "nvim-tree/nvim-web-devicons",
-            {
-                "WhoIsSethDaniel/lualine-lsp-progress.nvim",
-                config = true,
-            },
         },
         opts = {
             sections = {
@@ -17,22 +13,6 @@ return {
                 },
                 lualine_c = {
                     "filename",
-                    {
-                        "lsp_progress",
-                        icon = "",
-                        separators = {
-                            component = " ",
-                            progress = " | ",
-                            message = { pre = "", post = "" },
-                            percentage = { pre = "", post = "%% " },
-                            title = { pre = "", post = ": " },
-                            lsp_client_name = { pre = "", post = "" },
-                            spinner = { pre = "", post = "" },
-                        },
-                        display_components = {
-                            { "title", "message" },
-                        },
-                    },
                 },
                 lualine_x = { "filetype" },
                 lualine_y = { "encoding", "fileformat", "progress" },

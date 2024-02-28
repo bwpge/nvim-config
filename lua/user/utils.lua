@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_windows = vim.loop.os_uname().version:match("Windows") or vim.fn.has("win32")
+M.is_windows = vim.loop.os_uname().version:match("Windows") or vim.fn.has("win32") ~= 0
 
 ---Returns the module if it could be loaded, otherwise nil.
 ---@param mod string
@@ -94,12 +94,14 @@ end
 ---Swaps to the last buffer with some extra logic.
 function M.swap_last_buffer()
     -- check if current buffer is valid, don't bother swapping if not
+    ---@diagnostic disable-next-line: param-type-mismatch
     local curr = vim.fn.bufnr("%")
     if curr < 0 or vim.fn.bufexists(curr) == 0 or vim.fn.buflisted(curr) ~= 1 then
         return
     end
 
     -- swap only if last buffer is valid and listed
+    ---@diagnostic disable-next-line: param-type-mismatch
     local last = vim.fn.bufnr("#")
     if last > 0 and vim.fn.bufexists(last) and vim.fn.buflisted(last) == 1 then
         vim.cmd(string.format("b%d", last))
@@ -141,7 +143,9 @@ function M.spawn_with_buf(prog, buf, args)
         detached = true,
         args = args,
     })
-    vim.loop.unref(handle)
+    if handle then
+        vim.loop.unref(handle)
+    end
     vim.notify(string.format("Opening '%s' with '%s'", rel_name, prog), vim.log.levels.INFO)
 end
 
