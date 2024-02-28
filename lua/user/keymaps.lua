@@ -38,6 +38,8 @@ imap("<C-d>", '<esc><esc>"zyy"zpqzqgi<C-o>j', "Duplicate current line")
 vmap("<C-d>", '"zy"zPqzqgv', "Duplicate selected lines")
 
 -- buffer shortcuts
+nmap("[b", "<cmd>bp<cr>", "Go to previous buffer")
+nmap("]b", "<cmd>bn<cr>", "Go to next buffer")
 nmap("<leader>q", ":confirm q<cr>", "Quit the current buffer with confirmation")
 nmap("<C-q>", ":confirm qall<cr>", "Quit all buffers with a confirmation")
 nmap("<leader>w", ":w<cr>", "Write the current buffer")
