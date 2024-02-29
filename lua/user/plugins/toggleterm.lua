@@ -1,6 +1,5 @@
 local utils = require("user.utils")
 local kmap = utils.kmap
-local lazy_nmap = utils.lazy_nmap
 
 ---Gets the shell string for the integrated terminal depending on platform.
 ---@return string?
@@ -17,19 +16,19 @@ end
 return {
     "akinsho/toggleterm.nvim",
     version = "*",
-    cmd = { "ToggleTerm", "TermExec" },
-    keys = {
-        lazy_nmap(
-            "<leader>`",
-            "<cmd>ToggleTerm direction=float<cr>",
-            "Toggle floating integrated terminal"
-        ),
-        lazy_nmap(
-            "<leader>~",
-            "<cmd>ToggleTerm direction=horizontal<cr>",
-            "Toggle integrated terminal"
-        ),
+    dependencies = {
+        "bwpge/toggleterm-ext.nvim",
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+        },
+        opts = {
+            expand_cmd = true,
+            input = {
+                title = "Launch terminal",
+            },
+        },
     },
+    cmd = { "ToggleTerm", "TermExec", "TermExecInput" },
     opts = {
         shell = get_shell(),
         shade_terminals = false,

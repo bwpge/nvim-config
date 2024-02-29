@@ -93,6 +93,11 @@ nmap("<leader>H", "<cmd>Telescope highlights<cr>", "Search highlight groups")
 -- trouble
 nmap("<leader>x", "<cmd>TroubleToggle<cr>", "Toggle problems view (trouble)")
 
+-- toggleterm
+nmap("<leader>`", "<cmd>ToggleTerm<cr>", "Toggle integrated terminal")
+nmap("<leader>;;", "<cmd>TermExecInput<cr>", "Launch with integrated terminal")
+nmap("<leader>;l", "<cmd>Telescope toggleterm_ext<cr>", "Launch with previous terminal input")
+
 -- formatting
 nmap("<M-F>", "<cmd>Format<cr>", "Format the current buffer")
 
