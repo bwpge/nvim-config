@@ -1,3 +1,6 @@
+-- telescope color tweaks based on NvChad, see:
+-- https://github.com/NvChad/NvChad/blob/bccd8e4ab9942c57eaeee76c7e41c2b41cba17c4/lua/colors/highlights.lua#L119C1-L131C33
+
 return {
     {
         "Mofiqul/dracula.nvim",
@@ -83,7 +86,21 @@ return {
                     ps1Function = { link = "@function" },
                     ps1Operator = { link = "@operator" },
                     ps1Variable = { link = "@variable" },
+                    TelescopeNormal = { fg = colors.fg, bg = colors.menu },
+                    TelescopePreviewBorder = { fg = colors.menu, bg = colors.menu },
+                    TelescopePreviewTitle = { fg = colors.green, reverse = true, bold = true },
+                    TelescopePromptBorder = { fg = colors.bg, bg = colors.bg },
+                    TelescopePromptNormal = { fg = colors.fg, bg = colors.bg },
+                    TelescopePromptTitle = { fg = colors.purple, reverse = true, bold = true },
+                    TelescopeResultsBorder = { fg = colors.menu, bg = colors.menu },
                     TelescopeResultsDiffChange = { fg = colors.yellow },
+                    TelescopeResultsTitle = {
+                        fg = colors.green,
+                        bg = colors.menu,
+                        reverse = true,
+                        bold = true,
+                    },
+                    ToggleTermBorder = { fg = colors.comment },
                     zshDeref = { link = "@variable" },
                     zshFunction = { link = "@function" },
                     zshOperator = { link = "@operator" },
