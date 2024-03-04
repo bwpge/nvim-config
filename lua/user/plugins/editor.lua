@@ -1,6 +1,7 @@
 local kmap = require("user.utils").kmap
 
 return {
+    { "antoinemadec/FixCursorHold.nvim" },
     {
         "numToStr/Comment.nvim",
         event = "VeryLazy",
@@ -49,5 +50,12 @@ return {
             require("leap.user").set_repeat_keys("<cr>", "<bs>")
         end,
     },
-    { "antoinemadec/FixCursorHold.nvim" },
+    {
+        "iamcco/markdown-preview.nvim",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        ft = { "markdown" },
+        build = function()
+            vim.fn["mkdp#util#install"]()
+        end,
+    },
 }
