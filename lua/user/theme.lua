@@ -2,8 +2,12 @@ local utils = require("user.utils")
 
 local M = {}
 
--- use this field to change colorscheme for editor and plugins
-M.name = "dracula"
+local c = utils.prequire("user.customize")
+if c and c.theme then
+    M.name = c.theme
+else
+    M.name = "dracula"
+end
 
 ---Checks if the given theme is active (matches `M.name`) and runs the setup
 ---function.

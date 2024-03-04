@@ -1,6 +1,6 @@
 # nvim-config
 
-My nvim configuration.
+My Neovim configuration.
 
 ## Overview
 
@@ -28,13 +28,27 @@ git clone git@github.com:bwpge/nvim-config.git ~/.config/nvim
 
 Be sure to remove any previous `data` directory, e.g. `stdpath("data")`, to start with a clean install.
 
-## Usage
+## Customize
 
-### Theme
+The gitignored file `lua/user/customize.lua` can be created to change minor settings without leaving the repository in a dirty state.
 
-The theme name is defined in `user.theme`, which controls the configuration logic to pick which colorscheme to use (as well as configure some additional colors for other plugins).
+**Example `customize.lua`:**
 
-Supported themes:
+```lua
+local M = {}
+
+-- change the default theme
+M.theme = "catppuccin"
+
+-- disable plugins without modifying specs
+M.disabled = {
+    "foo/bar",
+}
+
+return M
+```
+
+The following themes (and associated variants) are supported in `customize.lua`:
 
 - Catppuccin ([`catppuccin/nvim`](https://github.com/catppuccin/nvim))
 - Dracula ([`Mofiqul/dracula.nvim`](https://github.com/Mofiqul/dracula.nvim))
