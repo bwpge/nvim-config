@@ -21,6 +21,7 @@ opt.termguicolors = true
 opt.background = "dark"
 opt.signcolumn = "yes"
 opt.cursorline = true
+opt.scrolloff = 4
 opt.list = true
 opt.listchars:append({
     tab = "→ ",

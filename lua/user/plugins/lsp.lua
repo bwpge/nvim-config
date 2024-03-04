@@ -30,6 +30,10 @@ end
 
 return {
     {
+        "folke/neodev.nvim",
+        opts = {},
+    },
+    {
         "VonHeikemen/lsp-zero.nvim",
         branch = "v3.x",
         dependencies = {

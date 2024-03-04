@@ -70,15 +70,15 @@ for lhs, item in pairs(win_nav) do
     nmap(lhs, rhs, desc)
 end
 
--- plugin menu
+-- external processes
+nmap("<leader>vs", function()
+    utils.spawn_with_buf("code")
+end, "Open current file in vscode")
+
+-- plugin commands
 nmap("<leader>pl", "<cmd>Lazy<cr>", "Open Lazy")
 nmap("<leader>pm", "<cmd>Mason<cr>", "Open Mason")
-
--- neotree
-nmap("<leader>e", "<cmd>Neotree reveal toggle<cr>", "Toggle Neotree file explorer")
-nmap("<leader>gs", "<cmd>Neotree float git_status toggle<cr>", "Toggle Neotree git status")
-
--- telescope
+nmap("<M-F>", "<cmd>Format<cr>", "Format the current buffer")
 nmap("<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file")
 nmap("<leader>fg", "<cmd>Telescope live_grep<cr>", "Find in files (rg regex)")
 nmap("<leader>fs", "<cmd>Telescope grep_string<cr>", "Find word under cursor")
@@ -89,19 +89,15 @@ nmap("<leader>fs", "<cmd>Telescope git_status<cr>", "Go to git status")
 nmap("<leader>ft", "<cmd>TodoTelescope<cr>", "Go to todo item")
 nmap("<F1>", "<cmd>Telescope help_tags<cr>", "Search help tags")
 nmap("<leader>H", "<cmd>Telescope highlights<cr>", "Search highlight groups")
-
--- trouble
-nmap("<leader>x", "<cmd>TroubleToggle<cr>", "Toggle problems view (trouble)")
-
--- toggleterm
+nmap("<leader>e", "<cmd>Neotree reveal toggle<cr>", "Toggle Neotree file explorer")
+nmap("<leader>gs", "<cmd>Neotree float git_status toggle<cr>", "Toggle Neotree git status")
 nmap("<leader>`", "<cmd>ToggleTerm<cr>", "Toggle integrated terminal")
-nmap("<leader>;;", "<cmd>TermExecInput<cr>", "Launch with integrated terminal")
-nmap("<leader>;l", "<cmd>Telescope toggleterm_ext<cr>", "Launch with previous terminal input")
-
--- formatting
-nmap("<M-F>", "<cmd>Format<cr>", "Format the current buffer")
-
--- external processes
-nmap("<leader>vs", function()
-    utils.spawn_with_buf("code")
-end, "Open current file in vscode")
+nmap("<leader>;t", "<cmd>Telescope toggleterm_manager<cr>", "Open terminal manager")
+nmap("<leader>xx", "<cmd>Trouble workspace_diagnostics<cr>", "Open trouble workspace diagnostics")
+nmap("<leader>xq", "<cmd>Trouble quickfix<cr>", "Open trouble quickfix list")
+nmap("[x", function()
+    require("trouble").previous({ skip_groups = true, jump = true })
+end, "Jump to previous problem (trouble)")
+nmap("]x", function()
+    require("trouble").next({ skip_groups = true, jump = true })
+end, "Jump to next problem (trouble)")

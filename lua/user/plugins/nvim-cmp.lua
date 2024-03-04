@@ -51,6 +51,7 @@ return {
                 completion = {
                     completeopt = "menu,menuone,preview,noselect",
                 },
+                ---@diagnostic disable-next-line: missing-fields
                 formatting = {
                     format = lspkind.cmp_format({
                         mode = "symbol",
