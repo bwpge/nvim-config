@@ -1,4 +1,6 @@
-local kmap = require("user.utils").kmap
+local utils = require("user.utils")
+local kmap = utils.kmap
+local lazy_kmap = utils.lazy_kmap
 
 return {
     { "antoinemadec/FixCursorHold.nvim" },
@@ -30,6 +32,14 @@ return {
         config = function()
             require("nvim-autopairs").setup()
         end,
+    },
+    {
+        "danymat/neogen",
+        opts = { snippet_engine = "luasnip" },
+        cmd = { "Neogen" },
+        keys = {
+            lazy_kmap({ "n", "i" }, "<M-D>", "<cmd>Neogen<cr>", "Generate documentation (neogen)"),
+        },
     },
     {
         "ggandor/leap.nvim",

@@ -5,7 +5,7 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         opts = {
             defaults = {
-                prompt_prefix = "   ",
+                prompt_prefix = "   ",
                 layout_strategy = "horizontal",
                 layout_config = {
                     horizontal = {
