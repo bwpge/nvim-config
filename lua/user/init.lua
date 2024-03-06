@@ -1,3 +1,3 @@
 require("user.keymaps")
 require("user.options")
-require("user.setup")
+require("user.lazy")
