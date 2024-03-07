@@ -7,9 +7,10 @@ return {
             defaults = {
                 prompt_prefix = "   ",
                 layout_strategy = "horizontal",
+                sorting_strategy = "ascending",
                 layout_config = {
                     horizontal = {
-                        prompt_position = "bottom",
+                        prompt_position = "top",
                         preview_width = 0.55,
                         results_width = 0.8,
                     },
@@ -17,8 +18,7 @@ return {
                         mirror = false,
                     },
                     width = 0.87,
-                    height = 0.80,
-                    preview_cutoff = 120,
+                    height = 0.75,
                 },
                 color_devicons = true,
             },

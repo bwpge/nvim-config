@@ -95,12 +95,7 @@ return {
                     TelescopePromptTitle = { fg = colors.purple, reverse = true, bold = true },
                     TelescopeResultsBorder = { fg = colors.menu, bg = colors.menu },
                     TelescopeResultsDiffChange = { fg = colors.yellow },
-                    TelescopeResultsTitle = {
-                        fg = colors.green,
-                        bg = colors.menu,
-                        reverse = true,
-                        bold = true,
-                    },
+                    TelescopeResultsTitle = { fg = colors.menu, bg = colors.menu },
                     ToggleTermBorder = { fg = colors.comment },
                     zshDeref = { link = "@variable" },
                     zshFunction = { link = "@function" },
