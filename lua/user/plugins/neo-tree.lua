@@ -1,7 +1,6 @@
 return {
     "nvim-neo-tree/neo-tree.nvim",
-    -- TODO: change to `v3.x` when 3.18 is released
-    branch = "main",
+    branch = "v3.x",
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons",
