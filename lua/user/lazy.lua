@@ -11,16 +11,32 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- load plugins from modules
-require("lazy").setup({
-    { import = "user.plugins" },
-    { import = "user.plugins.themes" },
-}, {
+-- add LazyFile prior to loading plugins
+require("user.utils").lazy_file()
+require("lazy").setup("user.plugins", {
+    defaults = {
+        lazy = true,
+    },
     install = {
         colorscheme = { require("user.theme").name },
     },
     change_detection = {
         notify = false,
+    },
+    performance = {
+        cache = {
+            enabled = true,
+        },
+        rtp = {
+            disabled_plugins = {
+                "gzip",
+                "rplugin",
+                "tarPlugin",
+                "tohtml",
+                "tutor",
+                "zipPlugin",
+            },
+        },
     },
     ui = {
         border = "single",
@@ -41,9 +57,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
             return
         end
 
-        local bo_ff = vim.bo[ev.buf].fileformat
-        local def_ff = vim.opt.fileformats:get()[1]
-        if bo_ff ~= def_ff then
+        local ff_bo = vim.bo[ev.buf].fileformat
+        local ff_default = vim.opt.fileformats:get()[1]
+        if ff_bo ~= ff_default then
             vim.notify(
                 string.format(
                     "This buffer has `%s` fileformat, which does not match the default \z
@@ -52,8 +68,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
                     - file:  %s\n  \z
                     - id:    %d\n  \z
                     - match: %s",
-                    bo_ff,
-                    def_ff,
+                    ff_bo,
+                    ff_default,
                     ev.buf,
                     ev.file,
                     ev.id,

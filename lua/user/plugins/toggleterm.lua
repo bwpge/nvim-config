@@ -24,7 +24,6 @@ return {
                 fields = { "state", "space", "term_icon", "space", "term_name", "space", "bufname" },
             },
         },
-        event = "VeryLazy",
         config = function(_, opts)
             local manager = require("toggleterm-manager")
             local create_action = {
@@ -64,7 +63,7 @@ return {
     {
         "akinsho/toggleterm.nvim",
         version = "*",
-        event = "VeryLazy",
+        cmd = { "ToggleTerm", "TermExec", "TermSelect" },
         opts = {
             shell = get_shell(),
             shade_terminals = false,

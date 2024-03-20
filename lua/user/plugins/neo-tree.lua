@@ -6,11 +6,23 @@ return {
         "nvim-tree/nvim-web-devicons",
         "MunifTanjim/nui.nvim",
     },
+    cmd = "Neotree",
     init = function()
         vim.g.loaded_netrwPlugin = 1
         vim.g.loaded_netrw = 1
+
+        -- load neo-tree if starting nvim with a directory
+        if vim.fn.argc(-1) == 1 then
+            ---@diagnostic disable-next-line: param-type-mismatch
+            local stat = vim.loop.fs_stat(vim.fn.argv(0))
+            if stat and stat.type == "directory" then
+                -- fix colorscheme issues at startup
+                vim.schedule(function()
+                    require("neo-tree")
+                end)
+            end
+        end
     end,
-    lazy = false,
     opts = {
         close_if_last_window = true,
         default_component_configs = {
@@ -58,6 +70,7 @@ return {
         window = {
             position = "left",
             mappings = {
+                ["<Space>"] = "none",
                 ["<F2>"] = "rename",
             },
         },

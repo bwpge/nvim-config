@@ -13,7 +13,7 @@ end
 
 return {
     "mhartington/formatter.nvim",
-    event = "VeryLazy",
+    event = "LazyFile",
     dependencies = {
         {
             "mcauley-penney/tidy.nvim",

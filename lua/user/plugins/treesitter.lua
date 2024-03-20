@@ -5,6 +5,7 @@ return {
             "nvim-treesitter/nvim-treesitter-textobjects",
         },
         build = ":TSUpdate",
+        event = { "LazyFile", "VeryLazy" },
         config = function()
             local configs = require("nvim-treesitter.configs")
 

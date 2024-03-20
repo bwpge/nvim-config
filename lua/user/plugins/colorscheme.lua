@@ -1,8 +1,18 @@
-return {
-    {
-        "Mofiqul/dracula.nvim",
+local theme = require("user.theme")
+
+local function spec(repo, name, opts)
+    local t = {
+        repo,
         lazy = false,
         priority = 1000,
+        config = theme.make_config(name),
+    }
+
+    return vim.tbl_deep_extend("force", t, opts or {})
+end
+
+return {
+    spec("Mofiqul/dracula.nvim", "dracula", {
         opts = {
             italic_comment = true,
             overrides = function(colors)
@@ -97,6 +107,11 @@ return {
                 }
             end,
         },
-        config = require("user.theme").make_config("dracula"),
-    },
+    }),
+    spec("catppuccin/nvim", "catppuccin", { name = "catppuccin" }),
+    spec("ellisonleao/gruvbox.nvim", "gruvbox"),
+    spec("rebelot/kanagawa.nvim", "kanagawa"),
+    spec("navarasu/onedark.nvim", "onedark"),
+    spec("rose-pine/neovim", "rose-pine", { name = "rose-pine" }),
+    spec("folke/tokyonight.nvim", "tokyonight", { opts = { style = "moon" } }),
 }

@@ -1,7 +1,7 @@
 return {
     {
         "hrsh7th/nvim-cmp",
-        event = "VeryLazy",
+        event = { "InsertEnter", "CmdlineEnter" },
         dependencies = {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
@@ -21,7 +21,7 @@ return {
                 paths = vim.fn.stdpath("config") .. "/snippets/",
             })
 
-            ---Toggle nvim-cmp documentation window.
+            -- toggle nvim-cmp documentation window
             local toggle_docs = function()
                 if cmp.visible_docs() then
                     cmp.close_docs()
@@ -33,7 +33,7 @@ return {
             cmp.setup({
                 snippet = {
                     expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
+                        luasnip.lsp_expand(args.body)
                     end,
                 },
                 sources = {

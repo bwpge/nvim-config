@@ -30,10 +30,6 @@ end
 
 return {
     {
-        "folke/neodev.nvim",
-        opts = {},
-    },
-    {
         "VonHeikemen/lsp-zero.nvim",
         branch = "v3.x",
         dependencies = {
@@ -43,7 +39,9 @@ return {
             "lvimuser/lsp-inlayhints.nvim",
             -- see https://github.com/rust-lang/rust.vim/issues/461
             "rust-lang/rust.vim",
+            { "folke/neodev.nvim", opts = {} },
         },
+        event = "LazyFile",
         config = function()
             local ih = require("lsp-inlayhints")
             ih.setup()

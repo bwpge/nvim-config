@@ -2,13 +2,14 @@ local utils = require("user.utils")
 local lazy_kmap = utils.lazy_kmap
 
 return {
-    { "antoinemadec/FixCursorHold.nvim" },
+    {
+        "antoinemadec/FixCursorHold.nvim",
+        event = "VeryLazy",
+    },
     {
         "numToStr/Comment.nvim",
         event = "VeryLazy",
-        config = function()
-            require("Comment").setup()
-        end,
+        opts = {},
     },
     {
         "bwpge/homekey.nvim",
@@ -19,18 +20,14 @@ return {
     },
     {
         "kylechui/nvim-surround",
-        version = "*",
         event = "VeryLazy",
-        config = function()
-            require("nvim-surround").setup()
-        end,
+        version = "*",
+        opts = {},
     },
     {
         "windwp/nvim-autopairs",
         event = "VeryLazy",
-        config = function()
-            require("nvim-autopairs").setup()
-        end,
+        opts = {},
     },
     {
         "danymat/neogen",

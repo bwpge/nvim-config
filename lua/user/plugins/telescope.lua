@@ -3,6 +3,7 @@ return {
         "nvim-telescope/telescope.nvim",
         version = "*",
         dependencies = { "nvim-lua/plenary.nvim" },
+        cmd = "Telescope",
         opts = {
             defaults = {
                 prompt_prefix = "   ",
@@ -21,6 +22,9 @@ return {
                     height = 0.75,
                 },
                 color_devicons = true,
+                mappings = {
+                    i = { ["<esc>"] = "close" },
+                },
             },
         },
     },
