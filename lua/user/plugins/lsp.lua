@@ -41,6 +41,7 @@ return {
             "rust-lang/rust.vim",
             { "folke/neodev.nvim", opts = {} },
         },
+        cmd = "Mason",
         event = "LazyFile",
         config = function()
             local ih = require("lsp-inlayhints")
