@@ -108,7 +108,18 @@ return {
             end,
         },
     }),
-    spec("catppuccin/nvim", "catppuccin", { name = "catppuccin" }),
+    spec("catppuccin/nvim", "catppuccin", {
+        name = "catppuccin",
+        opts = {
+            flavour = "macchiato",
+            highlight_overrides = {
+                all = {
+                    ["@constructor.lua"] = { link = "@punctuation.bracket" },
+                    ["@function.builtin"] = { link = "Function" },
+                },
+            },
+        },
+    }),
     spec("ellisonleao/gruvbox.nvim", "gruvbox"),
     spec("rebelot/kanagawa.nvim", "kanagawa"),
     spec("navarasu/onedark.nvim", "onedark"),
