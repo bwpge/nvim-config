@@ -4,7 +4,7 @@ local nmap = utils.nmap
 
 -- highlight symbol under cursor
 -- see: https://github.com/Alexis12119/nvim-config/blob/77a9a7c2ab0c6e8e4d576d6987ee57e4c5540eee/configs/lsp/init.lua#L23-L44
--- NOTE: updatetime controls when cursorhold events fire, but with
+-- vim.opt.updatetime controls when cursorhold events fire, but with
 -- FixCursorHold plugin this uses vim.g.cursorhold_updatetime
 local function lsp_highlight(client, bufnr)
     if client.supports_method("textDocument/documentHighlight") then
@@ -52,34 +52,31 @@ return {
                 ih.on_attach(client, bufnr)
                 lsp_highlight(client, bufnr)
 
-                -- see :help lsp-zero-keybindings
-                lsp_zero.default_keymaps({
-                    buffer = bufnr,
-                    exclude = { "<F3>", "<F4>", "gi", "gd", "gr" },
-                })
+                local opts = { buffer = bufnr or 0 }
+                nmap("K", vim.lsp.buf.hover, "Hover documentation", opts)
+                nmap("<leader>ih", ih.toggle, "Toggle inlay hints", opts)
+                nmap("gd", require("telescope.builtin").lsp_definitions, "Go to definition", opts)
+                nmap("gD", vim.lsp.buf.declaration, "Go to declaration", opts)
+                -- stylua: ignore
+                nmap("gm", require("telescope.builtin").lsp_implementations, "Go to implementation", opts)
+                nmap("go", vim.lsp.buf.type_definition, "Go to type definition", opts)
+                nmap("gr", require("telescope.builtin").lsp_references, "Go to reference", opts)
+                nmap("gs", vim.lsp.buf.signature_help, "Show signature help", opts)
+                kmap({ "n", "i" }, "<M-/>", vim.lsp.buf.signature_help, "Show signature help")
+                nmap("<F2>", vim.lsp.buf.rename, "Rename symbol", opts)
 
-                local opts = { buffer = bufnr }
-                kmap({ "n", "i" }, "<M-.>", vim.lsp.buf.code_action, "View code actions", opts)
-                nmap("<leader>.", vim.lsp.buf.code_action, "View code actions", opts)
-                nmap(
-                    "gd",
-                    require("telescope.builtin").lsp_definitions,
-                    "Go to symbol definition",
-                    opts
-                )
-                nmap(
-                    "gm",
-                    require("telescope.builtin").lsp_implementations,
-                    "Go to symbol implementations",
-                    opts
-                )
-                nmap(
-                    "gr",
-                    require("telescope.builtin").lsp_references,
-                    "Go to symbol references",
-                    opts
-                )
-                nmap("<leader>ih", ih.toggle, "Toggle LSP inlay hints", opts)
+                -- code actions
+                nmap("<M-.>", vim.lsp.buf.code_action, "View code actions", opts)
+                if vim.lsp.buf.range_code_action then
+                    kmap("x", "<M-.>", vim.lsp.buf.range_code_action, "View code actions", opts)
+                else
+                    kmap("x", "<M-.>", vim.lsp.buf.code_action, "View code actions", opts)
+                end
+
+                -- diagnostics
+                kmap("n", "gl", vim.diagnostic.open_float, "Show diagnostic", opts)
+                kmap("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic", opts)
+                kmap("n", "]d", vim.diagnostic.goto_next, "Next diagnostic", opts)
             end)
 
             lsp_zero.set_sign_icons({
