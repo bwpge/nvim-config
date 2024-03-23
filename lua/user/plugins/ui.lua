@@ -1,28 +1,33 @@
+local utils = require("user.utils")
+
 -- color style based on NvChad telescope style, see:
 -- https://nvchad.com/docs/features/#telescope_nvim
 local function make_hl_map()
-    local F = require("colorful.functional")
+    local F = require("colorful.color.functional")
     local Highlight = require("colorful.highlight")
 
     local hl = Highlight("Normal")
     local fg = hl.fg
-    local bg = hl:map_bg(F.lighten(0.02))
-    local bg_dark = hl:map_bg(F.lighten(-0.045))
-    local dim = hl:map_bg(F.lighten(0.125))
+    local bg = hl:map_copy("bg", F.lighten(0.02))
+    local bg_dark = hl:map_copy("bg", F.lighten(-0.045))
+    local dim = hl:map_copy("bg", F.lighten(0.125))
     local accent = Highlight.get_fg("@function", "Function")
 
     return {
         ["*"] = {
             TelescopeNormal = { fg = fg, bg = bg_dark },
             TelescopePreviewBorder = { fg = bg_dark, bg = bg_dark },
-            TelescopePreviewTitle = { fg = accent, bg = bg_dark, reverse = true, bold = true },
+            TelescopePreviewTitle = { fg = accent, reverse = true, bold = true },
             TelescopePromptBorder = { fg = bg, bg = bg },
             TelescopePromptCounter = { fg = dim },
             TelescopePromptNormal = { fg = fg, bg = bg },
             TelescopePromptPrefix = { fg = accent },
-            TelescopePromptTitle = { fg = accent, bg = bg, reverse = true, bold = true },
+            TelescopePromptTitle = { fg = accent, reverse = true, bold = true },
             TelescopeResultsBorder = { fg = bg_dark, bg = bg_dark },
             TelescopeResultsTitle = { fg = bg_dark, bg = bg_dark },
+        },
+        ["catppuccin*"] = {
+            FloatTitle = { link = "Title" },
         },
     }
 end
@@ -52,7 +57,11 @@ return {
             input = {
                 title_pos = "center",
                 win_options = {
-                    winhl = "Normal:TelescopeNormal,FloatBorder:TelescopePreviewBorder,Title:TelescopePreviewTitle",
+                    winhl = utils.make_winhl({
+                        Normal = "TelescopeNormal",
+                        FloatBorder = "TelescopePreviewBorder",
+                        FloatTitle = "TelescopePreviewTitle",
+                    }),
                 },
             },
         },

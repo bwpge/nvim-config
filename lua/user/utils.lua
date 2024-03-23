@@ -108,6 +108,14 @@ function M.swap_last_buffer()
     end
 end
 
+function M.make_winhl(t)
+    local s = {}
+    for k, v in pairs(t) do
+        table.insert(s, k .. ":" .. v)
+    end
+    return table.concat(s, ",")
+end
+
 ---Spawns the given process with the buffer name as the last argument.
 ---@param prog string
 ---@param buf number? Buffer number (default: 0)
