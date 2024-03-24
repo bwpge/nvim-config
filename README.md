@@ -36,13 +36,14 @@ A `customize.json` can be created in the config root to change minor settings wi
 >
 > Comments are not allowed in this file.
 
-**Example `customize.json`:**
+Example:
 
-```jsonc
+```json
 {
   "theme": "catppuccin",
   "disabled": ["foo/bar"],
-  "find_command": ["rg", "--files", "--color", "never", "-uu"]
+  "find_command": ["rg", "--files", "--color", "never", "-uu"],
+  "term_direction": "float"
 }
 ```
 

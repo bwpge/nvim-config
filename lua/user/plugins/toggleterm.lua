@@ -1,3 +1,4 @@
+local c = require("user.customize")
 local utils = require("user.utils")
 local kmap = utils.kmap
 
@@ -65,12 +66,33 @@ return {
         version = "*",
         cmd = { "ToggleTerm", "TermExec", "TermSelect" },
         opts = {
+            size = function(term)
+                if term.direction == "horizontal" then
+                    return math.min(20, vim.o.lines * 0.4)
+                elseif term.direction == "vertical" then
+                    return vim.o.columns * 0.4
+                end
+            end,
             shell = get_shell(),
             shade_terminals = false,
-            direction = "float",
+            direction = c.term_direction or "horizontal",
             highlights = {
-                FloatBorder = { link = "ToggleTermBorder" },
+                Normal = { link = "Normal" },
+                NormalFloat = { link = "TelescopeNormal" },
+                FloatBorder = { link = "TelescopePreviewBorder" },
             },
+            float_opts = {
+                -- use same dimensions as telescope
+                width = math.floor(0.87 * vim.o.columns + 0.5),
+                height = math.floor(0.75 * vim.o.lines + 0.5),
+            },
+            on_create = function(term)
+                -- set empty term name to cmd that opened it. this doesn't
+                -- initially show if opened in a floating window
+                if not term.display_name or #term.display_name == 0 then
+                    term.display_name = vim.split(term.name or "", " ")[1]
+                end
+            end,
         },
         init = function() end,
         config = function(_, opts)
@@ -79,13 +101,6 @@ return {
             vim.api.nvim_create_autocmd({ "TermOpen" }, {
                 pattern = { "term://*toggleterm*" },
                 callback = function()
-                    kmap(
-                        "t",
-                        "<M-[>",
-                        [[<C-\><C-n>]],
-                        "Return to normal mode from terminal mode",
-                        { buffer = 0, silent = true, noremap = true }
-                    )
                     kmap(
                         "t",
                         "<Esc>",

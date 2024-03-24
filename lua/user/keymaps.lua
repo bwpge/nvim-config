@@ -1,3 +1,4 @@
+local unpack = unpack or table.unpack
 local c = require("user.customize")
 local utils = require("user.utils")
 local kmap = utils.kmap
@@ -9,7 +10,7 @@ vim.g.mapleader = " "
 
 -- adjust commonly used keys
 nmap("<esc>", "<cmd>noh<cr><esc>") -- clear search highlight
-kmap("t", "<Esc>", [[<C-\><C-n>]]) -- exit insert in terminal mode
+kmap("t", "<M-[>", [[<C-\><C-n>]]) -- exit insert in terminal mode
 kmap({ "n", "v" }, "x", '"_x') -- no register for single delete
 kmap({ "n", "v" }, "<del>", '"_x') -- no register for single delete
 
@@ -66,9 +67,8 @@ local win_nav = {
     ["<M-down>"] = { "<cmd>wincmd j<cr>", "Move to the window below the current one" },
 }
 for lhs, item in pairs(win_nav) do
-    ---@diagnostic disable-next-line: deprecated
     local rhs, desc = unpack(item)
-    nmap(lhs, rhs, desc)
+    kmap({ "n", "t" }, lhs, rhs, desc)
 end
 
 -- external processes
@@ -80,7 +80,6 @@ end, "Open current file in vscode")
 nmap("<leader>pl", "<cmd>Lazy<cr>", "Open Lazy")
 nmap("<leader>pm", "<cmd>Mason<cr>", "Open Mason")
 nmap("<M-F>", "<cmd>Format<cr>", "Format the current buffer")
--- nmap("<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file")
 nmap("<leader>ff", function()
     return require("telescope.builtin").find_files({
         find_command = c.find_command,
@@ -99,8 +98,6 @@ nmap("<F1>", "<cmd>Telescope help_tags<cr>", "Search help tags")
 nmap("<leader>ft", "<cmd>TodoTelescope<cr>", "Go to todo item")
 nmap("<leader>e", "<cmd>Neotree reveal toggle<cr>", "Toggle Neotree file explorer")
 nmap("<leader>gs", "<cmd>Neotree float git_status toggle<cr>", "Toggle Neotree git status")
-nmap("<leader>`", "<cmd>ToggleTerm<cr>", "Toggle integrated terminal")
-nmap("<leader>;t", "<cmd>Telescope toggleterm_manager<cr>", "Open terminal manager")
 nmap("<leader>xx", "<cmd>Trouble workspace_diagnostics<cr>", "Open trouble workspace diagnostics")
 nmap("<leader>xq", "<cmd>Trouble quickfix<cr>", "Open trouble quickfix list")
 nmap("[x", function()
@@ -110,3 +107,15 @@ nmap("]x", function()
     require("trouble").next({ skip_groups = true, jump = true })
 end, "Jump to next problem (trouble)")
 nmap("<leader>md", "<cmd>MarkdownPreview<cr>", "Open markdown live preview")
+
+local function toggleterm_cmd(dir)
+    return string.format(
+        '<cmd>execute v:count . "ToggleTerm%s"<cr>',
+        dir and " direction=" .. dir or ""
+    )
+end
+kmap({ "n", "i", "t" }, "<M-`>", toggleterm_cmd(), "Toggle integrated terminal")
+nmap("<leader>;f", toggleterm_cmd("float"), "Toggle floating integrated terminal")
+nmap("<leader>;h", toggleterm_cmd("horizontal"), "Toggle horizontal integrated terminal")
+nmap("<leader>;v", toggleterm_cmd("vertical"), "Toggle vertical integrated terminal")
+nmap("<leader>;t", "<cmd>Telescope toggleterm_manager<cr>", "Open terminal manager")
