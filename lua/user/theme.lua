@@ -6,7 +6,7 @@ local c = utils.prequire("user.customize")
 if c and c.theme then
     M.name = c.theme
 else
-    M.name = "dracula"
+    M.name = "catppuccin"
 end
 
 ---Checks if the given theme is active (matches `M.name`) and runs the setup
