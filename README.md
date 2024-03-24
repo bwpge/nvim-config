@@ -30,22 +30,21 @@ Be sure to remove any previous `data` directory, e.g. `stdpath("data")`, to star
 
 ## Customize
 
-The gitignored file `lua/user/customize.lua` can be created to change minor settings without leaving the repository in a dirty state.
+A `customize.json` can be created in the config root to change minor settings without leaving the repository in a dirty state.
 
-**Example `customize.lua`:**
+> [!IMPORTANT]
+>
+> Comments are not allowed in this file.
 
-```lua
-local M = {}
+**Example `customize.json`:**
 
--- change the default theme
-M.theme = "catppuccin"
-
--- disable plugins without modifying specs
-M.disabled = {
-    "foo/bar",
+```json
+{
+  "theme": "catppuccin",
+  "disabled": [
+    "foo/bar"
+  ]
 }
-
-return M
 ```
 
 The following themes (and associated variants) are supported in `customize.lua`:
