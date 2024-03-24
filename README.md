@@ -38,12 +38,11 @@ A `customize.json` can be created in the config root to change minor settings wi
 
 **Example `customize.json`:**
 
-```json
+```jsonc
 {
   "theme": "catppuccin",
-  "disabled": [
-    "foo/bar"
-  ]
+  "disabled": ["foo/bar"],
+  "find_command": ["rg", "--files", "--color", "never", "-uu"]
 }
 ```
 

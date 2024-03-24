@@ -1,3 +1,4 @@
+local c = require("user.customize")
 local utils = require("user.utils")
 local kmap = utils.kmap
 local nmap = utils.nmap
@@ -79,8 +80,13 @@ end, "Open current file in vscode")
 nmap("<leader>pl", "<cmd>Lazy<cr>", "Open Lazy")
 nmap("<leader>pm", "<cmd>Mason<cr>", "Open Mason")
 nmap("<M-F>", "<cmd>Format<cr>", "Format the current buffer")
-nmap("<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file")
-nmap("<leader>fg", "<cmd>Telescope live_grep<cr>", "Find in files (rg regex)")
+-- nmap("<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file")
+nmap("<leader>ff", function()
+    return require("telescope.builtin").find_files({
+        find_command = c.find_command,
+    })
+end, "Go to file")
+nmap("<leader>fg", "<cmd>Telescope live_grep<cr>", "Find in files (ripgrep)")
 nmap("<leader>fs", "<cmd>Telescope grep_string<cr>", "Find word under cursor")
 nmap("<leader>fb", "<cmd>Telescope buffers<cr>", "Go to buffer")
 nmap("<leader>fd", "<cmd>Telescope diagnostics<cr>", "Go to diagnostics")
