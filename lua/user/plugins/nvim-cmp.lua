@@ -58,6 +58,9 @@ return {
                         ellipsis_char = "…",
                     }),
                 },
+                experimental = {
+                    ghost_text = true,
+                },
                 mapping = {
                     -- accept completion, must select first
                     ["<cr>"] = cmp.mapping(cmp.mapping.confirm({ select = false }), { "i", "c" }),
