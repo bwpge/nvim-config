@@ -1,5 +1,4 @@
 local unpack = unpack or table.unpack
-local c = require("user.customize")
 local utils = require("user.utils")
 local kmap = utils.kmap
 local nmap = utils.nmap
@@ -80,17 +79,15 @@ end, "Open current file in vscode")
 nmap("<leader>pl", "<cmd>Lazy<cr>", "Open Lazy")
 nmap("<leader>pm", "<cmd>Mason<cr>", "Open Mason")
 nmap("<M-F>", "<cmd>Format<cr>", "Format the current buffer")
-nmap("<leader>ff", function()
-    return require("telescope.builtin").find_files({
-        find_command = c.find_command,
-    })
-end, "Go to file")
+nmap("<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file")
 nmap("<leader>fg", "<cmd>Telescope live_grep<cr>", "Find in files (ripgrep)")
 nmap("<leader>fs", "<cmd>Telescope grep_string<cr>", "Find word under cursor")
 nmap("<leader>fb", "<cmd>Telescope buffers<cr>", "Go to buffer")
 nmap("<leader>fd", "<cmd>Telescope diagnostics<cr>", "Go to diagnostics")
 nmap("<leader>fk", "<cmd>Telescope keymaps<cr>", "Search keymaps")
-nmap("<leader>fs", "<cmd>Telescope git_status<cr>", "Go to git status")
+nmap("<leader>fgs", "<cmd>Telescope git_status<cr>", "Go to git status")
+nmap("<leader>fgc", "<cmd>Telescope git_commits<cr>", "Go to git commits")
+nmap("<leader>fgb", "<cmd>Telescope git_branches<cr>", "Go to git branches")
 nmap("<leader>f;", "<cmd>Telescope commands<cr>", "Search commands")
 nmap("<leader>fhl", "<cmd>Telescope highlights<cr>", "Search highlight groups")
 nmap("<leader>fcs", "<cmd>Telescope colorscheme<cr>", "Select colorscheme")

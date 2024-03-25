@@ -38,21 +38,37 @@ A `customize.json` can be created in the config root to change minor settings wi
 
 Example:
 
-```json
+```jsonc
 {
+  // change default theme
   "theme": "catppuccin",
+  // disable plugins without changing specs
   "disabled": ["foo/bar"],
-  "find_command": ["rg", "--files", "--color", "never", "-uu"],
-  "term_direction": "float"
+
+  // some plugins can merge options from this file (all themes are supported)
+  "catppuccin": {
+    "flavour": "mocha",
+  },
+  "kanagawa": {
+    "theme": "wave"
+  },
+  "telescope": {
+    "pickers": {
+      "find_files": {
+        "hidden": true,
+        "find_command": ["rg", "--files", "--color=never"]
+      }
+    }
+  }
 }
 ```
 
-The following themes (and associated variants) are supported in `customize.lua`:
+The following keys will customize plugin options in `customize.lua`:
 
-- Catppuccin ([`catppuccin/nvim`](https://github.com/catppuccin/nvim))
-- Dracula ([`Mofiqul/dracula.nvim`](https://github.com/Mofiqul/dracula.nvim))
-- Gruvbox ([`ellisonleao/gruvbox.nvim`](https://github.com/ellisonleao/gruvbox.nvim))
-- Kanagawa ([`rebelot/kanagawa.nvim`](https://github.com/rebelot/kanagawa.nvim))
-- OneDark ([`navarasu/onedark.nvim`](https://github.com/navarasu/onedark.nvim))
-- Rosé Pine ([`rose-pine/neovim`](https://github.com/rose-pine/neovim))
-- Tokyo Night ([`folke/tokyonight.nvim`](https://github.com/folke/tokyonight.nvim))
+- All themes (`catppuccin`, `dracula`, etc.)
+- `lualine`
+- `neo-tree`
+- `telescope`
+- `todo-comments`
+- `toggleterm`
+- `treesitter`

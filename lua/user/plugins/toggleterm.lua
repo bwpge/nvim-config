@@ -65,7 +65,7 @@ return {
         "akinsho/toggleterm.nvim",
         version = "*",
         cmd = { "ToggleTerm", "TermExec", "TermSelect" },
-        opts = {
+        opts = utils.merge_custom_opts("toggleterm", {
             size = function(term)
                 if term.direction == "horizontal" then
                     return math.min(20, vim.o.lines * 0.4)
@@ -93,7 +93,7 @@ return {
                     term.display_name = vim.split(term.name or "", " ")[1]
                 end
             end,
-        },
+        }),
         init = function() end,
         config = function(_, opts)
             require("toggleterm").setup(opts)

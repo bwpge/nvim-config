@@ -1,9 +1,11 @@
+local utils = require("user.utils")
+
 return {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = { "TodoTrouble", "TodoTelescope" },
     event = "LazyFile",
-    opts = {
+    opts = utils.merge_custom_opts("todo-comments", {
         sign_priority = 1,
         keywords = {
             DEBUG = { icon = " ", color = "debug" },
@@ -21,5 +23,5 @@ return {
         search = {
             pattern = [[\b(KEYWORDS)\s*(\(\w*\))?:]],
         },
-    },
+    }),
 }

@@ -1,9 +1,9 @@
+local c = require("user.customize")
 local utils = require("user.utils")
 
 local M = {}
 
-local c = utils.prequire("user.customize")
-if c and c.theme then
+if c.theme then
     M.name = c.theme
 else
     M.name = "catppuccin"
@@ -19,8 +19,12 @@ function M.run_setup(name, opts)
         vim.notify(string.format("Failed to load theme module `%s`", name), vim.log.levels.ERROR)
         return
     end
+
+    -- merge customize module options
+    opts = vim.tbl_deep_extend("force", opts or {}, c[name] or {})
+    mod.setup(opts)
+
     if M.name == name then
-        mod.setup(opts or {})
         vim.cmd("colorscheme " .. name)
     end
 

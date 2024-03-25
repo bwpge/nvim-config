@@ -1,3 +1,5 @@
+local utils = require("user.utils")
+
 return {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -23,7 +25,7 @@ return {
             end
         end
     end,
-    opts = {
+    opts = utils.merge_custom_opts("neo-tree", {
         close_if_last_window = true,
         default_component_configs = {
             git_status = {
@@ -74,5 +76,5 @@ return {
                 ["<F2>"] = "rename",
             },
         },
-    },
+    }),
 }

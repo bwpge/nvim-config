@@ -227,4 +227,32 @@ function M.lazy_file()
     })
 end
 
+---Recursively searches the input table for `old` and replaces it with `new`.
+---@param t table
+---@param old any
+---@param new any
+function M.deep_replace(t, old, new)
+    if not t then
+        return
+    end
+
+    for k, v in pairs(t) do
+        if type(v) == "table" then
+            M.deep_replace(v, old, new)
+        elseif v == old then
+            t[k] = new
+        end
+    end
+end
+
+---Returns customized options for `key` with an input table.
+---@param name string
+---@param opts table
+---@return table
+function M.merge_custom_opts(name, opts)
+    local t = vim.tbl_deep_extend("force", opts, require("user.customize")[name] or {})
+    M.deep_replace(t, vim.NIL, nil)
+    return t
+end
+
 return M
