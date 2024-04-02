@@ -52,7 +52,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         if not ev.buf then
             return
         end
-        local ft = vim.fn.getbufvar(ev.buf, "&filetype")
+        local ft = vim.bo[ev.buf].filetype
         if ft == "" or ft == "help" then
             return
         end

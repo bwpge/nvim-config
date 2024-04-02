@@ -2,6 +2,8 @@ local M = {}
 
 M.is_windows = vim.loop.os_uname().version:match("Windows") or vim.fn.has("win32") ~= 0
 
+M.path_sep = package.config:sub(1, 1)
+
 ---Returns the module if it could be loaded, otherwise nil.
 ---@param mod string
 ---@return table?
@@ -253,6 +255,38 @@ function M.merge_custom_opts(name, opts)
     local t = vim.tbl_deep_extend("force", opts, require("user.customize")[name] or {})
     M.deep_replace(t, vim.NIL, nil)
     return t
+end
+
+function M.create_window(bufnr, opts)
+    local width = math.floor(vim.o.columns * 0.87)
+    local height = math.floor(vim.o.lines * 0.75)
+
+    opts = vim.tbl_deep_extend("keep", opts or {}, {
+        relative = "editor",
+        row = math.floor(((vim.o.lines - height) / 2) - 1),
+        col = math.floor((vim.o.columns - width) / 2),
+        width = width,
+        height = height,
+        -- style = "minimal",
+        border = "single",
+    })
+
+    local win_id = vim.api.nvim_open_win(bufnr, true, opts)
+    if win_id == 0 then
+        vim.notify("Failed to create window", vim.log.levels.ERROR)
+    end
+    -- vim.api.nvim_set_option_value("", "", {win = win_id})
+
+    vim.keymap.set("n", "<Esc>", function()
+        if bufnr ~= nil and vim.api.nvim_buf_is_valid(bufnr) then
+            vim.api.nvim_buf_delete(bufnr, { force = true })
+        end
+        if win_id ~= nil and vim.api.nvim_win_is_valid(win_id) then
+            vim.api.nvim_win_close(win_id, true)
+        end
+    end, { buffer = bufnr, silent = true })
+
+    return win_id
 end
 
 return M

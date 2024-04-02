@@ -116,3 +116,4 @@ nmap("<leader>;f", toggleterm_cmd("float"), "Toggle floating integrated terminal
 nmap("<leader>;h", toggleterm_cmd("horizontal"), "Toggle horizontal integrated terminal")
 nmap("<leader>;v", toggleterm_cmd("vertical"), "Toggle vertical integrated terminal")
 nmap("<leader>;t", "<cmd>Telescope toggleterm_manager<cr>", "Open terminal manager")
+nmap("<leader>mm", "<cmd>Messages<cr>", "View :messages in a floating window")
