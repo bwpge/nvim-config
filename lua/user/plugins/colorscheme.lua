@@ -112,12 +112,17 @@ return {
         name = "catppuccin",
         opts = {
             flavour = "macchiato",
-            highlight_overrides = {
-                all = {
+            custom_highlights = function(_)
+                return {
                     ["@constructor.lua"] = { link = "@punctuation.bracket" },
                     ["@function.builtin"] = { link = "Function" },
-                },
-            },
+                    ["@lsp.mod.mutable.rust"] = { style = { "underline" } },
+                    ["@lsp.type.lifetime.rust"] = { link = "@keyword" },
+                    ["@lsp.type.macro.rust"] = { link = "Function" },
+                    ["@lsp.type.variable.rust"] = { link = "@variable" },
+                    ["@punctuation.special.rust"] = {},
+                }
+            end,
         },
     }),
     spec("ellisonleao/gruvbox.nvim", "gruvbox"),
