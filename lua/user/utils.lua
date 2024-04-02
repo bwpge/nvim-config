@@ -257,6 +257,39 @@ function M.merge_custom_opts(name, opts)
     return t
 end
 
+---Formats a lualine component with a highlight group.
+---@param component any
+---@param text string
+---@param hl_group? string
+---@return string
+function M.lualine_format_hl(component, text, hl_group)
+    if not hl_group or hl_group == "" or text == "" then
+        return text
+    end
+
+    ---@type table<string, string>
+    component.hl_cache = component.hl_cache or {}
+    local lualine_hl_group = component.hl_cache[hl_group]
+    if not lualine_hl_group then
+        local lu = require("lualine.utils.utils")
+        ---@type string[]
+        local gui = vim.tbl_filter(function(x)
+            return x
+        end, {
+            lu.extract_highlight_colors(hl_group, "bold") and "bold",
+            lu.extract_highlight_colors(hl_group, "italic") and "italic",
+        })
+
+        lualine_hl_group = component:create_hl({
+            fg = lu.extract_highlight_colors(hl_group, "fg"),
+            gui = #gui > 0 and table.concat(gui, ",") or nil,
+        }, "USER_" .. hl_group) --[[@as string]]
+        component.hl_cache[hl_group] = lualine_hl_group
+    end
+
+    return component:format_hl(lualine_hl_group) .. text .. component:get_default_hl()
+end
+
 function M.create_window(bufnr, opts)
     local width = math.floor(vim.o.columns * 0.87)
     local height = math.floor(vim.o.lines * 0.75)
