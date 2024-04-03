@@ -90,8 +90,16 @@ return {
                 -- set empty term name to cmd that opened it. this doesn't
                 -- initially show if opened in a floating window
                 if not term.display_name or #term.display_name == 0 then
-                    term.display_name = vim.split(term.name or "", " ")[1]
+                    term.display_name = vim.split(term.name, " ")[1]
                 end
+
+                -- set terminal keymaps
+                vim.keymap.set({ "n", "t" }, "<C-d>", function()
+                    vim.api.nvim_buf_delete(term.bufnr, { force = true })
+                end, { buffer = term.bufnr, desc = "Delete toggleterm terminal" })
+                vim.keymap.set({ "n", "t" }, "<C-n>", function()
+                    require("toggleterm.terminal").Terminal:new({ hidden = false }):open()
+                end, { buffer = term.bufnr, desc = "Create new toggleterm terminal" })
             end,
         }),
         init = function() end,
