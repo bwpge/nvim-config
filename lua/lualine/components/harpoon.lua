@@ -28,13 +28,12 @@ function M:update_status()
     end
 
     local max_marks = math.min(total_marks, self.options.max_marks)
-    local full_name = vim.api.nvim_buf_get_name(0)
-    local buffer_name = vim.fn.expand("%")
+    local bufname = vim.fn.expand("%:p")
     local output = {}
 
     for index = 1, max_marks do
-        local mark = hp_list.items[index].value
-        if mark == buffer_name or mark == full_name then
+        local mark = vim.fn.fnamemodify(hp_list.items[index].value, ":p")
+        if mark == bufname then
             local label = self.options.fmt_active(index)
             table.insert(output, utils.lualine_format_hl(self, label, self.options.active_hl))
         else
