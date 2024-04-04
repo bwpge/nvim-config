@@ -31,6 +31,15 @@ return {
                     lualine_y = { "harpoon", "fileformat", "progress" },
                     lualine_z = { "location" },
                 },
+                inactive_sections = {
+                    lualine_c = {
+                        {
+                            "pretty_path",
+                            path_sep = "/",
+                            directories = { shorten = false },
+                        },
+                    },
+                },
                 extensions = { "lazy", empty_ext },
             })
         end,
