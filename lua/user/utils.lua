@@ -322,4 +322,21 @@ function M.create_window(bufnr, opts)
     return win_id
 end
 
+---comment
+---@param prompt string
+---@param action function
+function M.confirm_yn(prompt, action)
+    vim.ui.input({ prompt = prompt .. " (y/n)" }, function(input)
+        if not input then
+            return
+        end
+        ---@cast input string
+        local answer = input:lower():sub(1, 1)
+        if answer ~= "y" then
+            return
+        end
+        action()
+    end)
+end
+
 return M
