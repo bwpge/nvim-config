@@ -22,7 +22,7 @@ function M:update_status()
     end
 
     local hp_list = require("harpoon"):list()
-    local total_marks = hp_list:length()
+    local total_marks = hp_list.items and #hp_list.items or 0
     if total_marks == 0 then
         return ""
     end

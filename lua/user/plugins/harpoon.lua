@@ -9,7 +9,6 @@ return {
     opts = {
         settings = {
             save_on_toggle = true,
-            ui_nav_wrap = true,
         },
     },
     config = function(_, opts)
@@ -33,7 +32,7 @@ return {
         })
 
         nmap("<leader>ha", function()
-            harpoon:list():append()
+            harpoon:list():add()
         end)
         nmap("<leader>ht", function()
             harpoon.ui:toggle_quick_menu(harpoon:list(), {
@@ -49,13 +48,5 @@ return {
                 harpoon:list():select(i)
             end, desc)
         end
-
-        local wrap = { ui_nav_wrap = true }
-        nmap("[h", function()
-            harpoon:list():prev(wrap)
-        end)
-        nmap("]h", function()
-            harpoon:list():next(wrap)
-        end)
     end,
 }
