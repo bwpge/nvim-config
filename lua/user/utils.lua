@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_windows = vim.loop.os_uname().version:match("Windows") or vim.fn.has("win32") ~= 0
+M.is_windows = vim.uv.os_uname().version:match("Windows") or vim.fn.has("win32") ~= 0
 
 M.path_sep = package.config:sub(1, 1)
 
@@ -149,12 +149,12 @@ function M.spawn_with_buf(prog, buf, args)
         rel_name = Path:new(name):make_relative()
     end
 
-    local handle, _ = vim.loop.spawn(p, {
+    local handle, _ = vim.uv.spawn(p, {
         detached = true,
         args = args,
     })
     if handle then
-        vim.loop.unref(handle)
+        vim.uv.unref(handle)
     end
     vim.notify(string.format("Opening '%s' with '%s'", rel_name, prog), vim.log.levels.INFO)
 end

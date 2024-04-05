@@ -16,7 +16,7 @@ return {
         -- load neo-tree if starting nvim with a directory
         if vim.fn.argc(-1) == 1 then
             ---@diagnostic disable-next-line: param-type-mismatch
-            local stat = vim.loop.fs_stat(vim.fn.argv(0))
+            local stat = vim.uv.fs_stat(vim.fn.argv(0))
             if stat and stat.type == "directory" then
                 -- fix colorscheme issues at startup
                 vim.schedule(function()
@@ -27,6 +27,15 @@ return {
     end,
     opts = utils.merge_custom_opts("neo-tree", {
         close_if_last_window = true,
+        open_files_do_not_replace_types = {
+            "terminal",
+            "Trouble",
+            "trouble",
+            "qf",
+            "Outline",
+            "fugitive",
+            "toggleterm",
+        },
         default_component_configs = {
             git_status = {
                 symbols = {
