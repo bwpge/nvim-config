@@ -46,6 +46,7 @@ opt.clipboard:append("unnamedplus")
 -- window splits
 opt.splitright = true
 opt.splitbelow = true
+opt.diffopt:append("vertical")
 
 -- timings
 -- note that g:cursorhold_updatetime requires FixCursorHold.nvim plugin

@@ -1,4 +1,3 @@
-local unpack = unpack or table.unpack
 local utils = require("user.utils")
 local kmap = utils.kmap
 local nmap = utils.nmap
@@ -59,16 +58,14 @@ nmap("<leader>sn", "<C-w>n", "Split to new window")
 nmap("<leader>s=", "<C-w>=", "Make splits equal width")
 nmap("<leader><Up>", "<C-w>+", "Increase window height")
 nmap("<leader><Down>", "<C-w>-", "Decrease window height")
-local win_nav = {
-    ["<M-left>"] = { "<cmd>wincmd h<cr>", "Move to the window left of the current one" },
-    ["<M-right>"] = { "<cmd>wincmd l<cr>", "Move to the window right of the current one" },
-    ["<M-up>"] = { "<cmd>wincmd k<cr>", "Move to the window above the current one" },
-    ["<M-down>"] = { "<cmd>wincmd j<cr>", "Move to the window below the current one" },
-}
-for lhs, item in pairs(win_nav) do
-    local rhs, desc = unpack(item)
-    kmap({ "n", "t" }, lhs, rhs, desc)
-end
+kmap({ "n", "t" }, "<M-left>", "<cmd>wincmd h<cr>", "Move to the window left of the current one")
+kmap({ "n", "t" }, "<M-right>", "<cmd>wincmd l<cr>", "Move to the window right of the current one")
+kmap({ "n", "t" }, "<M-up>", "<cmd>wincmd k<cr>", "Move to the window above the current one")
+kmap({ "n", "t" }, "<M-down>", "<cmd>wincmd j<cr>", "Move to the window below the current one")
+kmap({ "n", "t" }, "<C-S-left>", "<cmd>wincmd H<cr>", "Move the window to the very left")
+kmap({ "n", "t" }, "<C-S-right>", "<cmd>wincmd L<cr>", "Move the window to the very right")
+kmap({ "n", "t" }, "<C-S-up>", "<cmd>wincmd K<cr>", "Move the window to the very top")
+kmap({ "n", "t" }, "<C-S-down>", "<cmd>wincmd J<cr>", "Move the window to the very bottom")
 
 -- external processes
 nmap("<leader>vs", function()
@@ -85,7 +82,8 @@ nmap("<leader>gD", "<cmd>Git diff --staged<cr>", "Open git diff for staged files
 nmap("<leader>gb", "<cmd>Git blame<cr>", "Open current file git blame")
 nmap("<leader>ga", "<cmd>Git add %<cr>", "Stage current file")
 nmap("<leader>gu", "<cmd>Git restore --staged %<cr>", "Unstage current file")
-nmap("<leader>gx", "<cmd>GBrowse<cr>", "Open current file in browser")
+nmap("<leader>gr", "<cmd>Gread<cr>", "Reset current file (discard all changes)")
+nmap("<leader>gx", "<cmd>GBrowse<cr>", "Open the current git object in browser at upstream host")
 nmap("<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file")
 nmap("<leader>fg", "<cmd>Telescope live_grep<cr>", "Find in files (ripgrep)")
 nmap("<leader>fs", "<cmd>Telescope grep_string<cr>", "Find word under cursor")
@@ -111,6 +109,7 @@ nmap("]x", function()
 end, "Jump to next problem (trouble)")
 nmap("<leader>md", "<cmd>MarkdownPreview<cr>", "Open markdown live preview")
 
+-- enables number prefix to open specific terminal id
 local function toggleterm_cmd(dir)
     return string.format(
         '<cmd>execute v:count . "ToggleTerm%s"<cr>',
