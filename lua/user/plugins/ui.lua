@@ -39,6 +39,24 @@ return {
         opts = { highlights = make_hl_map },
     },
     {
+        "nvim-tree/nvim-web-devicons",
+        config = function()
+            -- use a larger git icon and set all colors to a less harsh orange
+            local devicons = require("nvim-web-devicons")
+            local all = vim.tbl_filter(function(x)
+                return x.icon == ""
+            end, devicons.get_icons())
+
+            ---@diagnostic disable-next-line: unused-local
+            for k, v in pairs(all) do
+                v.icon = "󰊢"
+                v.color = "#dd5e32"
+                v.cterm_color = 196
+                devicons.set_icon({ k = v })
+            end
+        end,
+    },
+    {
         "stevearc/dressing.nvim",
         -- manually lazy load
         init = function()
