@@ -28,13 +28,15 @@ return {
     opts = utils.merge_custom_opts("neo-tree", {
         close_if_last_window = true,
         open_files_do_not_replace_types = {
+            "diff",
+            "fugitive",
+            "fugitiveblame",
+            "Outline",
+            "qf",
             "terminal",
+            "toggleterm",
             "Trouble",
             "trouble",
-            "qf",
-            "Outline",
-            "fugitive",
-            "toggleterm",
         },
         default_component_configs = {
             git_status = {

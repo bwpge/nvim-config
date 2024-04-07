@@ -22,7 +22,7 @@ end
 ---@param desc string?
 ---@param opts table?
 function M.kmap(modes, lhs, rhs, desc, opts)
-    opts = opts or { noremap = true, silent = true }
+    opts = opts or {}
     if desc then
         opts.desc = desc
     end
@@ -322,7 +322,7 @@ function M.create_window(bufnr, opts)
     return win_id
 end
 
----comment
+---Prompts the user and executes `action` if confirmed.
 ---@param prompt string
 ---@param action function
 function M.confirm_yn(prompt, action)

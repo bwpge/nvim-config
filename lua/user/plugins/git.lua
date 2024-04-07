@@ -1,12 +1,6 @@
 local utils = require("user.utils")
 local nmap = utils.nmap
 
-local function git_push_confirm()
-    utils.confirm_yn("Push changes to remote?", function()
-        vim.cmd("Git push")
-    end)
-end
-
 return {
     {
         "tpope/vim-fugitive",
@@ -14,35 +8,41 @@ return {
         event = "LazyFile",
         cmd = { "G", "Git", "Gdiffsplit", "GBrowse" },
         config = function()
+            local function confirm_gp()
+                utils.confirm_yn("Push changes to remote?", function()
+                    vim.cmd("Git push")
+                end)
+            end
+
+            local function close()
+                ---@diagnostic disable-next-line: param-type-mismatch
+                if vim.fn.bufnr("$") == 1 then
+                    vim.cmd.quit()
+                else
+                    vim.cmd.bdelete()
+                end
+            end
+
             -- add keymap in summary buffer
-            local group = vim.api.nvim_create_augroup("FugitiveIndex", { clear = true })
+            local group = vim.api.nvim_create_augroup("FugitiveKeymaps", { clear = true })
             vim.api.nvim_create_autocmd({ "User" }, {
                 pattern = "FugitiveIndex",
                 callback = function(ev)
-                    nmap(
-                        "A",
-                        "<cmd>Git add -A<cr>",
-                        "Stage all files",
-                        { buffer = ev.buf, noremap = true }
-                    )
-                    nmap(
-                        "<Esc>",
-                        "<cmd>q<cr>",
-                        "Close the status buffer",
-                        { buffer = ev.buf, noremap = true }
-                    )
-                    nmap(
-                        "q",
-                        "<cmd>q<cr>",
-                        "Close the status buffer",
-                        { buffer = ev.buf, noremap = true }
-                    )
-                    nmap(
-                        "<leader>gp",
-                        git_push_confirm,
-                        "Push changes to remote",
-                        { buffer = ev.buf, noremap = true }
-                    )
+                    local opts = { buffer = ev.buf }
+                    nmap("A", "<cmd>Git add -A<cr>", "Stage all files", opts)
+                    nmap("q", close, "Close fugitive status buffer", opts)
+                    nmap("<leader>gp", confirm_gp, "Push changes to remote", opts)
+                end,
+                group = group,
+            })
+
+            -- add keymap in blame buffer
+            vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+                callback = function(ev)
+                    if vim.bo[ev.buf].filetype == "fugitiveblame" then
+                        local opts = { buffer = ev.buf }
+                        nmap("q", close, "Close fugitive blame buffer", opts)
+                    end
                 end,
                 group = group,
             })
@@ -75,10 +75,11 @@ return {
                     end, desc)
                 end
 
-                gs_map("[h", gs.prev_hunk, "Move to previous git hunk")
-                gs_map("]h", gs.next_hunk, "Move to next git hunk")
+                gs_map("[c", gs.prev_hunk, "Move to previous hunk diff")
+                gs_map("]c", gs.next_hunk, "Move to next hunk diff")
                 nmap("<leader>hr", gs.reset_hunk, "Reset git hunk")
                 nmap("<leader>hh", gs.preview_hunk, "View hunk git diff")
+                nmap("<leader>hb", gs.blame_line, "View git blame on current line")
             end,
         },
     },
