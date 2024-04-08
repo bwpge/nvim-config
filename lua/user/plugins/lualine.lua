@@ -1,8 +1,18 @@
 local utils = require("user.utils")
 
-local empty_ext = {
+local pretty_path = {
+    "pretty_path",
+    path_sep = "/",
+}
+
+local empty = {
     sections = {},
     filetypes = { "nerdtree", "neo-tree" },
+}
+
+local blame = {
+    sections = { lualine_c = { pretty_path } },
+    filetypes = { "fugitiveblame" },
 }
 
 return {
@@ -24,23 +34,15 @@ return {
                         { "branch", icon = "" },
                         "diagnostics",
                     },
-                    lualine_c = {
-                        { "pretty_path", path_sep = "/" },
-                    },
+                    lualine_c = { pretty_path },
                     lualine_x = { "attached_lsp", "encoding" },
                     lualine_y = { "harpoon", "fileformat", "progress" },
                     lualine_z = { "location" },
                 },
                 inactive_sections = {
-                    lualine_c = {
-                        {
-                            "pretty_path",
-                            path_sep = "/",
-                            directories = { shorten = false },
-                        },
-                    },
+                    lualine_c = { pretty_path },
                 },
-                extensions = { "lazy", empty_ext },
+                extensions = { "lazy", empty, blame },
             })
         end,
     },
