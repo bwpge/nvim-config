@@ -1,12 +1,5 @@
 local utils = require("user.utils")
 
-local open_with_trouble = function(...)
-    return require("trouble.providers.telescope").open_with_trouble(...)
-end
-local open_selected_with_trouble = function(...)
-    return require("trouble.providers.telescope").open_selected_with_trouble(...)
-end
-
 local function get_make_cmd()
     if vim.fn.executable("make") == 1 then
         return "make"
@@ -55,8 +48,6 @@ return {
                         ["<M-Up>"] = "cycle_history_prev",
                         ["<C-Home>"] = "move_to_top",
                         ["<C-End>"] = "move_to_bottom",
-                        ["<C-q>"] = open_with_trouble,
-                        ["<M-q>"] = open_selected_with_trouble,
                     },
                 },
             },

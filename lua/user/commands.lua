@@ -15,14 +15,11 @@ local commands = {
             if content[1] == "" then
                 table.remove(content, 1)
             end
-            if #content == 0 then
-                vim.notify("No messages to show")
-                return
-            end
 
             vim.api.nvim_buf_set_text(bufnr, 0, 0, 0, 0, content)
             vim.bo[bufnr].modifiable = false
-            utils.create_window(bufnr, { title = "Messages" })
+            local win = utils.create_window(bufnr, { title = "Messages" })
+            vim.api.nvim_win_set_cursor(win, { #content, 0 })
         end,
         { desc = "View :messages in a floating window" },
     },

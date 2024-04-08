@@ -308,16 +308,18 @@ function M.create_window(bufnr, opts)
     if win_id == 0 then
         vim.notify("Failed to create window", vim.log.levels.ERROR)
     end
-    -- vim.api.nvim_set_option_value("", "", {win = win_id})
 
-    vim.keymap.set("n", "<Esc>", function()
+    local function close()
         if bufnr ~= nil and vim.api.nvim_buf_is_valid(bufnr) then
             vim.api.nvim_buf_delete(bufnr, { force = true })
         end
         if win_id ~= nil and vim.api.nvim_win_is_valid(win_id) then
             vim.api.nvim_win_close(win_id, true)
         end
-    end, { buffer = bufnr, silent = true })
+    end
+
+    vim.keymap.set("n", "<Esc>", close, { buffer = bufnr })
+    vim.keymap.set("n", "q", close, { buffer = bufnr })
 
     return win_id
 end
