@@ -74,11 +74,23 @@ return {
         opts = {
             input = {
                 title_pos = "center",
+                prefer_width = 30,
+                min_width = 25,
+                border = {
+                    "▕",
+                    { " ", "TelescopePromptTitle" },
+                    "▏",
+                    "▏",
+                    " ",
+                    "▔",
+                    " ",
+                    "▕",
+                },
                 win_options = {
                     winhl = utils.make_winhl({
                         Normal = "TelescopeNormal",
-                        FloatBorder = "TelescopePreviewBorder",
-                        FloatTitle = "TelescopePreviewTitle",
+                        FloatBorder = "TelescopePromptPrefix",
+                        FloatTitle = "TelescopePromptTitle",
                     }),
                 },
             },
