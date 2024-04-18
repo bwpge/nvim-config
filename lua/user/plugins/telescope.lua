@@ -40,6 +40,8 @@ return {
                 mappings = {
                     i = {
                         ["<esc>"] = "close",
+                        ["<C-j>"] = "move_selection_next",
+                        ["<C-k>"] = "move_selection_previous",
                         ["<M-j>"] = "preview_scrolling_down",
                         ["<M-k>"] = "preview_scrolling_up",
                         ["<C-Down>"] = "preview_scrolling_down",

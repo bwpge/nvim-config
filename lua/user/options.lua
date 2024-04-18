@@ -16,6 +16,7 @@ opt.expandtab = true
 opt.autoindent = true
 
 -- editor settings
+opt.mousemodel = "extend"
 opt.wrap = false
 opt.termguicolors = true
 opt.background = "dark"
