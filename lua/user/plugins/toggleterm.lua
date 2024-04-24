@@ -90,7 +90,9 @@ return {
                 -- set empty term name to cmd that opened it. this doesn't
                 -- initially show if opened in a floating window
                 if not term.display_name or #term.display_name == 0 then
-                    term.display_name = vim.split(term.name, " ")[1]
+                    local name = vim.split(term.name, " ")[1]
+                    name = vim.split(name, ";")[1]
+                    term.display_name = vim.fn.fnamemodify(name, ":t")
                 end
 
                 -- set terminal keymaps
