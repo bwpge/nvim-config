@@ -40,21 +40,21 @@ return {
                 changedelete = { text = "▎" },
                 untracked = { text = "▎" },
             },
-            on_attach = function()
+            on_attach = function(bufnr)
                 local gs = package.loaded.gitsigns
-                local function gs_map(key, fn, dir, desc)
+
+                local function gs_nav_map(key, dir, desc)
                     nmap(key, function()
                         if vim.wo.diff then
-                            return key
+                            vim.cmd.normal({ key, bang = true })
+                        else
+                            gs.nav_hunk(dir, { preview = true })
                         end
-                        vim.schedule(function()
-                            fn(dir, { preview = true })
-                        end)
-                    end, desc)
+                    end, desc, { buffer = bufnr })
                 end
+                gs_nav_map("[c", "prev", "Move to previous hunk diff")
+                gs_nav_map("]c", "next", "Move to next hunk diff")
 
-                gs_map("[c", gs.nav_hunk, "prev", "Move to previous hunk diff")
-                gs_map("]c", gs.nav_hunk, "next", "Move to next hunk diff")
                 nmap("<leader>hr", gs.reset_hunk, "Reset git hunk")
                 nmap("<leader>hh", gs.preview_hunk, "View hunk diff")
                 nmap("<leader>hi", gs.preview_hunk_inline, "View inline hunk diff")
