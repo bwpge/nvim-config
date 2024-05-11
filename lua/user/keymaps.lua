@@ -48,6 +48,13 @@ nmap(
     "Swap to the last buffer if it is visible and listed"
 )
 
+-- tab shortcuts
+nmap("[t", "<cmd>tabp<cr>", "Got to previous tab")
+nmap("]t", "<cmd>tabn<cr>", "Got to next tab")
+nmap("<leader>tt", "<cmd>tabnew<cr>", "Create a new tab")
+nmap("<leader>tn", ":tabnew ", "Create a new tab with working directory")
+nmap("<leader>tc", "<cmd>tabclose<cr>", "Close the current tab")
+
 -- window management
 nmap("<leader>sv", "<cmd>vert new<cr>", "Split vertically with a new buffer")
 nmap("<leader>sh", "<cmd>new<cr>", "Split horizontally with a new buffer")
