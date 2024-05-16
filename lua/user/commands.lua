@@ -2,26 +2,30 @@ local utils = require("user.utils")
 
 local commands = {
     {
-        "Messages",
-        function(_)
+        "Output",
+        function(ctx)
             local bufnr = vim.api.nvim_create_buf(false, true)
             if bufnr == 0 then
                 vim.notify("Failed to create scratch buffer", vim.log.levels.ERROR)
                 return
             end
 
-            local data = vim.fn.execute("messages", "silent")
-            local content = vim.split(data, "\n")
-            if content[1] == "" then
-                table.remove(content, 1)
+            local data = vim.fn.execute(ctx.args)
+            local lines = vim.split(data, "\n")
+            if lines[1] == "" then
+                table.remove(lines, 1)
             end
 
-            vim.api.nvim_buf_set_text(bufnr, 0, 0, 0, 0, content)
+            vim.api.nvim_buf_set_text(bufnr, 0, 0, 0, 0, lines)
             vim.bo[bufnr].modifiable = false
             local win = utils.create_window(bufnr, { title = "Messages" })
-            vim.api.nvim_win_set_cursor(win, { #content, 0 })
+            vim.api.nvim_win_set_cursor(win, { #lines, 0 })
         end,
-        { desc = "View :messages in a floating window" },
+        {
+            nargs = "+",
+            complete = "command",
+            desc = "Capture command output in a floating window",
+        },
     },
     {
         "Config",
