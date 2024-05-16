@@ -87,12 +87,21 @@ return {
             })
 
             -- see :help lsp-zero-guide:integrate-with-mason-nvim
-            require("mason").setup({})
+            require("mason").setup({
+                ui = {
+                    icons = {
+                        package_installed = "●",
+                        package_pending = "●",
+                        package_uninstalled = "●",
+                    },
+                },
+            })
             require("mason-lspconfig").setup({
                 ensure_installed = {
                     "clangd",
                     "jsonls",
                     "lua_ls",
+                    "gopls",
                     "pyright",
                     "rust_analyzer",
                     "taplo",

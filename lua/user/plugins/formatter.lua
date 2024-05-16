@@ -29,6 +29,10 @@ return {
     config = function()
         require("formatter").setup({
             filetype = {
+                go = {
+                    require("formatter.filetypes.go").gofumpt,
+                    require("formatter.filetypes.go").golines,
+                },
                 python = {
                     require("formatter.filetypes.python").black,
                     require("formatter.filetypes.python").isort,

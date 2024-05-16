@@ -1,8 +1,9 @@
 vim.filetype.add({
     filename = {
         ["env"] = "sh",
-        ["tsconfig.json"] = "jsonc",
+        ["go.mod"] = "gomod",
         ["requirements.txt"] = "config",
+        ["tsconfig.json"] = "jsonc",
     },
     extension = {
         ["zsh-theme"] = "zsh",

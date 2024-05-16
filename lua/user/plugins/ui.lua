@@ -40,9 +40,27 @@ return {
     },
     {
         "nvim-tree/nvim-web-devicons",
-        config = function()
-            -- use a larger git icon and set all colors to a less harsh orange
+        opts = {
+            override_by_filename = {
+                ["go.mod"] = {
+                    icon = "",
+                    color = "#519aba",
+                    cterm_color = "74",
+                    name = "GoMod",
+                },
+                ["go.sum"] = {
+                    icon = "",
+                    color = "#519aba",
+                    cterm_color = "74",
+                    name = "GoSum",
+                },
+            },
+        },
+        config = function(_, opts)
             local devicons = require("nvim-web-devicons")
+            devicons.setup(opts)
+
+            -- use a larger git icon and set all colors to a less harsh orange
             local all = vim.tbl_filter(function(x)
                 return x.icon == ""
             end, devicons.get_icons())
