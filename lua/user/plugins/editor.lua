@@ -1,6 +1,32 @@
 local utils = require("user.utils")
 local lazy_kmap = utils.lazy_kmap
 
+-- picks the convert method from text-case depending on whether the attached
+-- lsp(s) support rename or not
+local function textcase_convert(method)
+    local textcase = require("textcase")
+    local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+
+    for _, client in ipairs(clients) do
+        local r = (client.server_capabilities or {}).renameProvider
+        local has_rename = false
+
+        if type(r) == "table" then
+            has_rename = r.prepareProvider or false
+        elseif type(r) == "boolean" then
+            has_rename = r
+        else
+            has_rename = false
+        end
+
+        if has_rename then
+            return textcase.lsp_rename(method)
+        end
+    end
+
+    return textcase.current_word(method)
+end
+
 return {
     {
         "antoinemadec/FixCursorHold.nvim",
@@ -44,5 +70,50 @@ return {
         build = function()
             vim.fn["mkdp#util#install"]()
         end,
+    },
+    {
+        "johmsalas/text-case.nvim",
+        dependencies = { "nvim-telescope/telescope.nvim" },
+        opts = {
+            default_keymappings_enabled = false,
+        },
+        keys = {
+            {
+                "gas",
+                function()
+                    textcase_convert("to_snake_case")
+                end,
+                desc = "Convert text to snake case",
+            },
+            {
+                "gak",
+                function()
+                    textcase_convert("to_dash_case")
+                end,
+                desc = "Convert text to kebab-case",
+            },
+            {
+                "gau",
+                function()
+                    textcase_convert("to_constant_case")
+                end,
+                desc = "Convert text to screaming snake case",
+            },
+            {
+                "gac",
+                function()
+                    textcase_convert("to_camel_case")
+                end,
+                desc = "Convert text to camel case",
+            },
+            {
+                "gap",
+                function()
+                    textcase_convert("to_pascal_case")
+                end,
+                desc = "Convert text to pascal case",
+            },
+        },
+        lazy = false,
     },
 }
