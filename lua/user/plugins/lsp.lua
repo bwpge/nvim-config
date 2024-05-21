@@ -35,13 +35,14 @@ return {
         dependencies = {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
+            "WhoIsSethDaniel/mason-tool-installer.nvim",
             "neovim/nvim-lspconfig",
             "lvimuser/lsp-inlayhints.nvim",
             -- see https://github.com/rust-lang/rust.vim/issues/461
             "rust-lang/rust.vim",
             { "folke/neodev.nvim", opts = {} },
         },
-        cmd = "Mason",
+        cmd = { "Mason", "MasonToolsInstall", "MasonToolsUpdate" },
         event = "LazyFile",
         config = function()
             local ih = require("lsp-inlayhints")
@@ -66,7 +67,7 @@ return {
                 nmap("<F2>", vim.lsp.buf.rename, "Rename symbol", opts)
 
                 -- code actions
-                nmap("<M-.>", vim.lsp.buf.code_action, "View code actions", opts)
+                kmap({ "n", "i" }, "<M-.>", vim.lsp.buf.code_action, "View code actions", opts)
                 if vim.lsp.buf.range_code_action then
                     kmap("x", "<M-.>", vim.lsp.buf.range_code_action, "View code actions", opts)
                 else
@@ -97,17 +98,6 @@ return {
                 },
             })
             require("mason-lspconfig").setup({
-                ensure_installed = {
-                    "clangd",
-                    "jsonls",
-                    "lua_ls",
-                    "gopls",
-                    "pyright",
-                    "rust_analyzer",
-                    "taplo",
-                    "tsserver",
-                    "yamlls",
-                },
                 handlers = {
                     lsp_zero.default_setup,
                     lua_ls = function()
@@ -135,6 +125,37 @@ return {
                     end,
                 },
             })
+            require("mason-tool-installer").setup({
+                ensure_installed = {
+                    "black",
+                    "clangd",
+                    "debugpy",
+                    "delve",
+                    "gofumpt",
+                    "golines",
+                    "gopls",
+                    "isort",
+                    "jsonls",
+                    "lua_ls",
+                    "prettier",
+                    "pyright",
+                    "rust_analyzer",
+                    "stylua",
+                    "taplo",
+                    "tsserver",
+                    "yamlls",
+                },
+                auto_update = false,
+                run_on_start = false,
+                integrations = {
+                    ["mason-lspconfig"] = true,
+                    ["mason-null-ls"] = false,
+                    ["mason-nvim-dap"] = true,
+                },
+            })
+
+            -- install missing mason packages when loaded
+            require("mason-tool-installer").check_install(false)
         end,
     },
 }
