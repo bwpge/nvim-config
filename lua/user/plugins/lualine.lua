@@ -10,9 +10,18 @@ local empty = {
     filetypes = { "nerdtree", "neo-tree" },
 }
 
-local blame = {
+local minimal = {
     sections = { lualine_c = { pretty_path } },
-    filetypes = { "fugitiveblame" },
+    filetypes = {
+        "query",
+        "fugitiveblame",
+        "dapui_scopes",
+        "dapui_breakpoints",
+        "dapui_stacks",
+        "dapui_watches",
+        "dap-repl",
+        "dapui_console",
+    },
 }
 
 return {
@@ -42,7 +51,7 @@ return {
                 inactive_sections = {
                     lualine_c = { pretty_path },
                 },
-                extensions = { "lazy", empty, blame },
+                extensions = { "lazy", empty, minimal },
             })
         end,
     },
