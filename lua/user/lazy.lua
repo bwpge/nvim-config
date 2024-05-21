@@ -9,6 +9,7 @@ if not vim.uv.fs_stat(lazypath) then
         lazypath,
     })
 end
+---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 -- add LazyFile prior to loading plugins
@@ -44,39 +45,4 @@ require("lazy").setup("user.plugins", {
             task = " ",
         },
     },
-})
-
--- warn about line endings that are different than the default fileformat
-vim.api.nvim_create_autocmd({ "FileType" }, {
-    callback = function(ev)
-        if not ev.buf then
-            return
-        end
-        local ft = vim.bo[ev.buf].filetype
-        if ft == "" or ft == "help" then
-            return
-        end
-
-        local ff_bo = vim.bo[ev.buf].fileformat
-        local ff_default = vim.opt.fileformats:get()[1]
-        if ff_bo ~= ff_default then
-            vim.notify(
-                string.format(
-                    "This buffer has `%s` fileformat, which does not match the default \z
-                    fileformat `%s`. Different line endings may be inserted!\n  \z
-                    - buf:   %d\n  \z
-                    - file:  %s\n  \z
-                    - id:    %d\n  \z
-                    - match: %s",
-                    ff_bo,
-                    ff_default,
-                    ev.buf,
-                    ev.file,
-                    ev.id,
-                    ev.match
-                ),
-                vim.log.levels.WARN
-            )
-        end
-    end,
 })

@@ -60,11 +60,6 @@ opt.iskeyword:append("-") -- consider '-' part of a word
 opt.completeopt = "menu,menuone,noselect"
 opt.showmode = false -- don't show mode in message bar
 
--- rust options (:h RustFmt)
-vim.g.rustfmt_autosave = 1
-vim.g.rustfmt_emit_files = 1
-vim.g.rustfmt_fail_silently = 0
-
 -- highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function()

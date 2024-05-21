@@ -18,15 +18,15 @@ return {
         -- style harpoon window
         harpoon:extend({
             UI_CREATE = function(cx)
-                vim.api.nvim_win_set_option(cx.win_id, "cursorline", true)
-                vim.api.nvim_win_set_option(
-                    cx.win_id,
+                vim.api.nvim_set_option_value("cursorline", true, { win = cx.win_id })
+                vim.api.nvim_set_option_value(
                     "winhl",
                     utils.make_winhl({
                         Normal = "TelescopeNormal",
                         FloatBorder = "TelescopePreviewBorder",
                         FloatTitle = "TelescopePreviewTitle",
-                    })
+                    }),
+                    { win = cx.win_id }
                 )
             end,
         })

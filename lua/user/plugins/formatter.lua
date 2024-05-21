@@ -40,6 +40,7 @@ return {
                 json = json_prettier,
                 jsonc = json_prettier,
                 lua = { require("formatter.filetypes.lua").stylua },
+                rust = { require("formatter.filetypes.rust").rustfmt },
                 toml = { require("formatter.filetypes.toml").taplo },
                 yaml = { require("formatter.filetypes.yaml").prettier },
                 -- allow tidy to clean up whitespace on FormatterPost instead of using sed

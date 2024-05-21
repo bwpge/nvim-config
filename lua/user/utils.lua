@@ -110,6 +110,12 @@ function M.swap_last_buffer()
     end
 end
 
+---Toggles native inlay hints.
+function M.toggle_inlay_hints()
+    ---@diagnostic disable-next-line: missing-parameter
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end
+
 function M.make_winhl(t)
     local s = {}
     for k, v in pairs(t) do
@@ -339,6 +345,22 @@ function M.confirm_yn(prompt, action)
         end
         action()
     end)
+end
+
+---Extends gx behavior to open GitHub pages for short plugin names, e.g., `foo/bar`.
+---
+---Should be used in a keymap with `{ expr = true }`.
+---@param fallback function?
+---@return function
+function M.gx_extended_fn(fallback)
+    return function()
+        local word = vim.fn.expand("<cWORD>"):match("[\"']([%a_%.%-]+/[%a_%.%-]+)[\"']")
+        if word then
+            vim.ui.open("https://github.com/" .. word)
+        elseif fallback then
+            fallback()
+        end
+    end
 end
 
 return M

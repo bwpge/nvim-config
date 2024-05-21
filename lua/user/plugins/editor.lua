@@ -5,7 +5,7 @@ local lazy_kmap = utils.lazy_kmap
 -- lsp(s) support rename or not
 local function textcase_convert(method)
     local textcase = require("textcase")
-    local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+    local clients = vim.lsp.get_clients({ bufnr = 0 })
 
     for _, client in ipairs(clients) do
         local r = (client.server_capabilities or {}).renameProvider
@@ -31,11 +31,6 @@ return {
     {
         "antoinemadec/FixCursorHold.nvim",
         event = "VeryLazy",
-    },
-    {
-        "numToStr/Comment.nvim",
-        event = "VeryLazy",
-        opts = {},
     },
     {
         "bwpge/homekey.nvim",

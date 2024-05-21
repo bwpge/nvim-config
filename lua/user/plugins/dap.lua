@@ -137,7 +137,7 @@ return {
             LogPoint = ".>",
         }
         for name, sign in pairs(icons) do
-            sign = type(sign) == "table" and sign or { sign }
+            sign = type(sign) == "table" and sign or { sign } --[[@as table]]
             vim.fn.sign_define("Dap" .. name, {
                 text = sign[1],
                 texthl = sign[2] or "DiagnosticInfo",

@@ -25,6 +25,8 @@ imap("<M-BS>", "<C-w>", "Delete the word before the cursor")
 nmap("<M-+>", "<C-a>", "Increment number under cursor")
 nmap("<M-_>", "<C-x>", "Decrement number under cursor")
 nmap("<leader>I", vim.show_pos, "Show all the items at a given buffer position (same as :Inspect)")
+local old_gx = vim.fn.maparg("gx", "n", nil, true)
+nmap("gx", utils.gx_extended_fn(old_gx.callback), old_gx.desc)
 
 -- manipulate lines
 nmap("<C-up>", "<cmd>m-2<cr>", "Move current line up")

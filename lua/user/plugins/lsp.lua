@@ -37,7 +37,6 @@ return {
             "williamboman/mason-lspconfig.nvim",
             "WhoIsSethDaniel/mason-tool-installer.nvim",
             "neovim/nvim-lspconfig",
-            "lvimuser/lsp-inlayhints.nvim",
             -- see https://github.com/rust-lang/rust.vim/issues/461
             "rust-lang/rust.vim",
             { "folke/neodev.nvim", opts = {} },
@@ -45,17 +44,14 @@ return {
         cmd = { "Mason", "MasonToolsInstall", "MasonToolsUpdate" },
         event = "LazyFile",
         config = function()
-            local ih = require("lsp-inlayhints")
-            ih.setup()
             local lsp_zero = require("lsp-zero")
 
             lsp_zero.on_attach(function(client, bufnr)
-                ih.on_attach(client, bufnr)
                 lsp_highlight(client, bufnr)
+                vim.lsp.inlay_hint.enable()
 
                 local opts = { buffer = bufnr or 0 }
-                nmap("K", vim.lsp.buf.hover, "Hover documentation", opts)
-                nmap("<leader>ih", ih.toggle, "Toggle inlay hints", opts)
+                nmap("<leader>ih", utils.toggle_inlay_hints, "Toggle inlay hints", opts)
                 nmap("gd", require("telescope.builtin").lsp_definitions, "Go to definition", opts)
                 nmap("gD", vim.lsp.buf.declaration, "Go to declaration", opts)
                 -- stylua: ignore
