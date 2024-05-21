@@ -22,8 +22,8 @@ imap("<S-tab>", "<C-d>", "Dedent the current line")
 vmap("<tab>", ">gv", "Indent selected lines")
 vmap("<S-tab>", "<gv", "Indent selected lines")
 imap("<M-BS>", "<C-w>", "Delete the word before the cursor")
-nmap("+", "<C-a>", "Increment number under cursor")
-nmap("-", "<C-x>", "Decrement number under cursor")
+nmap("<M-+>", "<C-a>", "Increment number under cursor")
+nmap("<M-_>", "<C-x>", "Decrement number under cursor")
 nmap("<leader>I", vim.show_pos, "Show all the items at a given buffer position (same as :Inspect)")
 
 -- manipulate lines
@@ -134,4 +134,3 @@ nmap("<leader>;f", toggleterm_cmd("float"), "Toggle floating integrated terminal
 nmap("<leader>;h", toggleterm_cmd("horizontal"), "Toggle horizontal integrated terminal")
 nmap("<leader>;v", toggleterm_cmd("vertical"), "Toggle vertical integrated terminal")
 nmap("<leader>;t", "<cmd>Telescope toggleterm_manager<cr>", "Open terminal manager")
-nmap("<leader>mm", "<cmd>Messages<cr>", "View :messages in a floating window")
