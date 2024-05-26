@@ -1,11 +1,11 @@
-local theme = require("user.theme")
+local T = require("user.theme")
 
 local function spec(repo, name, opts)
     local t = {
         repo,
         lazy = false,
         priority = 1000,
-        config = theme.make_config(name),
+        config = T.make_config(name),
     }
 
     return vim.tbl_deep_extend("force", t, opts or {})
@@ -121,6 +121,26 @@ return {
                     ["@lsp.type.macro.rust"] = { link = "Function" },
                     ["@lsp.type.variable.rust"] = { link = "@variable" },
                     ["@punctuation.special.rust"] = {},
+                    ["CmpItemKindConstant"] = { link = "CmpItemKindKeyword" },
+                    ["CmpItemKindEnum"] = { link = "CmpItemKindClass" },
+                    ["CmpItemKindEnumMember"] = { link = "CmpItemKindClass" },
+                    ["CmpItemKindField"] = { link = "CmpItemKindVariable" },
+                    ["CmpItemKindFunction"] = { link = "Keyword" },
+                    ["CmpItemKindInterface"] = { link = "CmpItemKindVariable" },
+                    ["CmpItemKindKeyword"] = { link = "@variable" },
+                    ["CmpItemKindMethod"] = { link = "CmpItemKindFunction" },
+                    ["CmpItemKindModule"] = { link = "CmpItemKindKeyword" },
+                    ["CmpItemKindProperty"] = { link = "CmpItemKindKeyword" },
+                    ["CmpItemKindSnippet"] = { link = "CmpItemKindKeyword" },
+                    ["CmpItemKindStruct"] = { link = "CmpItemKindKeyword" },
+                    ["CmpItemKindText"] = { link = "CmpItemKindVariable" },
+                    ["CmpItemKindUnit"] = { link = "CmpItemKindKeyword" },
+                    ["CmpItemKindVariable"] = { link = "Function" },
+                    ["CmpItemMenu"] = { link = "Comment" },
+                    ["IlluminatedWordText"] = { link = "LspReferenceText" },
+                    ["IlluminatedWordRead"] = { link = "LspReferenceRead" },
+                    ["IlluminatedWordWrite"] = { link = "LspReferenceWrite" },
+                    ["Pmenu"] = { fg = "#939ab7", bg = "#1f202f" },
                 }
             end,
         },

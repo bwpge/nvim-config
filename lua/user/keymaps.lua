@@ -9,8 +9,8 @@ vim.g.mapleader = " "
 -- adjust commonly used keys
 nmap("<esc>", "<cmd>noh<cr><esc>") -- clear search highlight
 kmap("t", "<M-[>", [[<C-\><C-n>]]) -- exit insert in terminal mode
-kmap({ "n", "v" }, "x", '"_x') -- no register for single delete
-kmap({ "n", "v" }, "<del>", '"_x') -- no register for single delete
+kmap({ "n", "x" }, "x", '"_x') -- no register for single delete
+kmap({ "n", "x" }, "<del>", '"_x') -- no register for single delete
 
 -- general editor shortcuts
 imap("<C-v>", "<C-r>+", "Paste from clipboard")
@@ -25,8 +25,6 @@ imap("<M-BS>", "<C-w>", "Delete the word before the cursor")
 nmap("<M-+>", "<C-a>", "Increment number under cursor")
 nmap("<M-_>", "<C-x>", "Decrement number under cursor")
 nmap("<leader>I", vim.show_pos, "Show all the items at a given buffer position (same as :Inspect)")
-local old_gx = vim.fn.maparg("gx", "n", nil, true)
-nmap("gx", utils.gx_extended_fn(old_gx.callback), old_gx.desc)
 
 -- manipulate lines
 nmap("<C-up>", "<cmd>m-2<cr>", "Move current line up")
@@ -37,7 +35,7 @@ nmap("<C-d>", 'm`"zyy"zpqzq``j', "Duplicate current line")
 imap("<C-d>", '<esc><esc>"zyy"zpqzqgi<C-o>j', "Duplicate current line")
 vmap("<C-d>", '"zy"zPqzqgv', "Duplicate selected lines")
 
--- buffer shortcuts
+-- buffers
 nmap("[b", "<cmd>bp<cr>", "Go to previous buffer")
 nmap("]b", "<cmd>bn<cr>", "Go to next buffer")
 nmap("<leader>q", ":confirm q<cr>", "Quit the current buffer with confirmation", { silent = true })
@@ -50,18 +48,16 @@ nmap(
     "Swap to the last buffer if it is visible and listed"
 )
 
--- tab shortcuts
+-- tabs
 nmap("[t", "<cmd>tabp<cr>", "Got to previous tab")
 nmap("]t", "<cmd>tabn<cr>", "Got to next tab")
 nmap("<leader>tt", "<cmd>tabnew<cr>", "Create a new tab")
-nmap("<leader>tn", ":tabnew ", "Create a new tab with working directory")
-nmap("<leader>tc", "<cmd>tabclose<cr>", "Close the current tab")
+nmap("<leader>tq", "<cmd>tabclose<cr>", "Close the current tab")
 
 -- window management
 nmap("<leader>sv", "<cmd>vert new<cr>", "Split vertically with a new buffer")
-nmap("<leader>sh", "<cmd>new<cr>", "Split horizontally with a new buffer")
+nmap("<leader>sh", "<cmd>new<cr>", "Split horizontally with a new buffer (same as :new)")
 nmap("<leader>ss", "<cmd>split<cr>", "Split current buffer")
-nmap("<leader>sn", "<C-w>n", "Split to new window")
 nmap("<leader>s=", "<C-w>=", "Make splits equal width")
 nmap("<S-Up>", "<C-w>+", "Increase window height")
 nmap("<S-Down>", "<C-w>-", "Decrease window height")
@@ -80,59 +76,29 @@ kmap({ "n", "t" }, "<C-S-right>", "<cmd>wincmd L<cr>", "Move the window to the v
 kmap({ "n", "t" }, "<C-S-up>", "<cmd>wincmd K<cr>", "Move the window to the very top")
 kmap({ "n", "t" }, "<C-S-down>", "<cmd>wincmd J<cr>", "Move the window to the very bottom")
 
+-- diagnostic keymaps
+nmap("[d", function()
+    vim.diagnostic.goto_prev({ float = true })
+end, "Go to previous diagnostic")
+nmap("]d", function()
+    vim.diagnostic.goto_next({ float = true })
+end, "Go to next diagnostic")
+
+-- extend gx to recognize short plugin strings
+local old_gx = vim.fn.maparg("gx", "n", nil, true)
+nmap("gx", utils.gx_extended_fn(old_gx.callback), old_gx.desc)
+
+-- fix <C-i> since this sends the same keycode as <Tab>
+local function ctrl_i()
+    local count = vim.v.count or 0
+    if count == 0 then
+        count = 1
+    end
+    vim.cmd('execute "normal! ' .. count .. '\\<C-i>"')
+end
+nmap("<C-p>", ctrl_i, "Jump forward in jump list")
+
 -- external processes
 nmap("<leader>vs", function()
     utils.spawn_with_buf("code")
 end, "Open current file in vscode")
-
--- plugin commands
-nmap("<leader>pl", "<cmd>Lazy<cr>", "Open Lazy")
-nmap("<leader>pm", "<cmd>Mason<cr>", "Open Mason")
-nmap("<M-F>", "<cmd>Format<cr>", "Format the current buffer")
-nmap("<leader>gs", "<cmd>G<cr>", "Open git status")
-nmap("<leader>gd", "<cmd>Gdiffsplit<cr>", "Open current file git diff")
-nmap("<leader>gD", "<cmd>Git diff --staged<cr>", "Open git diff for staged files")
-nmap("<leader>gb", "<cmd>Git blame<cr>", "Open current file git blame")
-nmap("<leader>ga", "<cmd>Git add %<cr>", "Stage current file")
-nmap("<leader>gu", "<cmd>Git restore --staged %<cr>", "Unstage current file")
-nmap("<leader>gr", "<cmd>Gread<cr>", "Reset current file (discard all changes)")
-nmap("<leader>gx", "<cmd>GBrowse<cr>", "Open the current git object in browser at upstream host")
-nmap("<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file")
-nmap("<leader>fg", "<cmd>Telescope live_grep<cr>", "Find in files (ripgrep)")
-nmap("<leader>fs", "<cmd>Telescope grep_string<cr>", "Find word under cursor")
-nmap("<leader>fb", "<cmd>Telescope buffers<cr>", "Go to buffer")
-nmap("<leader>fo", "<cmd>Telescope lsp_document_symbols<cr>", "Go to buffer")
-nmap("<leader>fO", "<cmd>Telescope lsp_workspace_symbols<cr>", "Go to buffer")
-nmap("<leader>fd", "<cmd>Telescope diagnostics<cr>", "Go to diagnostics")
-nmap("<leader>fk", "<cmd>Telescope keymaps<cr>", "Search keymaps")
-nmap("<leader>fis", "<cmd>Telescope git_status<cr>", "Find dirty files")
-nmap("<leader>fic", "<cmd>Telescope git_commits<cr>", "Find git commits")
-nmap("<leader>fib", "<cmd>Telescope git_branches<cr>", "Find git branches")
-nmap("<leader>f;", "<cmd>Telescope commands<cr>", "Search commands")
-nmap("<leader>fhl", "<cmd>Telescope highlights<cr>", "Search highlight groups")
-nmap("<leader>fcs", "<cmd>Telescope colorscheme<cr>", "Select colorscheme")
-nmap("<F1>", "<cmd>Telescope help_tags<cr>", "Search help tags")
-nmap("<leader>ft", "<cmd>TodoTelescope<cr>", "Go to todo item")
-nmap("<leader>e", "<cmd>Neotree toggle<cr>", "Toggle Neotree file explorer")
-nmap("<leader>xx", "<cmd>Trouble workspace_diagnostics<cr>", "Open trouble workspace diagnostics")
-nmap("<leader>xq", "<cmd>Trouble quickfix<cr>", "Open trouble quickfix list")
-nmap("[x", function()
-    require("trouble").previous({ skip_groups = true, jump = true })
-end, "Jump to previous problem (trouble)")
-nmap("]x", function()
-    require("trouble").next({ skip_groups = true, jump = true })
-end, "Jump to next problem (trouble)")
-nmap("<leader>md", "<cmd>MarkdownPreview<cr>", "Open markdown live preview")
-
--- enables number prefix to open specific terminal id
-local function toggleterm_cmd(dir)
-    return string.format(
-        '<cmd>execute v:count . "ToggleTerm%s"<cr>',
-        dir and " direction=" .. dir or ""
-    )
-end
-kmap({ "n", "i", "t" }, "<M-`>", toggleterm_cmd(), "Toggle integrated terminal")
-nmap("<leader>;f", toggleterm_cmd("float"), "Toggle floating integrated terminal")
-nmap("<leader>;h", toggleterm_cmd("horizontal"), "Toggle horizontal integrated terminal")
-nmap("<leader>;v", toggleterm_cmd("vertical"), "Toggle vertical integrated terminal")
-nmap("<leader>;t", "<cmd>Telescope toggleterm_manager<cr>", "Open terminal manager")

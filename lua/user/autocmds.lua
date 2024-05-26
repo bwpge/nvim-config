@@ -28,22 +28,19 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         local ff_bo = vim.bo[e.buf].fileformat
         local ff_default = vim.opt.fileformats:get()[1]
         if ff_bo and ff_default and ff_bo ~= ff_default then
-            vim.notify(
-                string.format(
-                    "This buffer has `%s` fileformat, which does not match the default \z
+            require("user.utils").notify_warn(
+                "This buffer has `%s` fileformat, which does not match the default \z
                     fileformat `%s`. Different line endings may be inserted!\n  \z
                     - buf:   %d\n  \z
                     - file:  %s\n  \z
                     - id:    %d\n  \z
                     - match: %s",
-                    ff_bo,
-                    ff_default,
-                    e.buf,
-                    e.file,
-                    e.id,
-                    e.match
-                ),
-                vim.log.levels.WARN
+                ff_bo,
+                ff_default,
+                e.buf,
+                e.file,
+                e.id,
+                e.match
             )
         end
     end,

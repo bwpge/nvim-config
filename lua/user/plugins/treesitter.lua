@@ -1,4 +1,4 @@
-local utils = require("user.utils")
+local U = require("user.utils")
 
 return {
     {
@@ -8,7 +8,7 @@ return {
         },
         build = ":TSUpdate",
         event = { "LazyFile", "VeryLazy" },
-        opts = utils.merge_custom_opts("treesitter", {
+        opts = U.merge_custom_opts("treesitter", {
             ensure_installed = {
                 "bash",
                 "c",
@@ -69,26 +69,6 @@ return {
                     },
                     swap_previous = {
                         ["<leader><"] = "@parameter.inner",
-                    },
-                },
-                move = {
-                    enable = true,
-                    set_jumps = true, -- whether to set jumps in the jumplist
-                    goto_next_start = {
-                        ["]m"] = "@function.outer",
-                        ["]]"] = { query = "@class.outer", desc = "Next class start" },
-                    },
-                    goto_next_end = {
-                        ["]M"] = "@function.outer",
-                        ["]["] = "@class.outer",
-                    },
-                    goto_previous_start = {
-                        ["[m"] = "@function.outer",
-                        ["[["] = "@class.outer",
-                    },
-                    goto_previous_end = {
-                        ["[M"] = "@function.outer",
-                        ["[]"] = "@class.outer",
                     },
                 },
                 lsp_interop = {

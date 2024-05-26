@@ -1,4 +1,5 @@
-local utils = require("user.utils")
+local U = require("user.utils")
+local nmap = U.lazy_nmap
 
 -- color style based on NvChad telescope style, see:
 -- https://nvchad.com/docs/features/#telescope_nvim
@@ -105,7 +106,7 @@ return {
                     "▕",
                 },
                 win_options = {
-                    winhl = utils.make_winhl({
+                    winhl = U.make_winhl({
                         Normal = "TelescopeNormal",
                         FloatBorder = "TelescopePromptPrefix",
                         FloatTitle = "TelescopePromptTitle",
@@ -130,6 +131,20 @@ return {
         "folke/trouble.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         cmd = { "Trouble", "TroubleToggle" },
+        keys = {
+            nmap(
+                "<leader>xx",
+                "<cmd>Trouble workspace_diagnostics<cr>",
+                "Open trouble workspace diagnostics"
+            ),
+            nmap("<leader>xq", "<cmd>Trouble quickfix<cr>", "Open trouble quickfix list"),
+            nmap("[x", function()
+                require("trouble").previous({ skip_groups = true, jump = true })
+            end, "Jump to previous problem (trouble)"),
+            nmap("]x", function()
+                require("trouble").next({ skip_groups = true, jump = true })
+            end, "Jump to next problem (trouble)"),
+        },
         opts = {
             height = 15,
             use_diagnostic_signs = true,

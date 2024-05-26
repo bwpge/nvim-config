@@ -1,11 +1,14 @@
-local utils = require("user.utils")
+local U = require("user.utils")
 
 return {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = { "TodoTrouble", "TodoTelescope" },
     event = "LazyFile",
-    opts = utils.merge_custom_opts("todo-comments", {
+    keys = {
+        { "<leader>ft", "<cmd>TodoTelescope<cr>", desc = "Open todo list" },
+    },
+    opts = U.merge_custom_opts("todo-comments", {
         sign_priority = 1,
         keywords = {
             DEBUG = { icon = " ", color = "debug" },

@@ -1,4 +1,4 @@
-local utils = require("user.utils")
+local U = require("user.utils")
 
 local commands = {
     {
@@ -6,7 +6,7 @@ local commands = {
         function(ctx)
             local bufnr = vim.api.nvim_create_buf(false, true)
             if bufnr == 0 then
-                vim.notify("Failed to create scratch buffer", vim.log.levels.ERROR)
+                U.notify_error("Failed to create scratch buffer")
                 return
             end
 
@@ -18,7 +18,7 @@ local commands = {
 
             vim.api.nvim_buf_set_text(bufnr, 0, 0, 0, 0, lines)
             vim.bo[bufnr].modifiable = false
-            local win = utils.create_window(bufnr, { title = "Messages" })
+            local win = U.create_window(bufnr, { title = "Messages" })
             vim.api.nvim_win_set_cursor(win, { #lines, 0 })
         end,
         {
@@ -35,16 +35,16 @@ local commands = {
                 local twd = vim.fn.getcwd(0, i)
                 if twd == conf_path then
                     if i == vim.fn.tabpagenr() then
-                        vim.notify("Config is already active (tab " .. i .. ")")
+                        U.notify_info("Config is already active (tab %d)", i)
                     else
-                        vim.notify("Switching to config (tab " .. i .. ")")
+                        U.notify_info("Switching to config (tab %d)", i)
                         vim.cmd.norm(i .. "gt")
                     end
                     return
                 end
             end
 
-            vim.notify("Opening config in new tab")
+            U.notify_info("Opening config in new tab")
             vim.cmd.tabnew()
             vim.cmd.tcd(conf_path)
         end,

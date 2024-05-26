@@ -17,6 +17,10 @@ end
 return {
     "mhartington/formatter.nvim",
     event = "LazyFile",
+    cmd = "Format",
+    keys = {
+        { "<M-F>", "<cmd>Format<cr>", desc = "Format the current buffer" },
+    },
     dependencies = {
         {
             "mcauley-penney/tidy.nvim",

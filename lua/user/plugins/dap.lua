@@ -11,8 +11,62 @@ local dapui_keys = {
         function()
             require("dapui").eval()
         end,
-        desc = "Debug: Evaluate Expression",
+        desc = "Debug: Evaluate expression",
         mode = { "n", "v" },
+    },
+}
+
+local dap_keys = {
+    {
+        "<F5>",
+        function()
+            require("dap").continue()
+        end,
+        desc = "Debug: Start/Continue",
+    },
+    {
+        "<F6>",
+        function()
+            require("dap").step_over()
+        end,
+        desc = "Debug: Step over",
+    },
+    {
+        "<F7>",
+        function()
+            require("dap").step_into()
+        end,
+        desc = "Debug: Step into",
+    },
+    {
+        "<F8>",
+        function()
+            require("dap").step_out()
+        end,
+        desc = "Debug: Step out",
+    },
+    {
+        "<F9>",
+        function()
+            require("dap").toggle_breakpoint()
+        end,
+        desc = "Debug: Toggle breakpoint",
+    },
+    {
+        "<S-F9>",
+        function()
+            vim.ui.input({ prompt = "Enter breakpoint condition:" }, function(x)
+                require("dap").set_breakpoint(x)
+            end)
+        end,
+        desc = "Debug: Toggle conditional breakpoint",
+    },
+    {
+        "<leader>dq",
+        function()
+            require("dap").terminate()
+        end,
+        desc = "Debug: Stop",
     },
 }
 
@@ -72,60 +126,7 @@ return {
             end,
         },
     },
-    keys = {
-        {
-            "<F5>",
-            function()
-                require("dap").continue()
-            end,
-            desc = "Debug: Start/Continue",
-        },
-        {
-            "<F6>",
-            function()
-                require("dap").step_over()
-            end,
-            desc = "Debug: Step Over",
-        },
-        {
-            "<F7>",
-            function()
-                require("dap").step_into()
-            end,
-            desc = "Debug: Step Into",
-        },
-        {
-            "<F8>",
-            function()
-                require("dap").step_out()
-            end,
-            desc = "Debug: Step Out",
-        },
-        {
-            "<F9>",
-            function()
-                require("dap").toggle_breakpoint()
-            end,
-            desc = "Debug: toggle breakpoint",
-        },
-        {
-            "<S-F9>",
-            function()
-                vim.ui.input({ prompt = "Enter breakpoint condition:" }, function(x)
-                    require("dap").set_breakpoint(x)
-                end)
-            end,
-            desc = "Debug: toggle conditional breakpoint",
-        },
-        {
-            "<leader>dq",
-            function()
-                require("dap").terminate()
-            end,
-            desc = "Debug: Stop",
-        },
-    },
-
+    keys = dap_keys,
     config = function()
         vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 

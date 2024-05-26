@@ -5,6 +5,7 @@ return {
         dependencies = {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-cmdline",
             "L3MON4D3/LuaSnip",
             "onsails/lspkind.nvim",
             "rafamadriz/friendly-snippets",
@@ -13,12 +14,10 @@ return {
         config = function()
             local cmp = require("cmp")
             local cmp_context = require("cmp.config.context")
-            local lspkind = require("lspkind")
             local luasnip = require("luasnip")
 
-            require("luasnip.loaders.from_vscode").lazy_load({})
             require("luasnip.loaders.from_vscode").lazy_load({
-                paths = vim.fn.stdpath("config") .. "/snippets/",
+                paths = { vim.fn.stdpath("config") .. "/snippets/" },
             })
 
             -- toggle nvim-cmp documentation window
@@ -53,33 +52,37 @@ return {
                 },
                 ---@diagnostic disable-next-line: missing-fields
                 formatting = {
-                    format = lspkind.cmp_format({
-                        mode = "symbol",
-                        ellipsis_char = "…",
-                    }),
+                    expandable_indicator = false,
+                    fields = { "kind", "abbr", "menu" },
+                    format = function(entry, vim_item)
+                        local kind = require("lspkind").cmp_format({
+                            mode = "symbol_text",
+                            maxwidth = 50,
+                            preset = "codicons",
+                        })(entry, vim_item)
+                        local strings = vim.split(kind.kind, "%s", { trimempty = true })
+                        kind.kind = (strings[1] or "") .. " "
+                        kind.menu = strings[2] and ("   " .. strings[2]) or ""
+
+                        return kind
+                    end,
                 },
                 experimental = {
                     ghost_text = true,
                 },
                 mapping = {
-                    -- accept completion, must select first
-                    ["<cr>"] = cmp.mapping(cmp.mapping.confirm({ select = false }), { "i", "c" }),
-                    -- show completion menu
-                    ["<C-.>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-                    -- close completion menu
-                    ["<esc>"] = cmp.mapping(cmp.mapping.abort(), { "i" }),
-                    -- alternate keymap for command mode
+                    ["<CR>"] = cmp.mapping(cmp.mapping.confirm({ select = false }), { "i", "c" }),
+                    ["<Esc>"] = cmp.mapping(cmp.mapping.abort(), { "i" }),
                     ["<C-e>"] = cmp.mapping(cmp.mapping.abort(), { "c" }),
-                    ["<up>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
-                    ["<down>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
-                    -- documentation
+                    ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+                    ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
                     ["<M-k>"] = cmp.mapping.scroll_docs(-1),
                     ["<M-j>"] = cmp.mapping.scroll_docs(1),
                     ["<M-K>"] = cmp.mapping.scroll_docs(-5),
                     ["<M-J>"] = cmp.mapping.scroll_docs(5),
                     ["<M-i>"] = toggle_docs,
                     -- use tab for auto-complete, snippets, etc. depending what is visible
-                    ["<tab>"] = cmp.mapping(function(fallback)
+                    ["<Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.confirm({ select = true })
                         elseif luasnip.expandable() then
@@ -90,7 +93,7 @@ return {
                             fallback()
                         end
                     end, { "i", "s" }),
-                    ["<S-tab>"] = cmp.mapping(function(fallback)
+                    ["<S-Tab>"] = cmp.mapping(function(fallback)
                         if luasnip.jumpable(-1) then
                             luasnip.jump(-1)
                         else
@@ -101,6 +104,22 @@ return {
                 window = {
                     documentation = cmp.config.window.bordered(),
                 },
+            })
+
+            cmp.setup.cmdline("/", {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = {
+                    { name = "buffer" },
+                },
+            })
+
+            cmp.setup.cmdline(":", {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources({
+                    { name = "cmdline" },
+                }),
+                ---@diagnostic disable-next-line: missing-fields
+                matching = { disallow_symbol_nonprefix_matching = false },
             })
 
             -- cancel snippet when mode changes

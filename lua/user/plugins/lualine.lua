@@ -1,4 +1,4 @@
-local utils = require("user.utils")
+local U = require("user.utils")
 
 local pretty_path = {
     "pretty_path",
@@ -33,7 +33,7 @@ return {
         },
         lazy = false,
         opts = function()
-            return utils.merge_custom_opts("lualine", {
+            return U.merge_custom_opts("lualine", {
                 options = {
                     component_separators = { left = "", right = "" },
                     section_separators = { left = "", right = "" },

@@ -1,4 +1,4 @@
-local utils = require("user.utils")
+local U = require("user.utils")
 
 return {
     "nvim-neo-tree/neo-tree.nvim",
@@ -9,6 +9,9 @@ return {
         "MunifTanjim/nui.nvim",
     },
     cmd = "Neotree",
+    keys = {
+        { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle Neo-tree file explorer" },
+    },
     init = function()
         vim.g.loaded_netrwPlugin = 1
         vim.g.loaded_netrw = 1
@@ -25,7 +28,7 @@ return {
             end
         end
     end,
-    opts = utils.merge_custom_opts("neo-tree", {
+    opts = U.merge_custom_opts("neo-tree", {
         close_if_last_window = true,
         open_files_do_not_replace_types = {
             "diff",
@@ -84,6 +87,10 @@ return {
             position = "left",
             mappings = {
                 ["<Space>"] = "none",
+                ["[c"] = "prev_git_modified",
+                ["]c"] = "next_git_modified",
+                ["[g"] = false,
+                ["]g"] = false,
                 ["<F2>"] = "rename",
             },
         },

@@ -16,18 +16,19 @@ opt.expandtab = true
 opt.autoindent = true
 
 -- editor settings
-opt.mousemodel = "extend"
-opt.wrap = false
-opt.termguicolors = true
 opt.background = "dark"
-opt.signcolumn = "yes"
 opt.cursorline = true
-opt.scrolloff = 4
 opt.list = true
 opt.listchars:append({
     tab = "→ ",
     trail = "•",
 })
+opt.mousemodel = "extend"
+opt.pumheight = 15
+opt.scrolloff = 4
+opt.signcolumn = "yes"
+opt.termguicolors = true
+opt.wrap = false
 
 -- searching
 opt.ignorecase = true
@@ -48,12 +49,6 @@ opt.clipboard:append("unnamedplus")
 opt.splitright = true
 opt.splitbelow = true
 opt.diffopt:append("vertical")
-
--- timings
--- note that g:cursorhold_updatetime requires FixCursorHold.nvim plugin
--- this is used to avoid blasting the swapfile, and some plugins need it
-vim.g.cursorhold_updatetime = 400
--- opt.timoutlen = 500 -- ms for mapped sequence to complete
 
 -- misc
 opt.iskeyword:append("-") -- consider '-' part of a word

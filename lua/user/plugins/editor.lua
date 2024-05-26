@@ -1,37 +1,7 @@
-local utils = require("user.utils")
-local lazy_kmap = utils.lazy_kmap
-
--- picks the convert method from text-case depending on whether the attached
--- lsp(s) support rename or not
-local function textcase_convert(method)
-    local textcase = require("textcase")
-    local clients = vim.lsp.get_clients({ bufnr = 0 })
-
-    for _, client in ipairs(clients) do
-        local r = (client.server_capabilities or {}).renameProvider
-        local has_rename = false
-
-        if type(r) == "table" then
-            has_rename = r.prepareProvider or false
-        elseif type(r) == "boolean" then
-            has_rename = r
-        else
-            has_rename = false
-        end
-
-        if has_rename then
-            return textcase.lsp_rename(method)
-        end
-    end
-
-    return textcase.current_word(method)
-end
+local U = require("user.utils")
+local kmap = U.lazy_kmap
 
 return {
-    {
-        "antoinemadec/FixCursorHold.nvim",
-        event = "VeryLazy",
-    },
     {
         "bwpge/homekey.nvim",
         event = "VeryLazy",
@@ -55,60 +25,57 @@ return {
         opts = { snippet_engine = "luasnip" },
         cmd = { "Neogen" },
         keys = {
-            lazy_kmap({ "n", "i" }, "<M-D>", "<cmd>Neogen<cr>", "Generate documentation (neogen)"),
+            kmap({ "n", "i" }, "<M-D>", "<cmd>Neogen<cr>", "Neogen: Generate documentation"),
         },
     },
     {
         "iamcco/markdown-preview.nvim",
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        keys = {
+            { "<leader>md", "<cmd>MarkdownPreview<cr>", desc = "Open markdown live preview" },
+        },
         ft = { "markdown" },
         build = function()
             vim.fn["mkdp#util#install"]()
         end,
     },
     {
-        "johmsalas/text-case.nvim",
-        dependencies = { "nvim-telescope/telescope.nvim" },
+        "RRethy/vim-illuminate",
+        event = "LazyFile",
         opts = {
-            default_keymappings_enabled = false,
+            delay = 400,
+            large_file_cutoff = 2000,
+            large_file_overrides = {
+                providers = { "lsp" },
+            },
         },
+        config = function(_, opts)
+            require("illuminate").configure(opts)
+
+            local function map(key, dir, buffer)
+                vim.keymap.set("n", key, function()
+                    require("illuminate")["goto_" .. dir .. "_reference"](true)
+                end, {
+                    desc = "Go to " .. dir .. " hover reference",
+                    buffer = buffer,
+                })
+            end
+
+            map("]]", "next")
+            map("[[", "prev")
+
+            -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
+            vim.api.nvim_create_autocmd("FileType", {
+                callback = function()
+                    local buffer = vim.api.nvim_get_current_buf()
+                    map("]]", "next", buffer)
+                    map("[[", "prev", buffer)
+                end,
+            })
+        end,
         keys = {
-            {
-                "gas",
-                function()
-                    textcase_convert("to_snake_case")
-                end,
-                desc = "Convert text to snake case",
-            },
-            {
-                "gak",
-                function()
-                    textcase_convert("to_dash_case")
-                end,
-                desc = "Convert text to kebab-case",
-            },
-            {
-                "gau",
-                function()
-                    textcase_convert("to_constant_case")
-                end,
-                desc = "Convert text to screaming snake case",
-            },
-            {
-                "gac",
-                function()
-                    textcase_convert("to_camel_case")
-                end,
-                desc = "Convert text to camel case",
-            },
-            {
-                "gap",
-                function()
-                    textcase_convert("to_pascal_case")
-                end,
-                desc = "Convert text to pascal case",
-            },
+            { "]]", desc = "Go to next hover reference" },
+            { "[[", desc = "Go to prev hover reference" },
         },
-        lazy = false,
     },
 }

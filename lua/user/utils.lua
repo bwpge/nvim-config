@@ -4,6 +4,35 @@ M.is_windows = vim.uv.os_uname().version:match("Windows") or vim.fn.has("win32")
 
 M.path_sep = package.config:sub(1, 1)
 
+---Shorthand for `vim.notify(..., level)` with a formatted message.
+---@param level integer
+---@param fmt string
+---@param ... any
+function M.notify(level, fmt, ...)
+    vim.notify(string.format(fmt, ...), level)
+end
+
+---Shorthand for errors with `vim.notify` and a formatted message.
+---@param fmt string
+---@param ... any
+function M.notify_error(fmt, ...)
+    M.notify(vim.log.levels.ERROR, fmt, ...)
+end
+
+---Shorthand for a warning with `vim.notify` and a formatted message.
+---@param fmt string
+---@param ... any
+function M.notify_warn(fmt, ...)
+    M.notify(vim.log.levels.WARN, fmt, ...)
+end
+
+---Shorthand for `vim.notify` with a formatted message.
+---@param fmt string
+---@param ... any
+function M.notify_info(fmt, ...)
+    M.notify(vim.log.levels.INFO, fmt, ...)
+end
+
 ---Returns the module if it could be loaded, otherwise nil.
 ---@param mod string
 ---@return table?
@@ -54,7 +83,7 @@ end
 ---@param desc string?
 ---@param opts table?
 function M.vmap(lhs, rhs, desc, opts)
-    M.kmap("v", lhs, rhs, desc, opts)
+    M.kmap("x", lhs, rhs, desc, opts)
 end
 
 ---Creates a lazy.nvim keymap with sensible defaults.
@@ -110,12 +139,6 @@ function M.swap_last_buffer()
     end
 end
 
----Toggles native inlay hints.
-function M.toggle_inlay_hints()
-    ---@diagnostic disable-next-line: missing-parameter
-    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-end
-
 function M.make_winhl(t)
     local s = {}
     for k, v in pairs(t) do
@@ -143,7 +166,7 @@ function M.spawn_with_buf(prog, buf, args)
     local name = vim.api.nvim_buf_get_name(buf) or ""
 
     if #vim.fn.glob(name) < 1 then
-        vim.notify("Current buffer does not exist on disk", vim.log.levels.INFO)
+        M.notify_info("Current buffer does not exist on disk")
         return
     end
     table.insert(args, name)
@@ -162,7 +185,7 @@ function M.spawn_with_buf(prog, buf, args)
     if handle then
         vim.uv.unref(handle)
     end
-    vim.notify(string.format("Opening '%s' with '%s'", rel_name, prog), vim.log.levels.INFO)
+    M.notify_info("Opening '%s' with '%s'", rel_name, prog)
 end
 
 ---Adds support for `LazyFile` events. This function is odified from LazyVim, see:
@@ -312,7 +335,7 @@ function M.create_window(bufnr, opts)
 
     local win_id = vim.api.nvim_open_win(bufnr, true, opts)
     if win_id == 0 then
-        vim.notify("Failed to create window", vim.log.levels.ERROR)
+        M.notify_error("Failed to create window")
     end
 
     local function close()
@@ -361,6 +384,32 @@ function M.gx_extended_fn(fallback)
             fallback()
         end
     end
+end
+
+---comment
+---@param path string
+---@param mode string? Mode to open the file with (default: "rb")
+---@return string
+function M.read_file_to_string(path, mode)
+    mode = mode or "rb"
+    local f = io.open(path, mode)
+    if not f then
+        error(string.format("failed to read file: %s", path), 2)
+        return ""
+    end
+
+    local data = f:read("*a")
+    f:close()
+    return data or ""
+end
+
+---Reads a JSON file and decodes it to a lua table.
+---@param path string
+---@param opts table?
+---@return table
+function M.json_decode_file(path, opts)
+    local data = M.read_file_to_string(path)
+    return vim.json.decode(data, opts or {})
 end
 
 return M

@@ -12,7 +12,7 @@ end
 ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- add LazyFile prior to loading plugins
+-- add LazyFile event prior to loading plugins
 require("user.utils").lazy_file()
 require("lazy").setup("user.plugins", {
     defaults = {
@@ -46,3 +46,6 @@ require("lazy").setup("user.plugins", {
         },
     },
 })
+
+-- set lazy plugin keymaps
+require("user.utils").nmap("<leader>pl", "<cmd>Lazy<cr>", "Open Lazy status window")

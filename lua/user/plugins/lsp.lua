@@ -1,31 +1,11 @@
-local utils = require("user.utils")
-local kmap = utils.kmap
-local nmap = utils.nmap
+local U = require("user.utils")
+local kmap = U.kmap
+local nmap = U.nmap
 
--- highlight symbol under cursor
--- see: https://github.com/Alexis12119/nvim-config/blob/77a9a7c2ab0c6e8e4d576d6987ee57e4c5540eee/configs/lsp/init.lua#L23-L44
--- vim.opt.updatetime controls when cursorhold events fire, but with
--- FixCursorHold plugin this uses vim.g.cursorhold_updatetime
-local function lsp_highlight(client, bufnr)
-    if client.supports_method("textDocument/documentHighlight") then
-        vim.api.nvim_create_augroup("lsp_document_highlight", {
-            clear = false,
-        })
-        vim.api.nvim_clear_autocmds({
-            buffer = bufnr,
-            group = "lsp_document_highlight",
-        })
-        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-            group = "lsp_document_highlight",
-            buffer = bufnr,
-            callback = vim.lsp.buf.document_highlight,
-        })
-        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-            group = "lsp_document_highlight",
-            buffer = bufnr,
-            callback = vim.lsp.buf.clear_references,
-        })
-    end
+---Toggles native inlay hints.
+local function toggle_inlay_hints()
+    ---@diagnostic disable-next-line: missing-parameter
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end
 
 return {
@@ -33,34 +13,37 @@ return {
         "VonHeikemen/lsp-zero.nvim",
         branch = "v3.x",
         dependencies = {
-            "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
-            "WhoIsSethDaniel/mason-tool-installer.nvim",
             "neovim/nvim-lspconfig",
+            "ray-x/lsp_signature.nvim",
             -- see https://github.com/rust-lang/rust.vim/issues/461
             "rust-lang/rust.vim",
             { "folke/neodev.nvim", opts = {} },
         },
-        cmd = { "Mason", "MasonToolsInstall", "MasonToolsUpdate" },
         event = "LazyFile",
         config = function()
             local lsp_zero = require("lsp-zero")
 
-            lsp_zero.on_attach(function(client, bufnr)
-                lsp_highlight(client, bufnr)
+            lsp_zero.on_attach(function(_, bufnr)
+                require("lsp_signature").on_attach({
+                    bind = true,
+                    doc_lines = 0,
+                    hi_parameter = "IncSearch",
+                    hint_enable = false,
+                }, bufnr)
                 vim.lsp.inlay_hint.enable()
 
                 local opts = { buffer = bufnr or 0 }
-                nmap("<leader>ih", utils.toggle_inlay_hints, "Toggle inlay hints", opts)
+                nmap("<leader>ih", toggle_inlay_hints, "Toggle inlay hints", opts)
                 nmap("gd", require("telescope.builtin").lsp_definitions, "Go to definition", opts)
                 nmap("gD", vim.lsp.buf.declaration, "Go to declaration", opts)
                 -- stylua: ignore
                 nmap("gm", require("telescope.builtin").lsp_implementations, "Go to implementation", opts)
                 nmap("go", vim.lsp.buf.type_definition, "Go to type definition", opts)
-                nmap("gr", require("telescope.builtin").lsp_references, "Go to reference", opts)
-                nmap("gs", vim.lsp.buf.signature_help, "Show signature help", opts)
                 kmap({ "n", "i" }, "<M-/>", vim.lsp.buf.signature_help, "Show signature help")
                 nmap("<F2>", vim.lsp.buf.rename, "Rename symbol", opts)
+                nmap("grn", vim.lsp.buf.rename, "Rename symbol", opts)
+                nmap("grr", require("telescope.builtin").lsp_references, "Go to reference", opts)
 
                 -- code actions
                 kmap({ "n", "i" }, "<M-.>", vim.lsp.buf.code_action, "View code actions", opts)
@@ -69,11 +52,6 @@ return {
                 else
                     kmap("x", "<M-.>", vim.lsp.buf.code_action, "View code actions", opts)
                 end
-
-                -- diagnostics
-                kmap("n", "gl", vim.diagnostic.open_float, "Show diagnostic", opts)
-                kmap("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic", opts)
-                kmap("n", "]d", vim.diagnostic.goto_next, "Next diagnostic", opts)
             end)
 
             lsp_zero.set_sign_icons({
@@ -83,75 +61,40 @@ return {
                 hint = "󰌶",
             })
 
-            -- see :help lsp-zero-guide:integrate-with-mason-nvim
-            require("mason").setup({
-                ui = {
-                    icons = {
-                        package_installed = "●",
-                        package_pending = "●",
-                        package_uninstalled = "●",
-                    },
-                },
-            })
+            -- mason must be configured before mason-lspconfig
+            -- (it should be since it is not lazy loaded)
+            if not require("mason").has_setup then
+                U.notify_error("mason was not setup before mason-lspconfig")
+                return
+            end
+
+            -- simple wrapper to clean up nesting levels
+            local function server_config(name, opts)
+                return function()
+                    require("lspconfig")[name].setup({ settings = opts })
+                end
+            end
+
             require("mason-lspconfig").setup({
                 handlers = {
                     lsp_zero.default_setup,
-                    lua_ls = function()
-                        require("lspconfig").lua_ls.setup({
-                            settings = {
-                                Lua = {
-                                    hint = {
-                                        enable = true,
-                                    },
-                                    diagnostics = {
-                                        enable = true,
-                                    },
-                                },
+                    lua_ls = server_config("lua_ls", {
+                        Lua = {
+                            hint = {
+                                enable = true,
                             },
-                        })
-                    end,
-                    rust_analyzer = function()
-                        require("lspconfig").rust_analyzer.setup({
-                            settings = {
-                                ["rust-analyzer"] = {
-                                    check = { command = "clippy" },
-                                },
+                            diagnostics = {
+                                enable = true,
                             },
-                        })
-                    end,
+                        },
+                    }),
+                    rust_analyzer = server_config("rust_analyzer", {
+                        ["rust-analyzer"] = {
+                            check = { command = "clippy" },
+                        },
+                    }),
                 },
             })
-            require("mason-tool-installer").setup({
-                ensure_installed = {
-                    "black",
-                    "clangd",
-                    "debugpy",
-                    "delve",
-                    "gofumpt",
-                    "golines",
-                    "gopls",
-                    "isort",
-                    "jsonls",
-                    "lua_ls",
-                    "prettier",
-                    "pyright",
-                    "rust_analyzer",
-                    "stylua",
-                    "taplo",
-                    "tsserver",
-                    "yamlls",
-                },
-                auto_update = false,
-                run_on_start = false,
-                integrations = {
-                    ["mason-lspconfig"] = true,
-                    ["mason-null-ls"] = false,
-                    ["mason-nvim-dap"] = true,
-                },
-            })
-
-            -- install missing mason packages when loaded
-            require("mason-tool-installer").check_install(false)
         end,
     },
 }
