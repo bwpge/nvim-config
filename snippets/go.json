@@ -1,0 +1,16 @@
+{
+  "struct": {
+    "prefix": ["struct"],
+    "body": ["type ${1:Type} struct {", "\t$0", "}"],
+    "description": "Create a struct type"
+  },
+  "http handler": {
+    "prefix": ["handler"],
+    "body": [
+      "func ${1:(x Receiver)} ${2:name}(w http.ResponseWriter, r *http.Request) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Create an http handler function"
+  }
+}
