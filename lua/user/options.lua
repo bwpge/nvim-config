@@ -36,6 +36,9 @@ opt.smartcase = true
 opt.incsearch = true
 opt.hlsearch = true
 
+-- custom tabline
+opt.tabline = "%!v:lua.require('user.tabline').render()"
+
 -- proper backspace behavior
 opt.backspace = "indent,eol,start"
 

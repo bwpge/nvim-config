@@ -47,5 +47,8 @@ require("lazy").setup("user.plugins", {
     },
 })
 
+-- set tabline colors after theme is loaded
+require("user.tabline").setup()
+
 -- set lazy plugin keymaps
 require("user.utils").nmap("<leader>pl", "<cmd>Lazy<cr>", "Open Lazy status window")
