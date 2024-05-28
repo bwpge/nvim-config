@@ -1,8 +1,8 @@
-local utils = require("user.utils")
-local kmap = utils.kmap
-local nmap = utils.nmap
-local imap = utils.imap
-local vmap = utils.vmap
+local U = require("user.utils")
+local kmap = U.kmap
+local nmap = U.nmap
+local imap = U.imap
+local vmap = U.vmap
 
 vim.g.mapleader = " "
 
@@ -16,10 +16,10 @@ kmap({ "n", "x" }, "<del>", '"_x') -- no register for single delete
 imap("<C-v>", "<C-r>+", "Paste from clipboard")
 nmap("<C-a>", "ggVG", "Select all text")
 kmap({ "i", "v" }, "<C-a>", "<esc><esc>ggVG", "Select all text")
-nmap("<tab>", ">>", "Indent the current line")
+nmap("<Tab>", ">>", "Indent the current line")
 nmap("<S-tab>", "<<", "Dedent the current line")
 imap("<S-tab>", "<C-d>", "Dedent the current line")
-vmap("<tab>", ">gv", "Indent selected lines")
+vmap("<Tab>", ">gv", "Indent selected lines")
 vmap("<S-tab>", "<gv", "Indent selected lines")
 imap("<M-BS>", "<C-w>", "Delete the word before the cursor")
 nmap("<M-+>", "<C-a>", "Increment number under cursor")
@@ -27,10 +27,10 @@ nmap("<M-_>", "<C-x>", "Decrement number under cursor")
 nmap("<leader>I", vim.show_pos, "Show all the items at a given buffer position (same as :Inspect)")
 
 -- manipulate lines
-nmap("<C-up>", "<cmd>m-2<cr>", "Move current line up")
-nmap("<C-down>", "<cmd>m+1<cr>", "Move current line down")
-imap("<C-up>", "<esc><esc><cmd>m-2<cr>gi", "Move current line up")
-imap("<C-down>", "<esc><esc><cmd>m+<cr>gi", "Move current line down")
+nmap("<C-Up>", "<cmd>m-2<cr>", "Move current line up")
+nmap("<C-Down>", "<cmd>m+1<cr>", "Move current line down")
+imap("<C-Up>", "<esc><esc><cmd>m-2<cr>gi", "Move current line up")
+imap("<C-Down>", "<esc><esc><cmd>m+<cr>gi", "Move current line down")
 nmap("<C-d>", 'm`"zyy"zpqzq``j', "Duplicate current line")
 imap("<C-d>", '<esc><esc>"zyy"zpqzqgi<C-o>j', "Duplicate current line")
 vmap("<C-d>", '"zy"zPqzqgv', "Duplicate selected lines")
@@ -42,11 +42,7 @@ nmap("<leader>q", ":confirm q<cr>", "Quit the current buffer with confirmation",
 nmap("<C-q>", ":confirm qall<cr>", "Quit all buffers with a confirmation")
 nmap("<leader>w", ":w<cr>", "Write the current buffer")
 nmap("<leader>W", ":noa w<cr>", "Write the current buffer without triggering autocommands")
-nmap(
-    "<leader><leader>",
-    utils.swap_last_buffer,
-    "Swap to the last buffer if it is visible and listed"
-)
+nmap("<leader><leader>", U.swap_last_buffer, "Swap to the last buffer if it is visible and listed")
 
 -- tabs
 nmap("[t", "<cmd>tabp<cr>", "Got to previous tab")
@@ -63,18 +59,18 @@ nmap("<S-Up>", "<C-w>+", "Increase window height")
 nmap("<S-Down>", "<C-w>-", "Decrease window height")
 nmap("<S-Left>", "<C-w><", "Decrease window width")
 nmap("<S-Right>", "<C-w>>", "Increase window width")
-kmap({ "n", "t" }, "<M-left>", "<cmd>wincmd h<cr>", "Move to the window left of the current one")
-kmap({ "n", "t" }, "<M-right>", "<cmd>wincmd l<cr>", "Move to the window right of the current one")
-kmap({ "n", "t" }, "<M-up>", "<cmd>wincmd k<cr>", "Move to the window above the current one")
-kmap({ "n", "t" }, "<M-down>", "<cmd>wincmd j<cr>", "Move to the window below the current one")
+kmap({ "n", "t" }, "<M-Left>", "<cmd>wincmd h<cr>", "Move to the window left of the current one")
+kmap({ "n", "t" }, "<M-Right>", "<cmd>wincmd l<cr>", "Move to the window right of the current one")
+kmap({ "n", "t" }, "<M-Up>", "<cmd>wincmd k<cr>", "Move to the window above the current one")
+kmap({ "n", "t" }, "<M-Down>", "<cmd>wincmd j<cr>", "Move to the window below the current one")
 kmap({ "n", "t" }, "<C-h>", "<cmd>wincmd h<cr>", "Move to the window left of the current one")
 kmap({ "n", "t" }, "<C-l>", "<cmd>wincmd l<cr>", "Move to the window right of the current one")
 kmap({ "n", "t" }, "<C-k>", "<cmd>wincmd k<cr>", "Move to the window above the current one")
 kmap({ "n", "t" }, "<C-j>", "<cmd>wincmd j<cr>", "Move to the window below the current one")
-kmap({ "n", "t" }, "<C-S-left>", "<cmd>wincmd H<cr>", "Move the window to the very left")
-kmap({ "n", "t" }, "<C-S-right>", "<cmd>wincmd L<cr>", "Move the window to the very right")
-kmap({ "n", "t" }, "<C-S-up>", "<cmd>wincmd K<cr>", "Move the window to the very top")
-kmap({ "n", "t" }, "<C-S-down>", "<cmd>wincmd J<cr>", "Move the window to the very bottom")
+kmap({ "n", "t" }, "<C-S-Left>", "<cmd>wincmd H<cr>", "Move the window to the very left")
+kmap({ "n", "t" }, "<C-S-Right>", "<cmd>wincmd L<cr>", "Move the window to the very right")
+kmap({ "n", "t" }, "<C-S-Up>", "<cmd>wincmd K<cr>", "Move the window to the very top")
+kmap({ "n", "t" }, "<C-S-Down>", "<cmd>wincmd J<cr>", "Move the window to the very bottom")
 
 -- diagnostic keymaps
 nmap("[d", function()
@@ -84,9 +80,26 @@ nmap("]d", function()
     vim.diagnostic.goto_next({ float = true })
 end, "Go to next diagnostic")
 
--- extend gx to recognize short plugin strings
-local old_gx = vim.fn.maparg("gx", "n", nil, true)
-nmap("gx", utils.gx_extended_fn(old_gx.callback), old_gx.desc)
+---Extends `gx` to recognize short plugin strings (`"foo/bar"`) and open with lazy.nvim `url_format`.
+---@param value string
+local function gx_ext(value)
+    local repo = value:match("[\"']([%w_%.%-]+/[%w_%.%-]+)[\"']")
+    if repo then
+        local url =
+            require("lazy.core.config").options.git.url_format:gsub("%.git$", ""):format(repo)
+        vim.ui.open(url)
+    else
+        vim.cmd("norm gx", { bang = true })
+    end
+end
+
+nmap("gx", function()
+    gx_ext(vim.fn.expand("<cWORD>"))
+end, "Open file, URI, or plugin under cursor in system handler")
+vmap("gx", function()
+    local lines = vim.fn.getregion(vim.fn.getpos("."), vim.fn.getpos("v"), { type = vim.fn.mode() })
+    gx_ext(table.concat(vim.iter(lines):map(vim.trim):totable()))
+end, "Open selected file, URI, or plugin in system handler")
 
 -- fix <C-i> since this sends the same keycode as <Tab>
 local function ctrl_i()
@@ -100,5 +113,5 @@ nmap("<C-p>", ctrl_i, "Jump forward in jump list")
 
 -- external processes
 nmap("<leader>vs", function()
-    utils.spawn_with_buf("code")
+    U.spawn_with_buf("code")
 end, "Open current file in vscode")
