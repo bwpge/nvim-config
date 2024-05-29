@@ -47,7 +47,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
-    group = vim.api.nvim_create_augroup("UserFileTypeKeymaps", {}),
     pattern = "help,qf,netrw,fugitive*,git",
     callback = function()
         nmap("q", close_buf, "Close the current buffer", { buffer = true })

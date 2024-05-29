@@ -47,25 +47,20 @@ return {
                 rust = { require("formatter.filetypes.rust").rustfmt },
                 toml = { require("formatter.filetypes.toml").taplo },
                 yaml = { require("formatter.filetypes.yaml").prettier },
-                -- allow tidy to clean up whitespace on FormatterPost instead of using sed
+                -- trigger FormatterPost event with an empty function to use tidy.nvim
                 ["*"] = { function() end },
             },
         })
 
-        local formatter_group = vim.api.nvim_create_augroup("NvimFormatter", { clear = true })
-        local autocmd = vim.api.nvim_create_autocmd
-
         -- format on save
-        autocmd("BufWritePost", {
-            group = formatter_group,
-            command = ":FormatWrite",
+        vim.api.nvim_create_autocmd("BufWritePost", {
+            command = "FormatWrite",
         })
 
         -- using post event to avoid messing with buffer before formatting
         -- process has finished (which will cancel the formatter)
-        autocmd("User", {
+        vim.api.nvim_create_autocmd("User", {
             pattern = "FormatterPost",
-            group = formatter_group,
             callback = function()
                 -- strip any whitespace not caught by formatters
                 require("tidy").run()

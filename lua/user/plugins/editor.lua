@@ -53,29 +53,30 @@ return {
             require("illuminate").configure(opts)
 
             local function map(key, dir, buffer)
+                local d = dir:sub(1, 4)
                 vim.keymap.set("n", key, function()
-                    require("illuminate")["goto_" .. dir .. "_reference"](true)
+                    require("illuminate")["goto_" .. d .. "_reference"](true)
                 end, {
                     desc = "Go to " .. dir .. " hover reference",
                     buffer = buffer,
                 })
             end
 
-            map("]]", "next")
-            map("[[", "prev")
+            map("]r", "next")
+            map("[r", "previous")
 
             -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
             vim.api.nvim_create_autocmd("FileType", {
                 callback = function()
                     local buffer = vim.api.nvim_get_current_buf()
-                    map("]]", "next", buffer)
-                    map("[[", "prev", buffer)
+                    map("]r", "next", buffer)
+                    map("[r", "previous", buffer)
                 end,
             })
         end,
         keys = {
-            { "]]", desc = "Go to next hover reference" },
-            { "[[", desc = "Go to prev hover reference" },
+            { "]r", desc = "Go to next hover reference" },
+            { "[r", desc = "Go to previous hover reference" },
         },
     },
 }
