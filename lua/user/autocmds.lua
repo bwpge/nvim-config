@@ -1,18 +1,5 @@
 local nmap = require("user.utils").nmap
 
-local function close_buf()
-    if vim.bo.filetype:match("^fugitive") then
-        ---@diagnostic disable-next-line: param-type-mismatch
-        if vim.fn.bufnr("$") == 1 then
-            return vim.cmd.quit()
-        else
-            return vim.cmd.bdelete()
-        end
-    end
-
-    return vim.cmd.quit()
-end
-
 -- warn about line endings that are different than the default fileformat
 vim.api.nvim_create_autocmd({ "FileType" }, {
     callback = function(e)
@@ -46,9 +33,20 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     end,
 })
 
+-- close non-essential buffers with `q`
 vim.api.nvim_create_autocmd({ "FileType" }, {
-    pattern = "help,qf,netrw,fugitive*,git",
+    pattern = {
+        "checkhealth",
+        "fugitive*",
+        "git",
+        "help",
+        "lspinfo",
+        "netrw",
+        "notify",
+        "qf",
+        "query",
+    },
     callback = function()
-        nmap("q", close_buf, "Close the current buffer", { buffer = true })
+        nmap("q", vim.cmd.close, "Close the current buffer", { buffer = true })
     end,
 })
