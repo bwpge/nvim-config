@@ -40,6 +40,7 @@ return {
                 },
                 sections = {
                     lualine_b = {
+                        "tabs",
                         { "branch", icon = "" },
                         "diagnostics",
                     },
