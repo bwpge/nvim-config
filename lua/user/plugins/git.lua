@@ -5,7 +5,7 @@ local function confirm_push(force)
     return function()
         local prefix = force and "Force push" or "Push"
         U.confirm_yn(prefix .. " changes to remote?", function()
-            vim.cmd("Git push" .. (force and " force" or ""))
+            vim.cmd("Git push" .. (force and " --force" or ""))
         end)
     end
 end

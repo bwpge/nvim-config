@@ -8,26 +8,11 @@ return {
         "nvim-tree/nvim-web-devicons",
         "MunifTanjim/nui.nvim",
     },
+    event = "StartWithDir",
     cmd = "Neotree",
     keys = {
         { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle Neo-tree file explorer" },
     },
-    init = function()
-        vim.g.loaded_netrwPlugin = 1
-        vim.g.loaded_netrw = 1
-
-        -- load neo-tree if starting nvim with a directory
-        if vim.fn.argc(-1) == 1 then
-            ---@diagnostic disable-next-line: param-type-mismatch
-            local stat = vim.uv.fs_stat(vim.fn.argv(0))
-            if stat and stat.type == "directory" then
-                -- fix colorscheme issues at startup
-                vim.schedule(function()
-                    require("neo-tree")
-                end)
-            end
-        end
-    end,
     opts = U.merge_custom_opts("neo-tree", {
         close_if_last_window = true,
         open_files_do_not_replace_types = {

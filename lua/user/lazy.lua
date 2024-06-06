@@ -12,9 +12,39 @@ end
 ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- add LazyFile event prior to loading plugins
-require("user.utils").lazy_file()
-require("lazy").setup("user.plugins", {
+---@diagnostic disable-next-line: inject-field
+vim.g.lazy_events_config = {
+    simple = {
+        LazyFile = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    },
+    projects = {
+        cmake = { "CmakeLists.txt" },
+        go = { "go.mod", "go.sum" },
+        nvim = { "lua/" },
+        rust = { "Cargo.toml", "Cargo.lock" },
+    },
+    custom = {
+        StartWithDir = {
+            event = "BufEnter",
+            once = true,
+            cond = function()
+                local arg = vim.fn.argv(0)
+                if arg == "" then
+                    return
+                end
+
+                local stats = vim.uv.fs_stat(arg)
+                return (stats and stats.type == "directory") or false
+            end,
+        },
+    },
+}
+
+require("lazy").setup({
+    spec = {
+        { "bwpge/lazy-events.nvim", import = "lazy-events.import", lazy = false },
+        { import = "user.plugins" },
+    },
     defaults = {
         lazy = true,
     },
@@ -47,8 +77,4 @@ require("lazy").setup("user.plugins", {
     },
 })
 
--- set tabline colors after theme is loaded
-require("user.tabline").setup()
-
--- set lazy plugin keymaps
-require("user.utils").nmap("<leader>pl", "<cmd>Lazy<cr>", "Open Lazy status window")
+vim.keymap.set("n", "<leader>pl", "<cmd>Lazy<cr>", { desc = "Open Lazy status window" })

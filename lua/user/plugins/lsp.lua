@@ -10,6 +10,11 @@ end
 
 return {
     {
+        "folke/lazydev.nvim",
+        event = "LazyProject:nvim",
+        opts = {},
+    },
+    {
         "VonHeikemen/lsp-zero.nvim",
         branch = "v3.x",
         dependencies = {
@@ -18,7 +23,6 @@ return {
             "ray-x/lsp_signature.nvim",
             -- see https://github.com/rust-lang/rust.vim/issues/461
             "rust-lang/rust.vim",
-            { "folke/neodev.nvim", opts = {} },
         },
         event = "LazyFile",
         config = function()
