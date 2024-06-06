@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_windows = vim.uv.os_uname().version:match("Windows") or vim.fn.has("win32") ~= 0
+M.is_windows = vim.fn.has("win32") == 1 or jit.os == "Windows"
 
 M.path_sep = package.config:sub(1, 1)
 
@@ -186,76 +186,6 @@ function M.spawn_with_buf(prog, buf, args)
         vim.uv.unref(handle)
     end
     M.notify_info("Opening '%s' with '%s'", rel_name, prog)
-end
-
----Adds support for `LazyFile` events. This function is odified from LazyVim, see:
----https://github.com/LazyVim/LazyVim/blob/e1d39b624f8dffadd787de5a83c81540919d953e/lua/lazyvim/util/plugin.lua#L59-L125
-function M.lazy_file()
-    local use_lazy_file = vim.fn.argc(-1) > 0
-    local lazy_file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
-
-    -- Add support for the LazyFile event
-    local Event = require("lazy.core.handler.event")
-
-    if use_lazy_file then
-        -- We'll handle delayed execution of events ourselves
-        Event.mappings.LazyFile = { id = "LazyFile", event = "User", pattern = "LazyFile" }
-        Event.mappings["User LazyFile"] = Event.mappings.LazyFile
-    else
-        -- Don't delay execution of LazyFile events, but let lazy know about the mapping
-        Event.mappings.LazyFile = { id = "LazyFile", event = lazy_file_events }
-        Event.mappings["User LazyFile"] = Event.mappings.LazyFile
-        return
-    end
-
-    local events = {} ---@type {event: string, buf: number, data?: any}[]
-
-    local done = false
-    local function load()
-        if #events == 0 or done then
-            return
-        end
-        done = true
-        vim.api.nvim_del_augroup_by_name("lazy_file")
-
-        ---@type table<string,string[]>
-        local skips = {}
-        for _, event in ipairs(events) do
-            skips[event.event] = skips[event.event] or Event.get_augroups(event.event)
-        end
-
-        vim.api.nvim_exec_autocmds("User", { pattern = "LazyFile", modeline = false })
-        for _, event in ipairs(events) do
-            if vim.api.nvim_buf_is_valid(event.buf) then
-                Event.trigger({
-                    event = event.event,
-                    exclude = skips[event.event],
-                    data = event.data,
-                    buf = event.buf,
-                })
-                if vim.bo[event.buf].filetype then
-                    Event.trigger({
-                        event = "FileType",
-                        buf = event.buf,
-                    })
-                end
-            end
-        end
-        vim.api.nvim_exec_autocmds("CursorMoved", { modeline = false })
-        events = {}
-    end
-
-    -- schedule wrap so that nested autocmds are executed
-    -- and the UI can continue rendering without blocking
-    load = vim.schedule_wrap(load)
-
-    vim.api.nvim_create_autocmd(lazy_file_events, {
-        group = vim.api.nvim_create_augroup("lazy_file", { clear = true }),
-        callback = function(event)
-            table.insert(events, event)
-            load()
-        end,
-    })
 end
 
 ---Recursively searches the input table for `old` and replaces it with `new`.

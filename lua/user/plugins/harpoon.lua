@@ -27,6 +27,7 @@ end
 return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
+    commit = "e76cb03", -- see https://github.com/ThePrimeagen/harpoon/issues/577
     dependencies = { "nvim-lua/plenary.nvim" },
     event = "VeryLazy",
     keys = {
