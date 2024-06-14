@@ -1,0 +1,27 @@
+{
+  "note": {
+    "prefix": ["note"],
+    "body": ["> [!NOTE]", "> ${0:This is a note}"],
+    "description": "Create a note callout"
+  },
+  "tip": {
+    "prefix": ["tip"],
+    "body": ["> [!TIP]", "> ${0:This is a tip}"],
+    "description": "Create a tip callout"
+  },
+  "important": {
+    "prefix": ["important"],
+    "body": ["> [!IMPORTANT]", "> ${0:This is important}"],
+    "description": "Create an important callout"
+  },
+  "warning": {
+    "prefix": ["warning"],
+    "body": ["> [!WARNING]", "> ${0:This is a warning}"],
+    "description": "Create a warning callout"
+  },
+  "caution": {
+    "prefix": ["caution"],
+    "body": ["> [!CAUTION]", "> ${0:This is caution}"],
+    "description": "Create a caution callout"
+  }
+}
