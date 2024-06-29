@@ -82,23 +82,28 @@ end, "Go to next diagnostic")
 
 ---Extends `gx` to recognize short plugin strings (`"foo/bar"`) and open with lazy.nvim `url_format`.
 ---@param value string
-local function gx_ext(value)
-    local repo = value:match("[\"']([%w_%.%-]+/[%w_%.%-]+)[\"']")
+---@param fallback function
+local function gx_ext(value, fallback)
+    local repo = value:match("^[\"']([%a_%.%-]+/[%a_%.%-]+)[\"']$")
     if repo then
-        local url =
-            require("lazy.core.config").options.git.url_format:gsub("%.git$", ""):format(repo)
-        vim.ui.open(url)
-    else
-        vim.cmd("norm gx", { bang = true })
+        local url_fmt = require("lazy.core.config").options.git.url_format:gsub("%.git$", "")
+        vim.ui.open(url_fmt:format(repo))
+    elseif fallback then
+        fallback()
     end
 end
 
+-- save original gx to use as fallback
+local old_gx_n = vim.fn.maparg("gx", "n", nil, true)
+local old_gx_x = vim.fn.maparg("gx", "x", nil, true)
+
 nmap("gx", function()
-    gx_ext(vim.fn.expand("<cWORD>"))
+    gx_ext(vim.fn.expand("<cWORD>"), old_gx_n.callback)
 end, "Open file, URI, or plugin under cursor in system handler")
 vmap("gx", function()
     local lines = vim.fn.getregion(vim.fn.getpos("."), vim.fn.getpos("v"), { type = vim.fn.mode() })
-    gx_ext(table.concat(vim.iter(lines):map(vim.trim):totable()))
+    local value = table.concat(vim.iter(lines):map(vim.trim):totable())
+    gx_ext(value, old_gx_x.callback)
 end, "Open selected file, URI, or plugin in system handler")
 
 -- fix <C-i> since this sends the same keycode as <Tab>
