@@ -33,6 +33,8 @@ return {
     config = function()
         require("formatter").setup({
             filetype = {
+                c = { require("formatter.filetypes.c").clangformat },
+                cpp = { require("formatter.filetypes.cpp").clangformat },
                 go = {
                     require("formatter.filetypes.go").gofumpt,
                     require("formatter.filetypes.go").golines,

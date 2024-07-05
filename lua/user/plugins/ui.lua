@@ -132,18 +132,8 @@ return {
         dependencies = { "nvim-tree/nvim-web-devicons" },
         cmd = { "Trouble", "TroubleToggle" },
         keys = {
-            nmap(
-                "<leader>xx",
-                "<cmd>Trouble workspace_diagnostics<cr>",
-                "Open trouble workspace diagnostics"
-            ),
+            nmap("<leader>xx", "<cmd>Trouble diagnostics<cr>", "Open trouble diagnostics"),
             nmap("<leader>xq", "<cmd>Trouble quickfix<cr>", "Open trouble quickfix list"),
-            nmap("[x", function()
-                require("trouble").previous({ skip_groups = true, jump = true })
-            end, "Jump to previous problem (trouble)"),
-            nmap("]x", function()
-                require("trouble").next({ skip_groups = true, jump = true })
-            end, "Jump to next problem (trouble)"),
         },
         opts = {
             height = 15,

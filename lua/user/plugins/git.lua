@@ -42,7 +42,6 @@ return {
     },
     {
         "lewis6991/gitsigns.nvim",
-        commit = "cdfcd9d", -- see https://github.com/lewis6991/gitsigns.nvim/issues/1027
         event = "LazyFile",
         cmd = "Gitsigns",
         opts = {
