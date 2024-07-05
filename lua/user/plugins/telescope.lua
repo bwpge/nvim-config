@@ -26,6 +26,32 @@ nmap("<leader>fhl", "<cmd>Telescope highlights<cr>", "Search highlight groups")
 nmap("<leader>fcs", "<cmd>Telescope colorscheme<cr>", "Select colorscheme")
 nmap("<F1>", "<cmd>Telescope help_tags<cr>", "Search help tags")
 
+-- build a reasonable "ignored" find_files command
+local find_command = {
+    "rg",
+    "--files",
+    "--color",
+    "never",
+    "-uu",
+}
+for _, term in ipairs({
+    "node_modules",
+    "/target/",
+    "/build/",
+    "/.cache/",
+    "__pycache__",
+}) do
+    table.insert(find_command, "-g")
+    table.insert(find_command, "!" .. term)
+end
+-- use a separate keymap for "ignored" find_files picker (this isn't needed
+-- that frequently, but needed enough to warrant a keymap)
+nmap("<leader>fF", function()
+    require("telescope.builtin").find_files({
+        find_command = find_command,
+    })
+end, "Go to file (includes ignored)")
+
 return {
     {
         "nvim-telescope/telescope.nvim",
@@ -70,25 +96,6 @@ return {
                         ["<M-Up>"] = "cycle_history_prev",
                         ["<C-Home>"] = "move_to_top",
                         ["<C-End>"] = "move_to_bottom",
-                    },
-                },
-            },
-            pickers = {
-                find_files = {
-                    find_command = {
-                        "rg",
-                        "--files",
-                        "--color",
-                        "never",
-                        "-uu",
-                        "-g",
-                        "!.git",
-                        "-g",
-                        "!node_modules",
-                        "-g",
-                        "!/target/",
-                        "-g",
-                        "!__pycache__",
                     },
                 },
             },
