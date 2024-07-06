@@ -15,7 +15,7 @@ return {
         },
         highlight = {
             keyword = "wide_bg",
-            pattern = [[.*<(KEYWORDS)\s*(\(\w*\))?:?]],
+            pattern = [[.*<((KEYWORDS)%(\(.{-1,}\))?):]],
         },
         colors = {
             hint = { "Comment", "#10B981" },
@@ -24,7 +24,7 @@ return {
             default = { "Comment", "#7C3AED" },
         },
         search = {
-            pattern = [[\b(KEYWORDS)\s*(\(\w*\))?:?]],
+            pattern = [[\b(KEYWORDS)(\(\w*\))*:]],
         },
     }),
 }
