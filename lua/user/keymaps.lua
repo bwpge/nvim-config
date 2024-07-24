@@ -22,8 +22,8 @@ imap("<S-tab>", "<C-d>", "Dedent the current line")
 vmap("<Tab>", ">gv", "Indent selected lines")
 vmap("<S-tab>", "<gv", "Indent selected lines")
 imap("<M-BS>", "<C-w>", "Delete the word before the cursor")
-nmap("<M-+>", "<C-a>", "Increment number under cursor")
-nmap("<M-_>", "<C-x>", "Decrement number under cursor")
+nmap("+", "<C-a>", "Increment number under cursor")
+nmap("-", "<C-x>", "Decrement number under cursor")
 nmap("<leader>I", vim.show_pos, "Show all the items at a given buffer position (same as :Inspect)")
 
 -- manipulate lines

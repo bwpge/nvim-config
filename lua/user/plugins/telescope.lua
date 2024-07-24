@@ -35,6 +35,7 @@ local find_command = {
     "-uu",
 }
 for _, term in ipairs({
+    ".git/",
     "node_modules",
     "/target/",
     "/build/",
