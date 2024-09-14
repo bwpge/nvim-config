@@ -92,6 +92,17 @@ return {
                             },
                         },
                     }),
+                    pylsp = server_config("pylsp", {
+                        pylsp = {
+                            plugins = {
+                                pycodestyle = {
+                                    enabled = true,
+                                    ignore = { "E501", "E231" },
+                                    maxLineLength = 120,
+                                },
+                            },
+                        },
+                    }),
                     rust_analyzer = server_config("rust_analyzer", {
                         ["rust-analyzer"] = {
                             check = { command = "clippy" },
