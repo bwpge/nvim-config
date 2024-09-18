@@ -326,4 +326,28 @@ function M.json_decode_file(path, opts)
     return vim.json.decode(data, opts or {})
 end
 
+---Returns whether or not any element in the table is `true`.
+---@param tbl any
+---@return boolean
+function M.any(tbl)
+    for _, v in ipairs(tbl) do
+        if v == true then
+            return true
+        end
+    end
+    return false
+end
+
+---Returns whether or not all elements in the table are `true`.
+---@param tbl any
+---@return boolean
+function M.all(tbl)
+    for _, v in ipairs(tbl) do
+        if v ~= true then
+            return false
+        end
+    end
+    return true
+end
+
 return M
