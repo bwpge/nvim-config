@@ -45,6 +45,7 @@ return {
                     "gofumpt",
                     "golines",
                     "gopls",
+                    "staticcheck",
                 },
                 npm = {
                     "ts_ls",

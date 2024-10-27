@@ -73,9 +73,16 @@ return {
             end
 
             -- simple wrapper to clean up nesting levels
-            local function server_config(name, opts)
+            local function server_config(name, opts, inner)
+                if not inner then
+                    inner = name
+                end
                 return function()
-                    require("lspconfig")[name].setup({ settings = opts })
+                    require("lspconfig")[name].setup({
+                        settings = {
+                            [inner] = opts,
+                        },
+                    })
                 end
             end
 
@@ -83,31 +90,33 @@ return {
                 handlers = {
                     lsp_zero.default_setup,
                     lua_ls = server_config("lua_ls", {
-                        Lua = {
-                            hint = {
-                                enable = true,
-                            },
-                            diagnostics = {
-                                enable = true,
-                            },
+                        hint = {
+                            enable = true,
+                        },
+                        diagnostics = {
+                            enable = true,
+                        },
+                    }, "Lua"),
+                    gopls = server_config("gopls", {
+                        staticcheck = true,
+                        analyses = {
+                            unusedparams = true,
+                            unusedvariable = true,
+                            unusedresult = true,
                         },
                     }),
                     pylsp = server_config("pylsp", {
-                        pylsp = {
-                            plugins = {
-                                pycodestyle = {
-                                    enabled = true,
-                                    ignore = { "E501", "E231" },
-                                    maxLineLength = 120,
-                                },
+                        plugins = {
+                            pycodestyle = {
+                                enabled = true,
+                                ignore = { "E501", "E231" },
+                                maxLineLength = 120,
                             },
                         },
                     }),
                     rust_analyzer = server_config("rust_analyzer", {
-                        ["rust-analyzer"] = {
-                            check = { command = "clippy" },
-                        },
-                    }),
+                        check = { command = "clippy" },
+                    }, "rust-analyzer"),
                 },
             })
         end,
