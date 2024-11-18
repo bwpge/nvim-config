@@ -28,7 +28,7 @@ return {
         "ryanmsnyder/toggleterm-manager.nvim",
         keys = {
             {
-                "<leader>;t",
+                "<leader>``",
                 "<cmd>Telescope toggleterm_manager<cr>",
                 desc = "Open terminal manager",
             },
@@ -83,10 +83,10 @@ return {
         cmd = { "ToggleTerm", "TermExec", "TermSelect" },
         keys = {
             kmap({ "n", "i", "t" }, "<M-`>", toggleterm_cmd(), "Toggle integrated terminal"),
-            nmap("<leader>;f", toggleterm_cmd("float"), "Toggle floating integrated terminal"),
-            nmap("<leader>;v", toggleterm_cmd("vertical"), "Toggle vertical integrated terminal"),
+            nmap("<leader>`f", toggleterm_cmd("float"), "Toggle floating integrated terminal"),
+            nmap("<leader>`v", toggleterm_cmd("vertical"), "Toggle vertical integrated terminal"),
             nmap(
-                "<leader>;h",
+                "<leader>`h",
                 toggleterm_cmd("horizontal"),
                 "Toggle horizontal integrated terminal"
             ),
@@ -106,6 +106,9 @@ return {
                 Normal = { link = "Normal" },
                 NormalFloat = { link = "TelescopeNormal" },
                 FloatBorder = { link = "TelescopePreviewBorder" },
+                -- fix statusline colors with heirline
+                StatusLine = { link = "StatusLine" },
+                StatusLineNC = { link = "StatusLineNC" },
             },
             float_opts = {
                 -- use same dimensions as telescope
