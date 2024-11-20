@@ -8,6 +8,7 @@ local function grapple_toggle()
     local ok, err = pcall(vim.cmd, "Grapple toggle")
     if ok then
         vim.notify(action .. " grapple tag: " .. vim.fn.expand("%:."))
+        vim.schedule(vim.cmd.redrawstatus)
     else
         vim.notify("Failed to toggle grapple tag: " .. err, vim.log.levels.WARN)
     end
