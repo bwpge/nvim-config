@@ -59,7 +59,7 @@ M.git_info = {
             end,
         },
         primary = "fg_dim",
-        secondary = "surface_bg",
+        secondary = "bg_surface",
     }),
 }
 
@@ -323,7 +323,7 @@ M.attached_lsps = {
             end,
         },
         primary = "green",
-        secondary = "surface_bg",
+        secondary = "bg_surface",
     }),
 }
 
@@ -337,7 +337,7 @@ M.location = styles.badge({
         update = { "CursorMoved", "CursorMovedI" },
     },
     primary = "yellow",
-    secondary = "surface_bg",
+    secondary = "bg_surface",
 })
 
 return M

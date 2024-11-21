@@ -91,17 +91,17 @@ function M.pill(component, color)
     return {
         {
             provider = "",
-            hl = { fg = "surface_bg" },
+            hl = { fg = "bg_surface" },
         },
         {
             hl = function(self)
-                return { fg = s_color(self), bg = "surface_bg" }
+                return { fg = s_color(self), bg = "bg_surface" }
             end,
             comp,
         },
         {
             provider = "",
-            hl = { fg = "surface_bg" },
+            hl = { fg = "bg_surface" },
         },
     }
 end
@@ -186,7 +186,7 @@ function M.indicator(opts)
             left = opts.icon,
             right = right,
             primary = opts.color,
-            secondary = "surface_bg",
+            secondary = "bg_surface",
         }),
         M.space,
     }

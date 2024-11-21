@@ -17,11 +17,12 @@ function M.colors()
         end
     end
 
-    local surface_bg
+    local bg_surface
     if theme.normal then
-        surface_bg = theme.normal.b.bg
-    else
-        surface_bg = utils.get_highlight("TelescopePromptBorder").bg
+        bg_surface = theme.normal.b.bg
+    end
+    if not bg_surface then
+        bg_surface = utils.get_highlight("TelescopePromptBorder").bg
     end
 
     return {
@@ -40,7 +41,7 @@ function M.colors()
         black = utils.get_highlight("StatusLine").bg,
         fg_inactive = utils.get_highlight("StatusLineNC").fg,
         bg_inactive = utils.get_highlight("StatusLineNC").bg,
-        surface_bg = surface_bg,
+        bg_surface = bg_surface,
         fg_dim = utils.get_highlight("Comment").fg,
         fg_modified = utils.get_highlight("MatchParen").fg,
         fg_new = utils.get_highlight("Special").fg,
