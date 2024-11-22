@@ -27,11 +27,11 @@ function M.badge(opts)
     end
 
     local left = opts.left
-    if type(opts.left) == "string" then
+    if type(opts.left) == "string" or type(opts.right) == "function" then
         left = { provider = opts.left }
     end
     local right = opts.right
-    if type(opts.right) == "string" then
+    if type(opts.right) == "string" or type(opts.right) == "function" then
         right = { provider = opts.right }
     end
 
@@ -84,7 +84,7 @@ function M.pill(component, color)
     end
 
     local comp = component
-    if type(comp) == "string" then
+    if type(comp) == "string" or type(comp) == "function" then
         comp = { provider = component }
     end
 

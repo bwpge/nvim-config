@@ -63,6 +63,25 @@ M.git_info = {
     }),
 }
 
+local python_env_name = helpers.get_python_env_name()
+
+M.python_env = {
+    static = {
+        env_name = helpers.get_python_env_name(),
+    },
+    condition = function()
+        return python_env_name ~= nil
+    end,
+    styles.badge({
+        left = " ",
+        right = function(self)
+            return self.env_name
+        end,
+        primary = "yellow",
+        secondary = "bg_surface",
+    }),
+}
+
 M.file_icon = {
     condition = function(self)
         return conditions.is_active() and self.has_icon and not self.is_new
@@ -336,7 +355,7 @@ M.location = styles.badge({
         end,
         update = { "CursorMoved", "CursorMovedI" },
     },
-    primary = "yellow",
+    primary = "white",
     secondary = "bg_surface",
 })
 

@@ -89,4 +89,22 @@ function M.get_term_info()
     return p, pid
 end
 
+local python_vars = {
+    "VIRTUAL_ENV",
+    "CONDA_ENV_PATH",
+    "CONDA_DEFAULT_ENV",
+}
+
+---@return string?
+function M.get_python_env_name()
+    for _, v in ipairs(python_vars) do
+        local env = vim.env[v]
+        if env then
+            return env
+        end
+    end
+
+    return nil
+end
+
 return M

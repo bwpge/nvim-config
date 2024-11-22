@@ -94,6 +94,7 @@ local default_sl = {
     C.pad,
     C.diagnostics,
     C.file_info,
+    C.python_env,
     C.grapple,
     C.attached_lsps,
     C.location,

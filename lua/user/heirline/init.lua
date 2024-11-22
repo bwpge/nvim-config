@@ -3,7 +3,7 @@ local utils = require("heirline.utils")
 local M = {}
 
 ---@alias Component table
----@alias ComponentLike Component|string
+---@alias ComponentLike Component|string|fun(self):Component
 ---@alias ComponentColor string|fun(self):string
 ---@alias ComponentHighlight string|table|fun(self):table|string|nil
 
@@ -34,11 +34,12 @@ function M.colors()
         purple = utils.get_highlight("Keyword").fg,
         yellow = utils.get_highlight("Type").fg,
         cyan = utils.get_highlight("Operator").fg,
+        white = utils.get_highlight("StatusLine").fg,
+        black = utils.get_highlight("StatusLine").bg,
         diag_warn = utils.get_highlight("DiagnosticWarn").fg,
         diag_error = utils.get_highlight("DiagnosticError").fg,
         diag_hint = utils.get_highlight("DiagnosticHint").fg,
         diag_info = utils.get_highlight("DiagnosticInfo").fg,
-        black = utils.get_highlight("StatusLine").bg,
         fg_inactive = utils.get_highlight("StatusLineNC").fg,
         bg_inactive = utils.get_highlight("StatusLineNC").bg,
         bg_surface = bg_surface,
