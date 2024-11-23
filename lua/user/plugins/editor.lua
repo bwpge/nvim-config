@@ -36,6 +36,8 @@ return {
         },
         ft = { "markdown" },
         build = function()
+            -- plugin might not be loaded if lazy=true
+            vim.cmd("Lazy load markdown-preview.nvim")
             vim.fn["mkdp#util#install"]()
         end,
     },
