@@ -87,6 +87,16 @@ local term_sl = {
     C.pad,
 }
 
+local dap_sl = {
+    condition = function()
+        return conditions.buffer_matches({
+            filetype = { "^dapui_", "dap%-repl" },
+        })
+    end,
+    C.dap_path,
+    C.pad,
+}
+
 local default_sl = {
     C.vimode,
     C.git_info,
@@ -131,6 +141,7 @@ return {
     end,
     fallthrough = false,
     empty_sl,
+    dap_sl,
     toggleterm_sl,
     term_sl,
     inactive_sl,

@@ -108,6 +108,13 @@ M.directory = {
     end,
 }
 
+M.readonly_icon = {
+    condition = function(self)
+        return self.is_readonly
+    end,
+    provider = " ",
+}
+
 M.pretty_path = {
     init = function(self)
         self.path = vim.fn.expand("%:~:."):gsub("^(%a[%a%d%-%+%.]*)://", "")
@@ -140,12 +147,7 @@ M.pretty_path = {
             end
         end,
     },
-    {
-        condition = function(self)
-            return self.is_readonly
-        end,
-        provider = " ",
-    },
+    M.readonly_icon,
 }
 
 M.fugitive_path = {
@@ -196,6 +198,35 @@ M.fugitive_path = {
         styles.number_pill({
             provider = function(self)
                 return self.fid
+            end,
+        }),
+    },
+}
+
+M.dap_path = {
+    init = function(self)
+        self.name = vim.fn.expand("%")
+        self.number = self.name:match("dap%-repl%-(%d+)")
+        if self.name:match("dap%-repl") ~= nil then
+            self.name = "DAP REPL"
+        end
+
+        self.icon, self.icon_hl = helpers.get_icon("dapui")
+        self.has_icon = type(self.icon) == "string" and #self.icon > 0
+    end,
+    {
+        provider = function(self)
+            return self.name
+        end,
+    },
+    {
+        condition = function(self)
+            return self.number ~= nil and conditions.is_active()
+        end,
+        M.space,
+        styles.number_pill({
+            provider = function(self)
+                return self.number
             end,
         }),
     },
