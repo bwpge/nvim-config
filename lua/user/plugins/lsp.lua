@@ -4,15 +4,17 @@ local nmap = U.nmap
 
 ---Toggles native inlay hints.
 local function toggle_inlay_hints()
-    ---@diagnostic disable-next-line: missing-parameter
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end
 
 return {
     {
         "folke/lazydev.nvim",
+        dependencies = { "Bilal2453/luvit-meta" },
         event = "LazyProject:nvim",
-        opts = {},
+        opts = {
+            library = { "luvit-meta/library" },
+        },
     },
     {
         "VonHeikemen/lsp-zero.nvim",

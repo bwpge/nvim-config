@@ -50,7 +50,6 @@ return {
                 completion = {
                     completeopt = "menu,menuone,preview,noselect",
                 },
-                ---@diagnostic disable-next-line: missing-fields
                 formatting = {
                     expandable_indicator = false,
                     fields = { "kind", "abbr", "menu" },

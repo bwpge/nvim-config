@@ -9,10 +9,8 @@ if not vim.uv.fs_stat(lazypath) then
         lazypath,
     })
 end
----@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
----@diagnostic disable-next-line: inject-field
 vim.g.lazy_events_config = {
     simple = {
         LazyFile = { "BufReadPost", "BufNewFile", "BufWritePre" },

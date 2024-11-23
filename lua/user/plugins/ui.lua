@@ -66,12 +66,11 @@ return {
                 return x.icon == ""
             end, devicons.get_icons())
 
-            ---@diagnostic disable-next-line: unused-local
             for k, v in pairs(all) do
                 v.icon = "󰊢"
                 v.color = "#dd5e32"
                 v.cterm_color = 196
-                devicons.set_icon({ k = v })
+                devicons.set_icon({ [k] = v })
             end
         end,
     },

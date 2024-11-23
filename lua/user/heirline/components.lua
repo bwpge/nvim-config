@@ -118,7 +118,6 @@ M.pretty_path = {
             and not self.is_unnamed
             and vim.bo.buftype == ""
             and not vim.wo.diff
-            ---@diagnostic disable-next-line: undefined-field
             and vim.uv.fs_stat(vim.fn.expand("%:p")) == nil
         self.icon, self.icon_hl = helpers.get_icon(self.path, vim.bo.ft, vim.bo.bt)
         self.has_icon = type(self.icon) == "string" and #self.icon > 0
