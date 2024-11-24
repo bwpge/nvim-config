@@ -7,7 +7,6 @@ vim.o.fileformats = "unix,dos"
 -- line numbers
 opt.relativenumber = true
 opt.number = true
-opt.fillchars = { eob = " " }
 
 -- tabs/indents
 opt.tabstop = 4
@@ -15,9 +14,22 @@ opt.shiftwidth = 4
 opt.expandtab = true
 opt.autoindent = true
 
+-- folding
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.require('user.utils').foldexpr()"
+vim.opt.foldtext = ""
+vim.opt.foldlevel = 999
+vim.opt.foldlevelstart = 999
+
 -- editor settings
 opt.background = "dark"
 opt.cursorline = true
+opt.fillchars:append({
+    eob = " ",
+    fold = " ",
+    foldopen = "",
+    foldclose = "",
+})
 opt.list = true
 opt.listchars:append({
     tab = "→ ",

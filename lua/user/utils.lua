@@ -348,4 +348,32 @@ function M.all(tbl)
     return true
 end
 
+---Optimized treesitter foldexpr taken from LazyVim
+---See: https://github.com/LazyVim/LazyVim/blob/eb525c680d0423f5addb12e10f87ce5b81fc0d9e/lua/lazyvim/util/ui.lua#L10
+function M.foldexpr()
+    local buf = vim.api.nvim_get_current_buf()
+    if vim.b[buf].ts_folds == nil then
+        if vim.bo[buf].filetype == "" then
+            return "0"
+        end
+        if vim.bo[buf].filetype:find("dashboard") then
+            vim.b[buf].ts_folds = false
+        else
+            vim.b[buf].ts_folds = pcall(vim.treesitter.get_parser, buf)
+        end
+    end
+    return vim.b[buf].ts_folds and vim.treesitter.foldexpr() or "0"
+end
+
+---Toggles the foldcolumn
+function M.toggle_foldcolumn()
+    local f = vim.o.foldcolumn
+
+    if not f or (f and f == "0") then
+        vim.o.foldcolumn = "auto:9"
+    else
+        vim.o.foldcolumn = "0"
+    end
+end
+
 return M
