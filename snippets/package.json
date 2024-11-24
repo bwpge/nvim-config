@@ -16,6 +16,12 @@
       },
       {
         "language": [
+          "lua"
+        ],
+        "path": "./lua.json"
+      },
+      {
+        "language": [
           "markdown"
         ],
         "path": "./markdown.json"
