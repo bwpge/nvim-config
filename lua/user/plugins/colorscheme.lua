@@ -112,7 +112,8 @@ return {
         name = "catppuccin",
         opts = {
             flavour = "macchiato",
-            custom_highlights = function(_)
+            custom_highlights = function(colors)
+                local utils = require("catppuccin.utils.colors")
                 return {
                     ["@constructor.lua"] = { link = "@punctuation.bracket" },
                     ["@function.builtin"] = { link = "Function" },
@@ -147,6 +148,8 @@ return {
                     ["IlluminatedWordText"] = { link = "LspReferenceText" },
                     ["IlluminatedWordWrite"] = { link = "LspReferenceWrite" },
                     ["Pmenu"] = { fg = "#939ab7", bg = "#1f202f" },
+                    ["DiffChange"] = { bg = utils.darken(colors.yellow, 0.15, colors.base) },
+                    ["DiffText"] = { bg = utils.darken(colors.peach, 0.3, colors.base) },
                 }
             end,
         },
