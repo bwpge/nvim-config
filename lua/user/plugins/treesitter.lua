@@ -54,6 +54,8 @@ return {
                             query = "@scope",
                             query_group = "locals",
                         },
+                        ["ag"] = "@generic.outer",
+                        ["ig"] = "@generic.inner",
                     },
                     selection_modes = {
                         ["@parameter"] = "v",

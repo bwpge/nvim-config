@@ -13,7 +13,31 @@ return {
         "kylechui/nvim-surround",
         event = "VeryLazy",
         version = "*",
-        opts = {},
+        opts = function()
+            local surround = require("nvim-surround.config")
+            return {
+                surrounds = {
+                    g = {
+                        add = function()
+                            local result = surround.get_input("Enter the type name: ")
+                            if result then
+                                return { { result .. "<" }, { ">" } }
+                            end
+                        end,
+                        find = function()
+                            if not vim.g.loaded_nvim_treesitter then
+                                error("cannot find `generic_type` without treesitter")
+                            end
+                            local selection = surround.get_selection({ node = "generic_type" })
+                            if selection then
+                                return selection
+                            end
+                        end,
+                        delete = "^(.-%<)().-(%>)()$",
+                    },
+                },
+            }
+        end,
     },
     {
         "windwp/nvim-autopairs",
