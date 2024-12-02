@@ -5,6 +5,7 @@ local imap = U.imap
 local vmap = U.vmap
 
 vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 -- adjust commonly used keys
 nmap("<esc>", "<cmd>noh<cr><esc>") -- clear search highlight

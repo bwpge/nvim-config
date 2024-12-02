@@ -7,20 +7,24 @@ local function get_make_cmd()
     elseif vim.fn.executable("cmake") == 1 then
         return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
     end
+    return nil
 end
 local make_cmd = get_make_cmd()
 
 nmap("<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file")
-nmap("<leader>fg", "<cmd>Telescope live_grep<cr>", "Find in files (ripgrep)")
-nmap("<leader>fs", "<cmd>Telescope grep_string<cr>", "Find word under cursor")
-nmap("<leader>fb", "<cmd>Telescope buffers<cr>", "Go to buffer")
+nmap("<leader>f/", "<cmd>Telescope live_grep<cr>", "Find in files")
+nmap(
+    "<leader>fb",
+    "<cmd>Telescope buffers sort_mru=true sort_lastused=true ignore_current_buffer=true<cr>",
+    "Go to buffer"
+)
 nmap("<leader>fo", "<cmd>Telescope lsp_document_symbols<cr>", "Go to buffer")
 nmap("<leader>fO", "<cmd>Telescope lsp_workspace_symbols<cr>", "Go to buffer")
 nmap("<leader>fd", "<cmd>Telescope diagnostics<cr>", "Go to diagnostics")
 nmap("<leader>fk", "<cmd>Telescope keymaps<cr>", "Search keymaps")
-nmap("<leader>fis", "<cmd>Telescope git_status<cr>", "Find dirty files")
-nmap("<leader>fic", "<cmd>Telescope git_commits<cr>", "Find git commits")
-nmap("<leader>fib", "<cmd>Telescope git_branches<cr>", "Find git branches")
+nmap("<leader>fgs", "<cmd>Telescope git_status<cr>", "Find dirty files")
+nmap("<leader>fgc", "<cmd>Telescope git_commits<cr>", "Find git commits")
+nmap("<leader>fgb", "<cmd>Telescope git_branches<cr>", "Find git branches")
 nmap("<leader>f;", "<cmd>Telescope commands<cr>", "Search commands")
 nmap("<leader>fhl", "<cmd>Telescope highlights<cr>", "Search highlight groups")
 nmap("<leader>fcs", "<cmd>Telescope colorscheme<cr>", "Select colorscheme")
@@ -63,52 +67,66 @@ return {
         },
         cmd = "Telescope",
         keys = {},
-        opts = U.merge_custom_opts("telescope", {
-            defaults = {
-                selection_caret = " ",
-                prompt_prefix = "   ",
-                layout_strategy = "horizontal",
-                sorting_strategy = "ascending",
-                layout_config = {
-                    horizontal = {
-                        prompt_position = "top",
-                        preview_width = 0.55,
-                        results_width = 0.8,
+        opts = function()
+            local actions = require("telescope.actions")
+            local transform_mod = require("telescope.actions.mt").transform_mod
+            local custom_actions = {
+                open_trouble_qflist = function()
+                    vim.cmd("botright Trouble qflist")
+                end,
+            }
+            custom_actions = transform_mod(custom_actions)
+
+            return {
+                defaults = {
+                    selection_caret = " ",
+                    prompt_prefix = "   ",
+                    layout_strategy = "horizontal",
+                    sorting_strategy = "ascending",
+                    layout_config = {
+                        horizontal = {
+                            prompt_position = "top",
+                            preview_width = 0.55,
+                            results_width = 0.8,
+                        },
+                        vertical = {
+                            mirror = false,
+                        },
+                        width = 0.87,
+                        height = 0.75,
                     },
-                    vertical = {
-                        mirror = false,
-                    },
-                    width = 0.87,
-                    height = 0.75,
-                },
-                color_devicons = true,
-                mappings = {
-                    i = {
-                        ["<esc>"] = "close",
-                        ["<C-s>"] = "select_horizontal",
-                        ["<C-x>"] = false,
-                        ["<C-j>"] = "move_selection_next",
-                        ["<C-k>"] = "move_selection_previous",
-                        ["<M-j>"] = "preview_scrolling_down",
-                        ["<M-k>"] = "preview_scrolling_up",
-                        ["<C-Down>"] = "preview_scrolling_down",
-                        ["<C-Up>"] = "preview_scrolling_up",
-                        ["<M-Down>"] = "cycle_history_next",
-                        ["<M-Up>"] = "cycle_history_prev",
-                        ["<C-Home>"] = "move_to_top",
-                        ["<C-End>"] = "move_to_bottom",
+                    color_devicons = true,
+                    mappings = {
+                        i = {
+                            ["<esc>"] = "close",
+                            ["<C-s>"] = "select_horizontal",
+                            ["<C-x>"] = false,
+                            ["<C-j>"] = "move_selection_next",
+                            ["<C-k>"] = "move_selection_previous",
+                            ["<M-j>"] = "preview_scrolling_down",
+                            ["<M-k>"] = "preview_scrolling_up",
+                            ["<C-Down>"] = "preview_scrolling_down",
+                            ["<C-Up>"] = "preview_scrolling_up",
+                            ["<M-Down>"] = "cycle_history_next",
+                            ["<M-Up>"] = "cycle_history_prev",
+                            ["<C-Home>"] = "move_to_top",
+                            ["<C-End>"] = "move_to_bottom",
+                            ["<C-q>"] = actions.send_to_qflist + custom_actions.open_trouble_qflist,
+                            ["<M-q>"] = actions.send_selected_to_qflist
+                                + custom_actions.open_trouble_qflist,
+                        },
                     },
                 },
-            },
-            extensions = {
-                fzf = {
-                    fuzzy = true,
-                    override_generic_sorter = true,
-                    override_file_sorter = true,
-                    case_mode = "smart_case",
+                extensions = {
+                    fzf = {
+                        fuzzy = true,
+                        override_generic_sorter = true,
+                        override_file_sorter = true,
+                        case_mode = "smart_case",
+                    },
                 },
-            },
-        }),
+            }
+        end,
         config = function(_, opts)
             local telescope = require("telescope")
             telescope.setup(opts)

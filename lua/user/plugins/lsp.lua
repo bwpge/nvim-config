@@ -27,6 +27,10 @@ return {
             "rust-lang/rust.vim",
         },
         event = "LazyFile",
+        keys = {
+            U.lazy_nmap("<leader>lr", "<cmd>LspRestart<cr>", "Restart attached LSPs"),
+            U.lazy_nmap("<leader>li", "<cmd>LspInfo<cr>", "Show info about attached LSPs"),
+        },
         config = function()
             local lsp_zero = require("lsp-zero")
 

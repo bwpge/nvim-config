@@ -133,9 +133,15 @@ return {
         keys = {
             nmap("<leader>xx", "<cmd>Trouble diagnostics<cr>", "Open trouble diagnostics"),
             nmap("<leader>xq", "<cmd>Trouble quickfix<cr>", "Open trouble quickfix list"),
+            nmap(
+                "<leader>xt",
+                "<cmd>Lazy! load todo-comments.nvim | Trouble todo<cr>",
+                "Open trouble todo list"
+            ),
         },
         opts = {
-            height = 15,
+            auto_preview = false,
+            focus = true,
             use_diagnostic_signs = true,
         },
     },
