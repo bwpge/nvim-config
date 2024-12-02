@@ -55,7 +55,7 @@ M.git_info = {
                 self.head = self.status.head
             end,
             provider = function(self)
-                return self.head
+                return self.head ~= "" and self.head or "(new)"
             end,
         },
         primary = "fg_dim",
