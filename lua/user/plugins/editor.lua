@@ -85,24 +85,26 @@ return {
             },
         },
         config = function(_, opts)
-            require("illuminate").configure(opts)
+            local illuminate = require("illuminate")
+            illuminate.configure(opts)
 
             local function map(key, dir, buffer)
                 local d = dir:sub(1, 4)
-                vim.keymap.set("n", key, function()
-                    require("illuminate")["goto_" .. d .. "_reference"](true)
-                end, {
-                    desc = "Go to " .. dir .. " hover reference",
-                    buffer = buffer,
-                })
+                U.repeat_nmap(
+                    key,
+                    function()
+                        illuminate["goto_" .. d .. "_reference"](true)
+                    end,
+                    "Go to " .. dir .. " hover reference",
+                    {
+                        buffer = buffer,
+                        expr = true,
+                    }
+                )
             end
 
-            map("]r", "next")
             map("[r", "previous")
+            map("]r", "next")
         end,
-        keys = {
-            { "]r", desc = "Go to next hover reference" },
-            { "[r", desc = "Go to previous hover reference" },
-        },
     },
 }

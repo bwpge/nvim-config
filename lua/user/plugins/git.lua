@@ -56,17 +56,26 @@ return {
             on_attach = function(bufnr)
                 local gs = package.loaded.gitsigns
 
-                local function map(key, dir, desc)
-                    nmap(key, function()
-                        if vim.wo.diff then
-                            vim.cmd.normal({ key, bang = true })
-                        else
-                            gs.nav_hunk(dir, { preview = true })
-                        end
-                    end, desc, { buffer = bufnr })
+                local function map(key, dir)
+                    local d = dir:sub(1, 4)
+                    U.repeat_nmap(
+                        key,
+                        function()
+                            if vim.wo.diff then
+                                vim.cmd.normal({ key, bang = true })
+                            else
+                                gs.nav_hunk(d, { preview = true })
+                            end
+                        end,
+                        "Go to " .. dir .. " hunk",
+                        {
+                            buffer = bufnr,
+                            expr = true,
+                        }
+                    )
                 end
-                map("[c", "prev", "Move to previous hunk diff")
-                map("]c", "next", "Move to next hunk diff")
+                map("[c", "previous")
+                map("]c", "next")
 
                 nmap("<leader>hr", gs.reset_hunk, "Reset git hunk")
                 nmap("<leader>hh", gs.preview_hunk, "View hunk diff")

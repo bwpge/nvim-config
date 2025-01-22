@@ -44,6 +44,19 @@ function M.prequire(mod)
     return m
 end
 
+M.dot_func = nil
+
+---Makes a keymap repeatable with `.`. The mapping must use `expr = true`.
+---@param fn function
+---@return function
+function M.make_repeatable(fn)
+    return function()
+        M.dot_func = fn
+        vim.go.operatorfunc = "v:lua.require'user.utils'.dot_func"
+        return "g@l"
+    end
+end
+
 ---Creates a keymap with sensible defaults.
 ---@param modes string|table
 ---@param lhs string
@@ -59,6 +72,18 @@ function M.kmap(modes, lhs, rhs, desc, opts)
     vim.keymap.set(modes, lhs, rhs, opts)
 end
 
+---Creates a repeatable keymap with sensible defaults.
+---@param mode string|table
+---@param lhs string
+---@param rhs function
+---@param desc string?
+---@param opts table?
+function M.repeat_kmap(mode, lhs, rhs, desc, opts)
+    opts = opts or {}
+    opts.expr = true
+    M.kmap(mode, lhs, M.make_repeatable(rhs), desc, opts)
+end
+
 ---Creates a normal mode keymap with sensible defaults.
 ---@param lhs string
 ---@param rhs string|function
@@ -66,6 +91,17 @@ end
 ---@param opts table?
 function M.nmap(lhs, rhs, desc, opts)
     M.kmap("n", lhs, rhs, desc, opts)
+end
+
+---Creates a repeatable normal mode keymap with sensible defaults.
+---@param lhs string
+---@param rhs function
+---@param desc string?
+---@param opts table?
+function M.repeat_nmap(lhs, rhs, desc, opts)
+    opts = opts or {}
+    opts.expr = true
+    M.nmap(lhs, M.make_repeatable(rhs), desc, opts)
 end
 
 ---Creates an insert mode keymap with sensible defaults.

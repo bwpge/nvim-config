@@ -38,8 +38,12 @@ imap("<C-d>", '<esc><esc>"zyy"zpqzqgi<C-o>j', "Duplicate current line")
 vmap("<C-d>", '"zy"zPqzqgv', "Duplicate selected lines")
 
 -- buffers
-nmap("[b", "<cmd>bp<cr>", "Go to previous buffer")
-nmap("]b", "<cmd>bn<cr>", "Go to next buffer")
+U.repeat_nmap("[b", function()
+    vim.cmd.bp()
+end, "Go to previous buffer")
+U.repeat_nmap("]b", function()
+    vim.cmd.bn()
+end, "Go to next buffer")
 nmap("<leader>q", ":confirm q<cr>", "Quit the current buffer with confirmation", { silent = true })
 nmap("<C-q>", ":confirm qall<cr>", "Quit all buffers with a confirmation")
 nmap("<leader>w", ":w<cr>", "Write the current buffer")
@@ -75,10 +79,10 @@ kmap({ "n", "t" }, "<C-S-Up>", "<cmd>wincmd K<cr>", "Move the window to the very
 kmap({ "n", "t" }, "<C-S-Down>", "<cmd>wincmd J<cr>", "Move the window to the very bottom")
 
 -- diagnostic keymaps
-nmap("[d", function()
+U.repeat_nmap("[d", function()
     vim.diagnostic.goto_prev({ float = true })
 end, "Go to previous diagnostic")
-nmap("]d", function()
+U.repeat_nmap("]d", function()
     vim.diagnostic.goto_next({ float = true })
 end, "Go to next diagnostic")
 

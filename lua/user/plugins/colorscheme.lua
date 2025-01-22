@@ -112,6 +112,9 @@ return {
         name = "catppuccin",
         opts = {
             flavour = "macchiato",
+            styles = {
+                miscs = {},
+            },
             custom_highlights = function(colors)
                 local utils = require("catppuccin.utils.colors")
                 return {
@@ -144,12 +147,12 @@ return {
                     ["CmpItemKindUnit"] = { link = "CmpItemKindKeyword" },
                     ["CmpItemKindVariable"] = { link = "Function" },
                     ["CmpItemMenu"] = { link = "Comment" },
+                    ["DiffChange"] = { bg = utils.darken(colors.yellow, 0.15, colors.base) },
+                    ["DiffText"] = { bg = utils.darken(colors.peach, 0.3, colors.base) },
                     ["IlluminatedWordRead"] = { link = "LspReferenceRead" },
                     ["IlluminatedWordText"] = { link = "LspReferenceText" },
                     ["IlluminatedWordWrite"] = { link = "LspReferenceWrite" },
                     ["Pmenu"] = { fg = "#939ab7", bg = "#1f202f" },
-                    ["DiffChange"] = { bg = utils.darken(colors.yellow, 0.15, colors.base) },
-                    ["DiffText"] = { bg = utils.darken(colors.peach, 0.3, colors.base) },
                 }
             end,
         },
