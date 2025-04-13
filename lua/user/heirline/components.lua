@@ -241,7 +241,10 @@ M.path_info = {
 M.grapple = styles.indicator({
     icon = " ",
     items_fn = function()
-        return require("grapple").tags() or {}
+        if package.loaded["grapple"] then
+            return require("grapple").tags() or {}
+        end
+        return {}
     end,
     is_active = function(tag)
         return tag.path == vim.fn.expand("%:p")
