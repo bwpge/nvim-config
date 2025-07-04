@@ -24,7 +24,6 @@ return {
         event = "LazyFile",
         opts = function()
             local ensure_installed = {
-                "clangd",
                 "lua_ls",
                 "rust_analyzer",
                 "stylua",

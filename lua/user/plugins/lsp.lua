@@ -94,6 +94,16 @@ return {
 
             require("mason-lspconfig").setup({
                 handlers = {
+                    clangd = require("lspconfig").clangd.setup({
+                        cmd = {
+                            "clangd",
+                            "--background-index",
+                            "--header-insertion=never",
+                            "--compile-commands-dir=build",
+                            "--pch-storage=memory",
+                            "--clang-tidy",
+                        },
+                    }),
                     lsp_zero.default_setup,
                     lua_ls = server_config("lua_ls", {
                         hint = {
