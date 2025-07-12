@@ -1,5 +1,2 @@
 plugin/packer_compiled.lua
 lazy-lock.json
-
-# allow tweaking settings without blasting commit history
-/customize.json
