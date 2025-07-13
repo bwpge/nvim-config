@@ -169,8 +169,18 @@ function M.set_config_keymap(key, opts)
 
     opts = opts or {}
     for _, v in ipairs(keys) do
-        opts.desc = v[4]
-        vim.keymap.set(v[1], v[2], v[3], opts)
+        local t = {}
+        t = vim.tbl_extend("force", opts, v.opts or {})
+        if v[3] then
+            t.desc = v[3]
+        end
+
+        local mode = v.mode or "n"
+        if v.dot then
+            M.repeat_kmap(mode, v[1], v[2], nil, t)
+        else
+            vim.keymap.set(mode, v[1], v[2], t)
+        end
     end
 end
 
@@ -284,7 +294,6 @@ function M.create_window(bufnr, opts)
         col = math.floor((vim.o.columns - width) / 2),
         width = width,
         height = height,
-        -- style = "minimal",
         border = "single",
     })
 

@@ -136,26 +136,8 @@ return {
             },
         },
         config = function(_, opts)
-            local illuminate = require("illuminate")
-            illuminate.configure(opts)
-
-            local function map(key, dir, buffer)
-                local d = dir:sub(1, 4)
-                U.repeat_nmap(
-                    key,
-                    function()
-                        illuminate["goto_" .. d .. "_reference"](true)
-                    end,
-                    "Go to " .. dir .. " hover reference",
-                    {
-                        buffer = buffer,
-                        expr = true,
-                    }
-                )
-            end
-
-            map("[r", "previous")
-            map("]r", "next")
+            require("illuminate").configure(opts)
+            U.set_config_keymap("illuminate")
         end,
     },
 }
