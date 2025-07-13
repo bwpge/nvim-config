@@ -11,24 +11,7 @@ local function get_make_cmd()
 end
 local make_cmd = get_make_cmd()
 
-nmap("<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file")
-nmap("<leader>f/", "<cmd>Telescope live_grep<cr>", "Find in files")
-nmap(
-    "<leader>fb",
-    "<cmd>Telescope buffers sort_mru=true sort_lastused=true ignore_current_buffer=true<cr>",
-    "Go to buffer"
-)
-nmap("<leader>fo", "<cmd>Telescope lsp_document_symbols<cr>", "Go to buffer")
-nmap("<leader>fO", "<cmd>Telescope lsp_workspace_symbols<cr>", "Go to buffer")
-nmap("<leader>fd", "<cmd>Telescope diagnostics<cr>", "Go to diagnostics")
-nmap("<leader>fk", "<cmd>Telescope keymaps<cr>", "Search keymaps")
-nmap("<leader>fgs", "<cmd>Telescope git_status<cr>", "Find dirty files")
-nmap("<leader>fgc", "<cmd>Telescope git_commits<cr>", "Find git commits")
-nmap("<leader>fgb", "<cmd>Telescope git_branches<cr>", "Find git branches")
-nmap("<leader>f;", "<cmd>Telescope commands<cr>", "Search commands")
-nmap("<leader>fhl", "<cmd>Telescope highlights<cr>", "Search highlight groups")
-nmap("<leader>fcs", "<cmd>Telescope colorscheme<cr>", "Select colorscheme")
-nmap("<F1>", "<cmd>Telescope help_tags<cr>", "Search help tags")
+U.set_config_keymap("telescope")
 
 -- build a reasonable "ignored" find_files command
 local find_command = {
@@ -49,6 +32,7 @@ for _, term in ipairs({
     table.insert(find_command, "-g")
     table.insert(find_command, "!" .. term)
 end
+
 -- use a separate keymap for "ignored" find_files picker (this isn't needed
 -- that frequently, but needed enough to warrant a keymap)
 nmap("<leader>fF", function()
@@ -60,7 +44,6 @@ end, "Go to file (includes ignored)")
 return {
     {
         "nvim-telescope/telescope.nvim",
-        -- version = "*",
         dependencies = {
             "nvim-lua/plenary.nvim",
             { "nvim-telescope/telescope-fzf-native.nvim", build = make_cmd },
@@ -93,15 +76,11 @@ return {
                     layout_config = {
                         horizontal = {
                             prompt_position = "top",
-                            preview_width = 0.55,
-                            results_width = 0.8,
-                        },
-                        vertical = {
-                            mirror = false,
                         },
                         width = 0.87,
                         height = 0.75,
                     },
+                    cycle_layout_list = { "horizontal", "vertical", "center" },
                     color_devicons = true,
                     mappings = {
                         i = {
@@ -117,11 +96,20 @@ return {
                             ["<M-Down>"] = "cycle_history_next",
                             ["<M-Up>"] = "cycle_history_prev",
                             ["<C-Home>"] = "move_to_top",
-                            ["<C-End>"] = "move_to_bottom",
+                            ["<C-p>"] = require("telescope.actions.layout").toggle_preview,
                             ["<C-q>"] = actions.send_to_qflist + custom_actions.open_qflist,
                             ["<M-q>"] = actions.send_selected_to_qflist
                                 + custom_actions.open_qflist,
                         },
+                    },
+                },
+                pickers = {
+                    find_files = {
+                        layout_config = {
+                            width = 0.55,
+                            height = 0.45,
+                        },
+                        previewer = false,
                     },
                 },
                 extensions = {

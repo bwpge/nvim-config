@@ -305,6 +305,27 @@ return {
             "View git blame for current line",
         },
     },
+    telescope = {
+        { "n", "<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file" },
+        { "n", "<leader>f/", "<cmd>Telescope live_grep<cr>", "Find in files" },
+        {
+            "n",
+            "<leader>fb",
+            "<cmd>Telescope buffers sort_mru=true sort_lastused=true ignore_current_buffer=true<cr>",
+            "Go to buffer",
+        },
+        { "n", "<leader>fo", "<cmd>Telescope lsp_document_symbols<cr>", "Go to buffer" },
+        { "n", "<leader>fO", "<cmd>Telescope lsp_workspace_symbols<cr>", "Go to buffer" },
+        { "n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", "Go to diagnostics" },
+        { "n", "<leader>fk", "<cmd>Telescope keymaps<cr>", "Search keymaps" },
+        { "n", "<leader>fgs", "<cmd>Telescope git_status<cr>", "Find dirty files" },
+        { "n", "<leader>fgc", "<cmd>Telescope git_commits<cr>", "Find git commits" },
+        { "n", "<leader>fgb", "<cmd>Telescope git_branches<cr>", "Find git branches" },
+        { "n", "<leader>f;", "<cmd>Telescope commands<cr>", "Search commands" },
+        { "n", "<leader>fhl", "<cmd>Telescope highlights<cr>", "Search highlight groups" },
+        { "n", "<leader>fcs", "<cmd>Telescope colorscheme<cr>", "Select colorscheme" },
+        { "n", "<F1>", "<cmd>Telescope help_tags<cr>", "Search help tags" },
+    },
     term = {
         {
             "t",
