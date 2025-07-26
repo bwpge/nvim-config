@@ -1,21 +1,39 @@
 local U = require("config.utils")
 
+-- identify large buffers to disable some settings and plugins
+vim.api.nvim_create_autocmd({ "BufReadPre" }, {
+    callback = function(ev)
+        vim.b[ev.buf].is_large_buf = false
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(ev.buf))
+        if ok and stats and stats.size > 1024 * 1024 then
+            vim.b[ev.buf].is_large_buf = true
+            vim.cmd.syntax("off")
+            vim.opt.foldmethod = "manual"
+        end
+    end,
+    pattern = "*",
+})
+
 -- render as quickly as possible when opening a file (taken from LazyVim)
 vim.api.nvim_create_autocmd("BufReadPost", {
     once = true,
-    callback = function(event)
+    callback = function(ev)
+        if vim.b[ev.buf].is_large_buf then
+            return
+        end
+
         -- Skip if we already entered vim
         if vim.v.vim_did_enter == 1 then
             return
         end
 
         -- Try to guess the filetype (may change later on during Neovim startup)
-        local ft = vim.filetype.match({ buf = event.buf })
+        local ft = vim.filetype.match({ buf = ev.buf })
         if ft then
             -- Add treesitter highlights and fallback to syntax
             local lang = vim.treesitter.language.get_lang(ft)
-            if not (lang and pcall(vim.treesitter.start, event.buf, lang)) then
-                vim.bo[event.buf].syntax = ft
+            if not (lang and pcall(vim.treesitter.start, ev.buf, lang)) then
+                vim.bo[ev.buf].syntax = ft
             end
 
             -- Trigger early redraw
@@ -26,17 +44,17 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 -- warn about line endings that are different than the default fileformat
 vim.api.nvim_create_autocmd("FileType", {
-    callback = function(e)
-        if not e.buf then
+    callback = function(ev)
+        if not ev.buf then
             return
         end
-        local ft = vim.bo[e.buf].filetype
-        local bt = vim.bo[e.buf].buftype
+        local ft = vim.bo[ev.buf].filetype
+        local bt = vim.bo[ev.buf].buftype
         if ft == "" or ft == "help" or bt == "help" then
             return
         end
 
-        local ff_bo = vim.bo[e.buf].fileformat
+        local ff_bo = vim.bo[ev.buf].fileformat
         local ff_default = vim.opt.fileformats:get()[1]
         if ff_bo and ff_default and ff_bo ~= ff_default then
             U.warn(
@@ -48,10 +66,10 @@ vim.api.nvim_create_autocmd("FileType", {
                     - match: %s",
                 ff_bo,
                 ff_default,
-                e.buf,
-                e.file,
-                e.id,
-                e.match
+                ev.buf,
+                ev.file,
+                ev.id,
+                ev.match
             )
         end
     end,

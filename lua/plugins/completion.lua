@@ -10,6 +10,10 @@ return {
         ---@type blink.cmp.Config
         opts = {
             enabled = function()
+                if vim.b.is_large_buf then
+                    return false
+                end
+
                 local disable_ft = {
                     "grug-far",
                     "gitcommit",

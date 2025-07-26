@@ -32,6 +32,9 @@ return {
             auto_install = true,
             highlight = {
                 enable = true,
+                disable = function(_, buf)
+                    return not vim.b[buf].is_large_buf
+                end,
                 additional_vim_regex_highlighting = false,
             },
             indent = { enable = true },

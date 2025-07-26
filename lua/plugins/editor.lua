@@ -126,7 +126,7 @@ return {
         event = "LazyFile",
         opts = {
             delay = 400,
-            large_file_cutoff = 2000,
+            large_file_cutoff = 10000,
             large_file_overrides = {
                 providers = { "lsp" },
             },
