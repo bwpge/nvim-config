@@ -92,23 +92,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
--- set lsp keymaps on attach
-vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(ev)
-        -- check if we already set keymaps for this buffer
-        if vim.b[ev.buf].is_lsp_km_set then
-            return
-        end
-        vim.b[ev.buf].is_lsp_km_set = true
-
-        vim.lsp.inlay_hint.enable()
-        U.set_config_keymap("lsp", {
-            noremap = true,
-            buffer = ev.buf,
-        })
-    end,
-})
-
 vim.api.nvim_create_autocmd("TermOpen", {
     callback = function(ev)
         U.set_config_keymap("term", { buffer = ev.buf })

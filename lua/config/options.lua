@@ -76,7 +76,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- lsp diagnostics
 vim.diagnostic.config({
-    virtual_lines = true,
+    virtual_lines = { current_line = true },
+    virtual_text = true,
     float = {
         border = "single",
         source = true,
