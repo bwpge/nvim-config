@@ -6,7 +6,7 @@ local commands = {
         function(ctx)
             local bufnr = vim.api.nvim_create_buf(false, true)
             if bufnr == 0 then
-                U.notify_error("Failed to create scratch buffer")
+                U.err("Failed to create scratch buffer")
                 return
             end
 
@@ -35,16 +35,16 @@ local commands = {
                 local twd = vim.fn.getcwd(0, i)
                 if twd == conf_path then
                     if i == vim.fn.tabpagenr() then
-                        U.notify_info("Config is already active (tab %d)", i)
+                        U.info("Config is already active (tab %d)", i)
                     else
-                        U.notify_info("Switching to config (tab %d)", i)
+                        U.info("Switching to config (tab %d)", i)
                         vim.cmd.norm(i .. "gt")
                     end
                     return
                 end
             end
 
-            U.notify_info("Opening config in new tab")
+            U.info("Opening config in new tab")
             vim.cmd.tabnew()
             vim.cmd.tcd(conf_path)
         end,
