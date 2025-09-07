@@ -37,13 +37,6 @@ return {
                     "rust-analyzer",
                     "taplo",
                 },
-                go = {
-                    "delve",
-                    "gofumpt",
-                    "golines",
-                    "gopls",
-                    "staticcheck",
-                },
                 npm = {
                     "typescript-language-server",
                     "prettier",
