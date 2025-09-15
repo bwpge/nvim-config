@@ -4,6 +4,11 @@ U.set_config_keymap("fugitive")
 
 return {
     {
+        "bwpge/gitignore.nvim",
+        opts = {},
+        cmd = "Gitignore",
+    },
+    {
         "tpope/vim-fugitive",
         dependencies = { "tpope/vim-rhubarb" },
         event = "LazyFile",
