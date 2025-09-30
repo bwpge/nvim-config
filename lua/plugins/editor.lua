@@ -140,4 +140,38 @@ return {
             U.set_config_keymap("illuminate")
         end,
     },
+    {
+        "petertriho/nvim-scrollbar",
+        event = "LazyFile",
+        opts = {
+            show_in_active_only = true,
+            handle = {
+                blend = 60,
+                highlight = "CursorLine",
+                hide_if_all_visible = true,
+            },
+            handlers = {
+                cursor = false,
+            },
+            excluded_buftypes = {
+                "terminal",
+                "nofile",
+            },
+            excluded_filetypes = {
+                "blink-cmp-menu",
+                "cmp_docs",
+                "cmp_menu",
+                "DressingInput",
+                "dropbar_menu",
+                "dropbar_menu_fzf",
+                "lazy",
+                "mason",
+                "neo-tree",
+                "noice",
+                "oil",
+                "prompt",
+                "TelescopePrompt",
+            },
+        },
+    },
 }
