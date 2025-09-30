@@ -54,8 +54,8 @@
     "description": "Snippet for a struct declaration"
   },
   "package main and main function": {
-    "prefix": "pkgm",
-    "body": "package main\n\nfunc main() {\n\t$0\n}",
+    "prefix": "main",
+    "body": "package main\n\nfunc main() {\n\t${1:print(\"Hello, world!\")}$0\n}",
     "description": "Snippet for main package & function"
   },
   "function declaration": {
