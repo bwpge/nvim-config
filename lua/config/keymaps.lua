@@ -1,4 +1,5 @@
 local U = require("config.utils")
+local S = require("config.state")
 
 ---Keymaps to be set by `config.utils.set_config_keymap`
 local M = {}
@@ -305,6 +306,18 @@ M.lsp = {
             vim.lsp.buf.references(nil, { on_list = on_list })
         end,
         "Go to reference",
+    },
+}
+
+M.format = {
+    {
+        "<leader>fos",
+        function()
+            local val = S.toggle("format_on_save")
+            local enabled = (val and "enabled") or "disabled"
+            vim.notify("Format on save: " .. enabled)
+        end,
+        "Toggle format on save",
     },
 }
 
