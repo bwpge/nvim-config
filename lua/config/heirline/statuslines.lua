@@ -107,6 +107,7 @@ local grugfar_sl = {
 
 local default_sl = {
     C.vimode,
+    C.active_snippet,
     C.git_info,
     C.path_info,
     C.pad,

@@ -38,8 +38,18 @@ M.vimode = {
 }
 
 M.active_vimode = {
-    condition = conditions.is_active(),
+    condition = conditions.is_active,
     M.vimode,
+}
+
+M.active_snippet = {
+    condition = vim.snippet.active,
+    update = { "ModeChanged" },
+    utils.surround({ "", "" }, "green", {
+        provider = "SNIPPET",
+        hl = { fg = "black", bold = true },
+    }),
+    M.space,
 }
 
 M.git_info = {

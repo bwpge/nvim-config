@@ -62,7 +62,17 @@ end
 
 M.default = {
     -- adjust commonly used keys
-    { "<esc>", "<cmd>noh<cr><esc>" }, -- clear search highlight
+    {
+        "<esc>",
+        function()
+            vim.cmd("noh")
+            vim.snippet.stop()
+            return "<esc>"
+        end,
+        nil,
+        mode = { "n", "i", "s" },
+        opts = { silent = true, expr = true },
+    }, -- clear search highlight
     { "<M-[>", [[<C-\><C-n>]], nil, mode = "t" }, -- exit insert in terminal mode
     { "x", '"_x', nil, mode = { "n", "x" } }, -- no register for single delete
     { "<del>", '"_x', nil, mode = { "n", "x" } }, -- no register for single delete
