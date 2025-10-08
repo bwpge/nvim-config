@@ -3,6 +3,7 @@ local U = require("config.utils")
 -- customize lsp settings
 local configs = {
     gopls = {
+        semanticTokens = true,
         staticcheck = true,
         analyses = {
             unusedparams = true,
