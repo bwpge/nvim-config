@@ -6,6 +6,7 @@ local configs = {
         semanticTokens = true,
         staticcheck = true,
         analyses = {
+            ST1000 = false,
             unusedparams = true,
             unusedvariable = true,
             unusedresult = true,
