@@ -20,6 +20,7 @@ return {
             styles = {
                 miscs = {},
             },
+            float = { solid = true },
             color_overrides = {
                 macchiato = {
                     rosewater = "#fccfd4",
@@ -52,20 +53,17 @@ return {
                     crust = "#0A0D0F",
                 },
             },
-            integrations = {
-                telescope = {
-                    enabled = true,
-                    style = "nvchad",
-                },
-            },
             custom_highlights = function(colors)
                 local utils = require("catppuccin.utils.colors")
-                local accent = colors.blue
+                local accent = colors.green
+                local accent2 = colors.sapphire
+                local base1 = utils.darken(colors.base, 0.90, colors.crust)
 
                 return {
                     ["@constructor.lua"] = { link = "@punctuation.bracket" },
                     ["@function.builtin"] = { link = "Function" },
                     ["@function.macro"] = { fg = "#8aadf4", italic = true },
+                    ["@lsp.mod.format.go"] = { link = "Special" },
                     ["@lsp.mod.mutable.rust"] = { style = { "underline" } },
                     ["@lsp.type.builtinType"] = { link = "Keyword" },
                     ["@lsp.type.decorator"] = { link = "@punctuation.special" },
@@ -73,6 +71,7 @@ return {
                     ["@lsp.type.lifetime.rust"] = { link = "@keyword" },
                     ["@lsp.type.macro.rust"] = { link = "Function" },
                     ["@lsp.type.namespace.cpp"] = { link = "Type" },
+                    ["@lsp.type.namespace.go"] = { link = "@property" },
                     ["@lsp.type.selfKeyword"] = { link = "Keyword" },
                     ["@lsp.type.selfTypeKeyword"] = { link = "Keyword" },
                     ["@lsp.type.variable.rust"] = { link = "@variable" },
@@ -101,13 +100,20 @@ return {
                     ["IlluminatedWordRead"] = { link = "LspReferenceRead" },
                     ["IlluminatedWordText"] = { link = "LspReferenceText" },
                     ["IlluminatedWordWrite"] = { link = "LspReferenceWrite" },
+                    ["NeoTreeFloatBorder"] = { fg = accent },
+                    ["NeoTreeTitleBar"] = { fg = colors.crust, bg = accent },
                     ["Pmenu"] = { fg = colors.overlay2, bg = colors.mantle },
                     ["SnacksInputBorder"] = { fg = accent, bg = colors.base },
                     ["SnacksInputTitle"] = { fg = colors.base, bg = accent },
+                    ["TelescopeMatching"] = { link = "IncSearch" },
                     ["TelescopePreviewTitle"] = { bg = accent, bold = true },
-                    ["TelescopePromptPrefix"] = { fg = accent },
-                    ["TelescopePromptTitle"] = { bg = accent, bold = true },
-                    ["TelescopeResultsTitle"] = { bg = accent, bold = true },
+                    ["TelescopePromptBorder"] = { fg = base1, bg = base1 },
+                    ["TelescopePromptNormal"] = { bg = base1 },
+                    ["TelescopePromptPrefix"] = { fg = accent, bold = true },
+                    ["TelescopePromptTitle"] = { bg = accent },
+                    ["TelescopeResultsTitle"] = { bg = accent2, fg = colors.base, bold = true },
+                    ["TelescopeSelection"] = { fg = accent2 },
+                    ["TelescopeSelectionCaret"] = { fg = accent2 },
                 }
             end,
         },

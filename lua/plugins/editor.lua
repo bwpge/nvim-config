@@ -133,6 +133,7 @@ return {
             filetypes_denylist = {
                 "neo-tree",
                 "fugitive",
+                "TelescopePrompt",
             },
         },
         config = function(_, opts)
