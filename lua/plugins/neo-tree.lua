@@ -1,3 +1,17 @@
+-- keep cursor at 0-column in neo-tree explorer
+vim.api.nvim_create_autocmd("CursorMoved", {
+    pattern = "neo-tree *",
+    callback = function(ev)
+        if vim.bo[ev.buf].bt ~= "nofile" then
+            return
+        end
+        local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+        if col ~= 0 then
+            vim.api.nvim_win_set_cursor(0, { row, 0 })
+        end
+    end,
+})
+
 return {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -35,8 +49,8 @@ return {
                     -- status type
                     untracked = "U",
                     ignored = "",
-                    unstaged = "󰄱",
-                    staged = "󰱒",
+                    unstaged = "○",
+                    staged = "●",
                     conflict = "",
                 },
             },
@@ -75,6 +89,8 @@ return {
                 ["[g"] = false,
                 ["]g"] = false,
                 ["<F2>"] = "rename",
+                ["ga"] = "git_add_file",
+                ["gu"] = "git_unstage_file",
             },
         },
     },
