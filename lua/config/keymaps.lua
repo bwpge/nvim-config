@@ -416,25 +416,44 @@ M.illuminate = {
     },
 }
 
-M.telescope = {
-    { "<leader>ff", "<cmd>Telescope find_files<cr>", "Go to file" },
-    { "<leader>f/", "<cmd>Telescope live_grep<cr>", "Find in files" },
+local function picker(name, opts)
+    return function()
+        ---@diagnostic disable-next-line: undefined-global
+        Snacks.picker[name](opts or {})
+    end
+end
+
+M.snacks = {
+    { "<leader>ff", picker("files"), "Go to file" },
     {
-        "<leader>fb",
-        "<cmd>Telescope buffers sort_mru=true sort_lastused=true ignore_current_buffer=true<cr>",
-        "Go to buffer",
+        "<leader>fF",
+        picker("files", {
+            hidden = true,
+            ignored = true,
+            exclude = {
+                ".git/",
+                "node_modules",
+                "/target/",
+                "/build/",
+                "/.cache/",
+                "__pycache__",
+            },
+        }),
+        "Go to file (includes hidden)",
     },
-    { "<leader>fo", "<cmd>Telescope lsp_document_symbols<cr>", "Go to buffer" },
-    { "<leader>fO", "<cmd>Telescope lsp_workspace_symbols<cr>", "Go to buffer" },
-    { "<leader>fd", "<cmd>Telescope diagnostics<cr>", "Go to diagnostics" },
-    { "<leader>fk", "<cmd>Telescope keymaps<cr>", "Search keymaps" },
-    { "<leader>fgs", "<cmd>Telescope git_status<cr>", "Find dirty files" },
-    { "<leader>fgc", "<cmd>Telescope git_commits<cr>", "Find git commits" },
-    { "<leader>fgb", "<cmd>Telescope git_branches<cr>", "Find git branches" },
-    { "<leader>f;", "<cmd>Telescope commands<cr>", "Search commands" },
-    { "<leader>fhl", "<cmd>Telescope highlights<cr>", "Search highlight groups" },
-    { "<leader>fcs", "<cmd>Telescope colorscheme<cr>", "Select colorscheme" },
-    { "<F1>", "<cmd>Telescope help_tags<cr>", "Search help tags" },
+    { "<leader>f/", picker("grep"), "Find in files" },
+    { "<leader>fb", picker("buffers"), "Go to buffer" },
+    { "<leader>fo", picker("lsp_symbols"), "Go to symbol" },
+    { "<leader>fO", picker("lsp_workspace_symbols"), "Go to workspace symbol" },
+    { "<leader>fd", picker("diagnostics"), "Go to diagnostic" },
+    { "<leader>fk", picker("keymaps"), "Search keymaps" },
+    { "<leader>fgs", picker("git_status"), "Go to git changed file" },
+    { "<leader>fgc", picker("git_log"), "Go to git commit" },
+    { "<leader>fgb", picker("git_branches"), "Go to git commit" },
+    { "<leader>f;", picker("commands"), "Search commands" },
+    { "<leader>fhl", picker("highlights"), "Search highlight groups" },
+    { "<leader>fcs", picker("colorschemes"), "Select colorschemes" },
+    { "<F1>", picker("help"), "Search help tags" },
 }
 
 M.term = {

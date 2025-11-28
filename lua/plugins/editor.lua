@@ -109,7 +109,6 @@ return {
         },
         config = function(_, opts)
             require("grapple").setup(opts)
-            require("telescope").load_extension("grapple")
         end,
     },
     {
@@ -134,6 +133,7 @@ return {
                 "neo-tree",
                 "fugitive",
                 "TelescopePrompt",
+                "snacks_picker_input",
             },
         },
         config = function(_, opts)
@@ -171,6 +171,7 @@ return {
                 "noice",
                 "oil",
                 "prompt",
+                "snacks_picker_input",
                 "TelescopePrompt",
             },
         },
