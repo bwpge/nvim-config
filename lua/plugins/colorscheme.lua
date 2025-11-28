@@ -62,6 +62,7 @@ return {
                 return {
                     ["@constructor.lua"] = { link = "@punctuation.bracket" },
                     ["@function.builtin"] = { link = "Function" },
+                    ["@function.builtin.bash"] = { link = "Function" },
                     ["@function.macro"] = { fg = "#8aadf4", italic = true },
                     ["@lsp.mod.format.go"] = { link = "Special" },
                     ["@lsp.mod.mutable.rust"] = { style = { "underline" } },
@@ -78,6 +79,7 @@ return {
                     ["@lsp.typemod.variable.defaultLibrary"] = {},
                     ["@punctuation.special.rust"] = {},
                     ["@type.builtin.cpp"] = { link = "Keyword" },
+                    ["@variable.builtin"] = { link = "Special" },
                     ["BlinkCmpDocBorder"] = { link = "FloatBorder" },
                     ["BlinkCmpKindConstant"] = { link = "BlinkCmpKindKeyword" },
                     ["BlinkCmpKindEnum"] = { link = "BlinkCmpKindClass" },
@@ -95,6 +97,7 @@ return {
                     ["BlinkCmpKindUnit"] = { link = "BlinkCmpKindKeyword" },
                     ["BlinkCmpKindVariable"] = { link = "Function" },
                     ["BlinkCmpMenu"] = { link = "Pmenu" },
+                    ["Cursor"] = { bg = colors.green },
                     ["DiffChange"] = { bg = utils.darken(colors.yellow, 0.15, colors.base) },
                     ["DiffText"] = { bg = utils.darken(colors.peach, 0.3, colors.base) },
                     ["IlluminatedWordRead"] = { link = "LspReferenceRead" },
@@ -114,6 +117,7 @@ return {
                     ["TelescopeResultsTitle"] = { bg = accent2, fg = colors.base, bold = true },
                     ["TelescopeSelection"] = { fg = accent2 },
                     ["TelescopeSelectionCaret"] = { fg = accent2 },
+                    ["TermCursor"] = { bg = colors.green },
                 }
             end,
         },
