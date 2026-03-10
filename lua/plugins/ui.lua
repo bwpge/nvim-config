@@ -41,9 +41,6 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         cmd = { "TodoTrouble", "TodoTelescope" },
         event = "LazyFile",
-        keys = {
-            { "<leader>ft", "<cmd>TodoTelescope<cr>", desc = "Open todo list" },
-        },
         opts = {
             sign_priority = 1,
             keywords = {

@@ -334,6 +334,11 @@ M.fugitive = {
         "<cmd>GBrowse<cr>",
         "Open the current git object in browser at upstream host",
     },
+    {
+        "<leader>gl",
+        "<cmd>Git log --oneline --decorate<cr>",
+        "Compact view of git log",
+    },
 }
 
 M.fugitive_index = {
@@ -416,8 +421,13 @@ M.illuminate = {
     },
 }
 
-local function picker(name, opts)
+local function picker(name, opts, ...)
+    local deps = { ... }
+
     return function()
+        for _, dep in ipairs(deps) do
+            pcall(require, dep)
+        end
         ---@diagnostic disable-next-line: undefined-global
         Snacks.picker[name](opts or {})
     end
@@ -454,6 +464,15 @@ M.snacks = {
     { "<leader>fhl", picker("highlights"), "Search highlight groups" },
     { "<leader>fcs", picker("colorschemes"), "Select colorschemes" },
     { "<F1>", picker("help"), "Search help tags" },
+    {
+        "<leader>ft",
+        function()
+            require("todo-comments")
+            ---@diagnostic disable-next-line: undefined-global
+            Snacks.picker.todo_comments()
+        end,
+        "Find in todo comments",
+    },
 }
 
 M.term = {

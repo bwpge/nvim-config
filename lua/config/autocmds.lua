@@ -75,6 +75,17 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
+-- hide tab characters when using them e.g., with editorconfig
+vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+        if not vim.opt.expandtab:get() then
+            vim.opt.listchars:append({
+                tab = "  ",
+            })
+        end
+    end,
+})
+
 local function q_close()
     local ok, _ = pcall(vim.cmd.close)
     if ok then

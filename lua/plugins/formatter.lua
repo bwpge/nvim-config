@@ -9,7 +9,9 @@ return {
             formatters_by_ft = {
                 go = { "gofumpt", "golines" },
                 lua = { "stylua" },
+                typescript = { "prettier" },
                 python = { "black", "isort" },
+                rust = { "cargo" },
                 ["_"] = { "trim_all" },
             },
         },
