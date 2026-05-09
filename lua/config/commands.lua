@@ -50,6 +50,28 @@ local commands = {
         end,
         { desc = "Open Neovim config in a new tab (or switch to that tab)" },
     },
+    {
+        "TSInstallBuf",
+        function(_)
+            if not package.loaded["nvim-treesitter"] then
+                U.warn("nvim-treesitter not loaded")
+                return
+            end
+
+            local lang = vim.treesitter.language.get_lang(vim.bo.filetype)
+            if not lang then
+                U.warn("no treesitter language found for current buffer")
+                return
+            end
+
+            if not vim.tbl_contains(require("nvim-treesitter").get_available(), lang) then
+                U.warn("no treesitter parser available for language '%s'", lang)
+                return
+            end
+            vim.cmd("TSInstall " .. lang)
+        end,
+        { desc = "Installs the appropriate treesitter parser for the current buffer" },
+    },
 }
 
 for _, c in ipairs(commands) do

@@ -14,30 +14,19 @@ vim.api.nvim_create_autocmd({ "BufReadPre" }, {
     pattern = "*",
 })
 
--- render as quickly as possible when opening a file (taken from LazyVim)
-vim.api.nvim_create_autocmd("BufReadPost", {
-    once = true,
+-- enable treesitter highlighting
+vim.api.nvim_create_autocmd("FileType", {
     callback = function(ev)
+        -- skip on large buffers
         if vim.b[ev.buf].is_large_buf then
             return
         end
 
-        -- Skip if we already entered vim
-        if vim.v.vim_did_enter == 1 then
-            return
-        end
-
-        -- Try to guess the filetype (may change later on during Neovim startup)
-        local ft = vim.filetype.match({ buf = ev.buf })
-        if ft then
-            -- Add treesitter highlights and fallback to syntax
-            local lang = vim.treesitter.language.get_lang(ft)
-            if not (lang and pcall(vim.treesitter.start, ev.buf, lang)) then
-                vim.bo[ev.buf].syntax = ft
-            end
-
-            -- Trigger early redraw
-            vim.cmd.redraw()
+        local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
+        if lang and pcall(vim.treesitter.start, ev.buf, lang) then
+            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            vim.wo.foldmethod = "expr"
+            vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
         end
     end,
 })
