@@ -24,9 +24,11 @@ local configs = {
     },
     pylsp = {
         plugins = {
+            jedi_definition = { enabled = false },
+            jedi_references = { enabled = false },
             pycodestyle = {
                 enabled = true,
-                ignore = { "E501", "E231" },
+                ignore = { "E501", "E231", "E203" },
                 maxLineLength = 100,
             },
         },

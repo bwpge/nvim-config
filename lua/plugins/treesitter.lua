@@ -7,20 +7,20 @@ return {
         commit = "4916d659",
         build = ":TSUpdate",
         lazy = false,
-        config = function(_, opts)
+        config = function()
             local ts = require("nvim-treesitter")
-            ts.setup(opts or {})
+            ts.setup()
 
             if vim.fn.executable("tree-sitter") ~= 1 then
                 U.warn("tree-sitter CLI is not installed")
                 return
             end
 
-            ts.install({
+            local parsers = {
                 "bash",
                 "c",
                 "cpp",
-                "gitcommit",
+                -- "gitcommit",
                 "gitignore",
                 "go",
                 "gomod",
@@ -32,13 +32,20 @@ return {
                 "lua",
                 "markdown",
                 "markdown_inline",
+                "python",
                 "rust",
                 "toml",
                 "typescript",
                 "vim",
                 "vimdoc",
                 "yaml",
-            })
+            }
+
+            if vim.g.df_setup == 1 then
+                ts.install(parsers):wait(300000)
+            else
+                ts.install(parsers)
+            end
         end,
     },
     {
