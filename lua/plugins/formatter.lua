@@ -10,6 +10,7 @@ return {
                 go = { "gofumpt", "golines" },
                 lua = { "stylua" },
                 typescript = { "prettier" },
+                javascript = { "prettier" },
                 python = { "black", "isort" },
                 rust = { "cargo" },
                 ["_"] = { "trim_all" },
